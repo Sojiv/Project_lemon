@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CompilerSettings</class>
+ <widget class="QWidget" name="CompilerSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>325</width>
+    <height>352</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>325</width>
+    <height>352</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>8</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_11">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+     <item>
+      <widget class="QListWidget" name="compilerList">
+       <property name="styleSheet">
+        <string notr="true">font-size: 9pt;</string>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>17</width>
+           <height>13</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QToolButton" name="moveUpButton">
+         <property name="minimumSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resource.qrc">
+           <normaloff>:/icon/uparrow.ico</normaloff>:/icon/uparrow.ico</iconset>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::NoArrow</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="moveDownButton">
+         <property name="minimumSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resource.qrc">
+           <normaloff>:/icon/downarrow.ico</normaloff>:/icon/downarrow.ico</iconset>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::NoArrow</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="addCompilerButton">
+         <property name="minimumSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resource.qrc">
+           <normaloff>:/icon/add.ico</normaloff>:/icon/add.ico</iconset>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::NoArrow</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="deleteCompilerButton">
+         <property name="minimumSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resource.qrc">
+           <normaloff>:/icon/rod.ico</normaloff>:/icon/rod.ico</iconset>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::NoArrow</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>17</width>
+           <height>13</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <property name="horizontalSpacing">
+      <number>12</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>8</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="compilerNameLabel">
+       <property name="styleSheet">
+        <string notr="true">font-size: 9pt;
+font-weight: bold;</string>
+       </property>
+       <property name="text">
+        <string>Compiler Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="compilerName"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="sourceExtensionsLabel">
+       <property name="styleSheet">
+        <string notr="true">font-size: 9pt;
+font-weight: bold;</string>
+       </property>
+       <property name="text">
+        <string>Source Extensions</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="sourceExtensions"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="locationLabel">
+       <property name="styleSheet">
+        <string notr="true">font-size: 9pt;
+font-weight: bold;</string>
+       </property>
+       <property name="text">
+        <string>Location</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QLineEdit" name="location"/>
+       </item>
+       <item>
+        <widget class="QToolButton" name="selectLocationButton">
+         <property name="text">
+          <string notr="true">...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="configurationsLabel">
+       <property name="styleSheet">
+        <string notr="true">font-size: 9pt;
+font-weight: bold;</string>
+       </property>
+       <property name="text">
+        <string>Configurations</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QComboBox" name="configurations">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="deleteConfigurationButton">
+         <property name="minimumSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resource.qrc">
+           <normaloff>:/icon/cross.ico</normaloff>:/icon/cross.ico</iconset>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::NoArrow</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="argumentsLabel">
+       <property name="styleSheet">
+        <string notr="true">font-size: 9pt;
+font-weight: bold;</string>
+       </property>
+       <property name="text">
+        <string>Arguments</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="arguments">
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="hintLabel">
+     <property name="styleSheet">
+      <string notr="true">font-size: 8pt;</string>
+     </property>
+     <property name="text">
+      <string>(Use %s stands for source file name and %e stands for executable file name in argument list.)</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

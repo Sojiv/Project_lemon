@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>rod.ico</file>
+        <file>downarrow.ico</file>
+        <file>uparrow.ico</file>
+        <file>add.ico</file>
+        <file>cross.ico</file>
+        <file>icon.ico</file>
+    </qresource>
+    <qresource prefix="/translation">
+        <file>lemon_zh_CN.qm</file>
+        <file>qt_zh_CN.qm</file>
+    </qresource>
+    <qresource prefix="/realjudge">
+        <file>realjudge_win32.exe</file>
+        <file>realjudge_linux</file>
+    </qresource>
+</RCC>

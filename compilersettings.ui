@@ -190,11 +190,8 @@
     </layout>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout_2">
-     <property name="horizontalSpacing">
-      <number>12</number>
-     </property>
-     <property name="verticalSpacing">
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="spacing">
       <number>8</number>
      </property>
      <item row="0" column="0">
@@ -225,123 +222,31 @@ font-weight: bold;</string>
      <item row="1" column="1">
       <widget class="QLineEdit" name="sourceExtensions"/>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="locationLabel">
-       <property name="styleSheet">
-        <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="advancedButton">
        <property name="text">
-        <string>Location</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_8">
-       <property name="spacing">
-        <number>10</number>
-       </property>
-       <item>
-        <widget class="QLineEdit" name="location"/>
-       </item>
-       <item>
-        <widget class="QToolButton" name="selectLocationButton">
-         <property name="text">
-          <string notr="true">...</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="configurationsLabel">
-       <property name="styleSheet">
-        <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
-       </property>
-       <property name="text">
-        <string>Configurations</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <property name="spacing">
-        <number>10</number>
-       </property>
-       <item>
-        <widget class="QComboBox" name="configurations">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="deleteConfigurationButton">
-         <property name="minimumSize">
-          <size>
-           <width>27</width>
-           <height>27</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>27</width>
-           <height>27</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="resource.qrc">
-           <normaloff>:/icon/cross.png</normaloff>:/icon/cross.png</iconset>
-         </property>
-         <property name="autoRaise">
-          <bool>false</bool>
-         </property>
-         <property name="arrowType">
-          <enum>Qt::NoArrow</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="argumentsLabel">
-       <property name="styleSheet">
-        <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
-       </property>
-       <property name="text">
-        <string>Arguments</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="arguments">
-       <property name="toolTip">
-        <string/>
-       </property>
-       <property name="whatsThis">
-        <string/>
+        <string>&amp;Advanced</string>
        </property>
       </widget>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QLabel" name="hintLabel">
-     <property name="styleSheet">
-      <string notr="true">font-size: 8pt;</string>
-     </property>
-     <property name="text">
-      <string>(Use %s stands for source file name and %e stands for executable file name in argument list.)</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

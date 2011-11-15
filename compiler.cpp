@@ -21,6 +21,15 @@
 Compiler::Compiler(QObject *parent) :
     QObject(parent)
 {
+    compilerType = Typical;
+    timeLimitRatio = 1;
+    memoryLimitRatio = 1;
+    disableMemoryLimitCheck = false;
+}
+
+Compiler::CompilerType Compiler::getCompilerType() const
+{
+    return compilerType;
 }
 
 const QString& Compiler::getCompilerName() const
@@ -33,9 +42,19 @@ const QStringList& Compiler::getSourceExtensions() const
     return sourceExtensions;
 }
 
-const QString& Compiler::getLocation() const
+const QString& Compiler::getCompilerLocation() const
 {
-    return location;
+    return compilerLocation;
+}
+
+const QString& Compiler::getInterpreterLocation() const
+{
+    return interpreterLocation;
+}
+
+const QStringList& Compiler::getBytecodeExtensions() const
+{
+    return bytecodeExtensions;
 }
 
 const QStringList& Compiler::getConfigurationNames() const
@@ -43,9 +62,39 @@ const QStringList& Compiler::getConfigurationNames() const
     return configurationNames;
 }
 
-const QStringList& Compiler::getConfigurationSettings() const
+const QStringList& Compiler::getCompilerArguments() const
 {
-    return configurationSettings;
+    return compilerArguments;
+}
+
+const QStringList& Compiler::getInterpreterArguments() const
+{
+    return interpreterArguments;
+}
+
+const QProcessEnvironment& Compiler::getEnvironment() const
+{
+    return environment;
+}
+
+double Compiler::getTimeLimitRatio() const
+{
+    return timeLimitRatio;
+}
+
+double Compiler::getMemoryLimitRatio() const
+{
+    return memoryLimitRatio;
+}
+
+bool Compiler::getDisableMemoryLimitCheck() const
+{
+    return disableMemoryLimitCheck;
+}
+
+void Compiler::setCompilerType(Compiler::CompilerType type)
+{
+    compilerType = type;
 }
 
 void Compiler::setCompilerName(const QString &name)
@@ -58,15 +107,46 @@ void Compiler::setSourceExtensions(const QString &extensions)
     sourceExtensions = extensions.split(";", QString::SkipEmptyParts);
 }
 
-void Compiler::setLocation(const QString &path)
+void Compiler::setCompilerLocation(const QString &location)
 {
-    location = path;
+    compilerLocation = location;
 }
 
-void Compiler::addConfiguration(const QString &name, const QString &arguments)
+void Compiler::setInterpreterLocation(const QString &location)
+{
+    interpreterLocation = location;
+}
+
+void Compiler::setBytecodeExtensions(const QString &extensions)
+{
+    bytecodeExtensions = extensions.split(";", QString::SkipEmptyParts);
+}
+
+void Compiler::setEnvironment(const QProcessEnvironment &env)
+{
+    environment = env;
+}
+
+void Compiler::setTimeLimitRatio(double ratio)
+{
+    timeLimitRatio = ratio;
+}
+
+void Compiler::setMemoryLimitRatio(double ratio)
+{
+    memoryLimitRatio = ratio;
+}
+
+void Compiler::setDisableMemoryLimitCheck(bool check)
+{
+    disableMemoryLimitCheck = check;
+}
+
+void Compiler::addConfiguration(const QString &name, const QString &arguments1, const QString &arguments2)
 {
     configurationNames.append(name);
-    configurationSettings.append(arguments);
+    compilerArguments.append(arguments1);
+    interpreterArguments.append(arguments2);
 }
 
 void Compiler::setConfigName(int index, const QString &name)
@@ -75,29 +155,40 @@ void Compiler::setConfigName(int index, const QString &name)
         configurationNames[index] = name;
 }
 
-void Compiler::setArguments(int index, const QString &arguments)
+void Compiler::setCompilerArguments(int index, const QString &arguments)
 {
-    if (0 <= index && index < configurationSettings.size())
-        configurationSettings[index] = arguments;
+    if (0 <= index && index < compilerArguments.size())
+        compilerArguments[index] = arguments;
+}
+
+void Compiler::setInterpreterArguments(int index, const QString &arguments)
+{
+    if (0 <= index && index < interpreterArguments.size())
+        interpreterArguments[index] = arguments;
 }
 
 void Compiler::deleteConfiguration(int index)
 {
     if (0 <= index && index < configurationNames.size()) {
         configurationNames.removeAt(index);
-        configurationSettings.removeAt(index);
+        compilerArguments.removeAt(index);
+        interpreterArguments.removeAt(index);
     }
 }
 
 void Compiler::copyFrom(Compiler *other)
 {
+    compilerType = other->getCompilerType();
     compilerName = other->getCompilerName();
     sourceExtensions = other->getSourceExtensions();
-    location = other->getLocation();
-    configurationNames.clear();
-    configurationSettings.clear();
-    QStringList names = other->getConfigurationNames();
-    QStringList settings = other->getConfigurationSettings();
-    for (int i = 0; i < names.size(); i ++)
-        addConfiguration(names[i], settings[i]);
+    compilerLocation = other->getCompilerLocation();
+    interpreterLocation = other->getInterpreterLocation();
+    bytecodeExtensions = other->getBytecodeExtensions();
+    configurationNames = other->getConfigurationNames();
+    compilerArguments = other->getCompilerArguments();
+    interpreterArguments = other->getInterpreterArguments();
+    environment = other->getEnvironment();
+    timeLimitRatio = other->getTimeLimitRatio();
+    memoryLimitRatio = other->getMemoryLimitRatio();
+    disableMemoryLimitCheck = other->getDisableMemoryLimitCheck();
 }

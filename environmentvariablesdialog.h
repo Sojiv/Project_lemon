@@ -16,46 +16,35 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
-#ifndef COMPILERSETTINGS_H
-#define COMPILERSETTINGS_H
+#ifndef ENVIRONMENTVARIABLESDIALOG_H
+#define ENVIRONMENTVARIABLESDIALOG_H
 
 #include <QtCore>
 #include <QtGui>
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui {
-    class CompilerSettings;
+    class EnvironmentVariablesDialog;
 }
 
-class Settings;
-class Compiler;
-
-class CompilerSettings : public QWidget
+class EnvironmentVariablesDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit CompilerSettings(QWidget *parent = 0);
-    ~CompilerSettings();
-    void resetEditSettings(Settings*);
-    bool checkValid();
+    explicit EnvironmentVariablesDialog(QWidget *parent = 0);
+    ~EnvironmentVariablesDialog();
+    void setProcessEnvironment(const QProcessEnvironment&);
+    QProcessEnvironment getProcessEnvironment() const;
 
 private:
-    Ui::CompilerSettings *ui;
-    Settings *editSettings;
-    Compiler *curCompiler;
-    void setCurrentCompiler(Compiler*);
-    void refreshItemState();
+    Ui::EnvironmentVariablesDialog *ui;
 
 private slots:
-    void moveUpCompiler();
-    void moveDownCompiler();
-    void addCompiler();
-    void deleteCompiler();
-    void compilerNameChanged(const QString&);
-    void sourceExtensionsChanged(const QString&);
-    void compilerListCurrentRowChanged();
-    void advancedButtonClicked();
+    void addButtonClicked();
+    void editButtonClicked();
+    void deleteButtonClicked();
+    void viewerSelectionChanged();
 };
 
-#endif // COMPILERSETTINGS_H
+#endif // ENVIRONMENTVARIABLESDIALOG_H

@@ -52,7 +52,10 @@ SOURCES += main.cpp \
     qtlockedfile/qtlockedfile.cpp \
     qtsingleapplication/qtsinglecoreapplication.cpp \
     qtsingleapplication/qtsingleapplication.cpp \
-    qtsingleapplication/qtlocalpeer.cpp
+    qtsingleapplication/qtlocalpeer.cpp \
+    advancedcompilersettingsdialog.cpp \
+    environmentvariablesdialog.cpp \
+    editvariabledialog.cpp
 
 win32:SOURCES += qtlockedfile/qtlockedfile_win.cpp
 unix:SOURCES += qtlockedfile/qtlockedfile_unix.cpp
@@ -89,7 +92,10 @@ HEADERS  += lemon.h \
     qtlockedfile/qtlockedfile.h \
     qtsingleapplication/qtsinglecoreapplication.h \
     qtsingleapplication/qtsingleapplication.h \
-    qtsingleapplication/qtlocalpeer.h
+    qtsingleapplication/qtlocalpeer.h \
+    advancedcompilersettingsdialog.h \
+    environmentvariablesdialog.h \
+    editvariabledialog.h
 
 FORMS    += lemon.ui \
     taskeditwidget.ui \
@@ -106,7 +112,10 @@ FORMS    += lemon.ui \
     opencontestdialog.ui \
     welcomedialog.ui \
     addtaskdialog.ui \
-    compilerselectingdialog.ui
+    compilerselectingdialog.ui \
+    advancedcompilersettingsdialog.ui \
+    environmentvariablesdialog.ui \
+    editvariabledialog.ui
 
 
 TRANSLATIONS += lemon_zh_CN.ts
@@ -118,3 +127,12 @@ win32:LIBS += -lpsapi
 win32:CONFIG += qaxcontainer
 
 RESOURCES += resource.qrc
+
+
+
+
+
+
+
+
+

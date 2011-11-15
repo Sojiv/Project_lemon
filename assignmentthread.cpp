@@ -134,7 +134,7 @@ bool AssignmentThread::traditionalTaskPrepare()
             QFile::copy(Settings::sourcePath() + contestantName + QDir::separator() + sourceFile,
                         Settings::temporaryPath() + contestantName + QDir::separator() + sourceFile);
             QStringList configurationNames = compilerList[i]->getConfigurationNames();
-            QStringList configurationSettings = compilerList[i]->getConfigurationSettings();
+            QStringList configurationSettings = compilerList[i]->getCompilerArguments();
             QString currentConfiguration = task->getCompilerConfiguration(compilerList[i]->getCompilerName());
             for (int j = 0; j < configurationNames.size(); j ++)
                 if (configurationNames[j] == currentConfiguration) {
@@ -146,13 +146,13 @@ bool AssignmentThread::traditionalTaskPrepare()
                     QProcess *compiler = new QProcess(this);
                     compiler->setProcessChannelMode(QProcess::MergedChannels);
                     compiler->setWorkingDirectory(Settings::temporaryPath());
-                    compilerPath = QFileInfo(compilerList[i]->getLocation()).absolutePath();
+                    compilerPath = QFileInfo(compilerList[i]->getCompilerLocation()).absolutePath();
 #ifdef Q_OS_WIN32
                     QProcessEnvironment environment;
                     environment.insert("path", compilerPath + ";" + environment.value("path"));
                     compiler->setProcessEnvironment(environment);
 #endif
-                    compiler->start(QString("\"") + compilerList[i]->getLocation() + "\" " + arguments);
+                    compiler->start(QString("\"") + compilerList[i]->getCompilerLocation() + "\" " + arguments);
                     if (! compiler->waitForStarted(-1)) {
                         compileState = InvalidCompiler;
                         delete compiler;

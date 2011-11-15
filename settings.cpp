@@ -233,7 +233,7 @@ void Settings::saveSettings()
     settings.setValue("OutputFileExtensions", outputFileExtensions);
     settings.endGroup();
     
-    settings.beginWriteArray("CompilerSettings");
+    /*settings.beginWriteArray("CompilerSettings");
     for (int i = 0; i < compilerList.size(); i ++) {
         settings.setArrayIndex(i);
         settings.setValue("CompilerName", compilerList[i]->getCompilerName());
@@ -249,7 +249,7 @@ void Settings::saveSettings()
         }
         settings.endArray();
     }
-    settings.endArray();
+    settings.endArray();*/
     
     settings.beginWriteArray("RecentContest");
     for (int i = 0; i < recentContest.size(); i ++) {
@@ -284,7 +284,7 @@ void Settings::loadSettings()
     outputFileExtensions = settings.value("OutputFileExtensions", QStringList() << "out" << "ans").toStringList();
     settings.endGroup();
     
-    int compilerCount = settings.beginReadArray("CompilerSettings");
+    /*int compilerCount = settings.beginReadArray("CompilerSettings");
     for (int i = 0; i < compilerCount; i ++) {
         settings.setArrayIndex(i);
         Compiler *compiler = new Compiler;
@@ -300,7 +300,7 @@ void Settings::loadSettings()
         settings.endArray();
         addCompiler(compiler);
     }
-    settings.endArray();
+    settings.endArray();*/
     
     int listCount = settings.beginReadArray("RecentContest");
     for (int i = 0; i < listCount; i ++) {

@@ -146,7 +146,7 @@ void Lemon::closeEvent(QCloseEvent *event)
 
 void Lemon::welcome()
 {
-    QList<Compiler*> compilerList = settings->getCompilerList();
+/*    QList<Compiler*> compilerList = settings->getCompilerList();
     Compiler *gcc = 0, *gpp = 0, *fpc = 0;
     for (int i = 0; i < compilerList.size(); i ++) {
         if (compilerList[i]->getCompilerName() == "gcc")
@@ -230,7 +230,7 @@ void Lemon::welcome()
         fpc->addConfiguration("default", "-o%e %s");
         fpc->addConfiguration("with O2", "-o%e %s -O2");
     }
-#endif
+#endif*/
     
     WelcomeDialog *dialog = new WelcomeDialog(this);
     dialog->setRecentContest(settings->getRecentContest());

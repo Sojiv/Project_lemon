@@ -18,6 +18,7 @@
 
 #include "compilersettings.h"
 #include "ui_compilersettings.h"
+#include "advancedcompilersettingsdialog.h"
 #include "settings.h"
 #include "compiler.h"
 
@@ -28,7 +29,6 @@ CompilerSettings::CompilerSettings(QWidget *parent) :
     ui->setupUi(this);
     
     ui->sourceExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), ui->sourceExtensions));
-    ui->configurations->setLineEdit(new QLineEdit(this));
     
     connect(ui->moveUpButton, SIGNAL(clicked()),
             this, SLOT(moveUpCompiler()));
@@ -42,20 +42,10 @@ CompilerSettings::CompilerSettings(QWidget *parent) :
             this, SLOT(compilerNameChanged(QString)));
     connect(ui->sourceExtensions, SIGNAL(textChanged(QString)),
             this, SLOT(sourceExtensionsChanged(QString)));
-    connect(ui->location, SIGNAL(textChanged(QString)),
-            this, SLOT(locationChanged(QString)));
-    connect(ui->arguments, SIGNAL(textChanged(QString)),
-            this, SLOT(argumentsChanged(QString)));
     connect(ui->compilerList, SIGNAL(currentRowChanged(int)),
             this, SLOT(compilerListCurrentRowChanged()));
-    connect(ui->selectLocationButton, SIGNAL(clicked()),
-            this, SLOT(selectCompilerLocation()));
-    connect(ui->configurations, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(configurationIndexChanged()));
-    connect(ui->configurations, SIGNAL(editTextChanged(QString)),
-            this, SLOT(configurationTextChanged()));
-    connect(ui->deleteConfigurationButton, SIGNAL(clicked()),
-            this, SLOT(deleteConfiguration()));
+    connect(ui->advancedButton, SIGNAL(clicked()),
+            this, SLOT(advancedButtonClicked()));
 }
 
 CompilerSettings::~CompilerSettings()
@@ -65,7 +55,6 @@ CompilerSettings::~CompilerSettings()
 
 void CompilerSettings::resetEditSettings(Settings *settings)
 {
-    configCount = 0;
     editSettings = settings;
     
     const QList<Compiler*> &compilerList = editSettings->getCompilerList();
@@ -82,7 +71,7 @@ void CompilerSettings::resetEditSettings(Settings *settings)
 
 bool CompilerSettings::checkValid()
 {
-    const QList<Compiler*> &compilerList = editSettings->getCompilerList();
+    /*const QList<Compiler*> &compilerList = editSettings->getCompilerList();
     QStringList compilerNames;
     for (int i = 0; i < compilerList.size(); i ++)
         compilerNames.append(compilerList[i]->getCompilerName());
@@ -133,7 +122,7 @@ bool CompilerSettings::checkValid()
                 return false;
             }
         }
-    }
+    }*/
     return true;
 }
 
@@ -164,7 +153,7 @@ void CompilerSettings::addCompiler()
     Compiler *compiler = new Compiler;
     editSettings->addCompiler(compiler);
     compiler->setCompilerName(tr("New compiler"));
-    compiler->addConfiguration("default", "");
+    compiler->addConfiguration("default", "", "");
     ui->compilerList->addItem(new QListWidgetItem(compiler->getCompilerName()));
     ui->compilerList->setCurrentRow(ui->compilerList->count() - 1);
     refreshItemState();
@@ -186,23 +175,10 @@ void CompilerSettings::setCurrentCompiler(Compiler *compiler)
     if (! compiler) {
         ui->compilerName->clear();
         ui->sourceExtensions->clear();
-        ui->location->clear();
-        ui->configurations->clear();
-        ui->arguments->clear();
         return;
     }
     ui->compilerName->setText(curCompiler->getCompilerName());
     ui->sourceExtensions->setText(curCompiler->getSourceExtensions().join(";"));
-    ui->location->setText(curCompiler->getLocation());
-    ui->configurations->clear();
-    QStringList configurationNames = curCompiler->getConfigurationNames();
-    ui->configurations->setEnabled(false);
-    for (int i = 0; i < configurationNames.size(); i ++)
-        ui->configurations->addItem(configurationNames[i]);
-    ui->configurations->addItem(tr("Add new ..."));
-    ui->configurations->setEnabled(true);
-    ui->configurations->setCurrentIndex(0);
-    configurationIndexChanged();
 }
 
 void CompilerSettings::refreshItemState()
@@ -214,17 +190,9 @@ void CompilerSettings::refreshItemState()
         ui->deleteCompilerButton->setEnabled(false);
         ui->compilerName->setEnabled(false);
         ui->sourceExtensions->setEnabled(false);
-        ui->location->setEnabled(false);
-        ui->selectLocationButton->setEnabled(false);
-        ui->configurations->setEnabled(false);
-        ui->deleteConfigurationButton->setEnabled(false);
-        ui->arguments->setEnabled(false);
         ui->compilerNameLabel->setEnabled(false);
         ui->sourceExtensionsLabel->setEnabled(false);
-        ui->locationLabel->setEnabled(false);
-        ui->configurationsLabel->setEnabled(false);
-        ui->argumentsLabel->setEnabled(false);
-        ui->hintLabel->setEnabled(false);
+        ui->advancedButton->setEnabled(false);
     } else {
         if (ui->compilerList->currentRow() > 0)
             ui->moveUpButton->setEnabled(true);
@@ -234,24 +202,13 @@ void CompilerSettings::refreshItemState()
             ui->moveDownButton->setEnabled(true);
         else
             ui->moveDownButton->setEnabled(false);
-        if (ui->configurations->currentIndex() > 0)
-            ui->deleteConfigurationButton->setEnabled(true);
-        else
-            ui->deleteConfigurationButton->setEnabled(false);
         ui->addCompilerButton->setEnabled(true);
         ui->deleteCompilerButton->setEnabled(true);
         ui->compilerName->setEnabled(true);
         ui->sourceExtensions->setEnabled(true);
-        ui->location->setEnabled(true);
-        ui->selectLocationButton->setEnabled(true);
-        ui->configurations->setEnabled(true);
-        ui->arguments->setEnabled(true);
         ui->compilerNameLabel->setEnabled(true);
         ui->sourceExtensionsLabel->setEnabled(true);
-        ui->locationLabel->setEnabled(true);
-        ui->configurationsLabel->setEnabled(true);
-        ui->argumentsLabel->setEnabled(true);
-        ui->hintLabel->setEnabled(true);
+        ui->advancedButton->setEnabled(true);
     }
 }
 
@@ -268,16 +225,6 @@ void CompilerSettings::sourceExtensionsChanged(const QString &text)
     if (curCompiler) curCompiler->setSourceExtensions(text);
 }
 
-void CompilerSettings::locationChanged(const QString &text)
-{
-    if (curCompiler) curCompiler->setLocation(text);
-}
-
-void CompilerSettings::argumentsChanged(const QString &text)
-{
-    if (curCompiler) curCompiler->setArguments(ui->configurations->currentIndex(), text);
-}
-
 void CompilerSettings::compilerListCurrentRowChanged()
 {
     if (ui->compilerList->currentItem()) {
@@ -288,61 +235,11 @@ void CompilerSettings::compilerListCurrentRowChanged()
     refreshItemState();
 }
 
-void CompilerSettings::selectCompilerLocation()
+void CompilerSettings::advancedButtonClicked()
 {
-#ifdef Q_OS_WIN32
-    QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-                                                    QDir::rootPath(), tr("Executable files (*.exe)"));
-#endif
-    
-#ifdef Q_OS_LINUX
-    QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
-                                                    QDir::rootPath(), tr("Executable files (*.*)"));
-#endif
-    if (! location.isEmpty()) {
-        location = location.replace('/', QDir::separator());
-        ui->location->setText(location);
-    }
-}
-
-void CompilerSettings::configurationIndexChanged()
-{
-    if (! ui->configurations->isEnabled()) return;
-    int index = ui->configurations->currentIndex();
-    if (index == -1) return;
-    if (index == ui->configurations->count() - 1) {
-        ui->configurations->setItemText(index, tr("New configuration %1").arg(++ configCount));
-        curCompiler->addConfiguration(ui->configurations->currentText(), "");
-        ui->arguments->clear();
-        ui->configurations->addItem(tr("Add new ..."));
-        ui->configurations->lineEdit()->setSelection(0, ui->configurations->currentText().length());
-    } else {
-        ui->configurations->lineEdit()->setText(ui->configurations->itemText(index));
-        ui->arguments->setText(curCompiler->getConfigurationSettings().at(index));
-    }
-    ui->deleteConfigurationButton->setEnabled(index > 0);
-}
-
-void CompilerSettings::configurationTextChanged()
-{
-    if (ui->configurations->currentIndex() == 0) {
-        if (ui->configurations->lineEdit()->text() != "default")
-            ui->configurations->lineEdit()->setText("default");
-    } else {
-        ui->configurations->setItemText(ui->configurations->currentIndex(),
-                                        ui->configurations->lineEdit()->text());
-        curCompiler->setConfigName(ui->configurations->currentIndex(),
-                                   ui->configurations->lineEdit()->text());
-    }
-}
-
-void CompilerSettings::deleteConfiguration()
-{
-    int index = ui->configurations->currentIndex();
-    if (index + 1 < ui->configurations->count() - 1)
-        ui->configurations->setCurrentIndex(index + 1);
-    else
-        ui->configurations->setCurrentIndex(index - 1);
-    curCompiler->deleteConfiguration(index);
-    ui->configurations->removeItem(index);
+    AdvancedCompilerSettingsDialog *dialog = new AdvancedCompilerSettingsDialog(this);
+    dialog->resetEditCompiler(curCompiler);
+    if (dialog->exec() == QDialog::Accepted)
+        curCompiler->copyFrom(dialog->getEditCompiler());
+    delete dialog;
 }

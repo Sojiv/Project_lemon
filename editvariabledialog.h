@@ -16,46 +16,34 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
-#ifndef COMPILERSETTINGS_H
-#define COMPILERSETTINGS_H
+#ifndef EDITVARIABLEDIALOG_H
+#define EDITVARIABLEDIALOG_H
 
 #include <QtCore>
 #include <QtGui>
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui {
-    class CompilerSettings;
+    class EditVariableDialog;
 }
 
-class Settings;
-class Compiler;
-
-class CompilerSettings : public QWidget
+class EditVariableDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit CompilerSettings(QWidget *parent = 0);
-    ~CompilerSettings();
-    void resetEditSettings(Settings*);
-    bool checkValid();
+    explicit EditVariableDialog(QWidget *parent = 0);
+    ~EditVariableDialog();
+    void setVariableName(const QString&);
+    void setVariableValue(const QString&);
+    QString getVariableName() const;
+    QString getVariableValue() const;
 
 private:
-    Ui::CompilerSettings *ui;
-    Settings *editSettings;
-    Compiler *curCompiler;
-    void setCurrentCompiler(Compiler*);
-    void refreshItemState();
+    Ui::EditVariableDialog *ui;
 
 private slots:
-    void moveUpCompiler();
-    void moveDownCompiler();
-    void addCompiler();
-    void deleteCompiler();
-    void compilerNameChanged(const QString&);
-    void sourceExtensionsChanged(const QString&);
-    void compilerListCurrentRowChanged();
-    void advancedButtonClicked();
+    void textChanged();
 };
 
-#endif // COMPILERSETTINGS_H
+#endif // EDITVARIABLEDIALOG_H

@@ -1,11 +1,11 @@
 <RCC>
     <qresource prefix="/icon">
-        <file>rod.ico</file>
-        <file>downarrow.ico</file>
-        <file>uparrow.ico</file>
-        <file>add.ico</file>
-        <file>cross.ico</file>
-        <file>icon.ico</file>
+        <file>rod.png</file>
+        <file>downarrow.png</file>
+        <file>uparrow.png</file>
+        <file>add.png</file>
+        <file>cross.png</file>
+        <file>icon.png</file>
     </qresource>
     <qresource prefix="/translation">
         <file>lemon_zh_CN.qm</file>

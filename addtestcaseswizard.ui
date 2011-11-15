@@ -367,7 +367,7 @@ font-weight: bold;</string>
           </property>
           <property name="icon">
            <iconset resource="resource.qrc">
-            <normaloff>:/icon/add.ico</normaloff>:/icon/add.ico</iconset>
+            <normaloff>:/icon/add.png</normaloff>:/icon/add.png</iconset>
           </property>
          </widget>
         </item>
@@ -390,7 +390,7 @@ font-weight: bold;</string>
           </property>
           <property name="icon">
            <iconset resource="resource.qrc">
-            <normaloff>:/icon/rod.ico</normaloff>:/icon/rod.ico</iconset>
+            <normaloff>:/icon/rod.png</normaloff>:/icon/rod.png</iconset>
           </property>
          </widget>
         </item>

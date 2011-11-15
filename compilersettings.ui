@@ -75,7 +75,7 @@
          </property>
          <property name="icon">
           <iconset resource="resource.qrc">
-           <normaloff>:/icon/uparrow.ico</normaloff>:/icon/uparrow.ico</iconset>
+           <normaloff>:/icon/uparrow.png</normaloff>:/icon/uparrow.png</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -104,7 +104,7 @@
          </property>
          <property name="icon">
           <iconset resource="resource.qrc">
-           <normaloff>:/icon/downarrow.ico</normaloff>:/icon/downarrow.ico</iconset>
+           <normaloff>:/icon/downarrow.png</normaloff>:/icon/downarrow.png</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -133,7 +133,7 @@
          </property>
          <property name="icon">
           <iconset resource="resource.qrc">
-           <normaloff>:/icon/add.ico</normaloff>:/icon/add.ico</iconset>
+           <normaloff>:/icon/add.png</normaloff>:/icon/add.png</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -162,7 +162,7 @@
          </property>
          <property name="icon">
           <iconset resource="resource.qrc">
-           <normaloff>:/icon/rod.ico</normaloff>:/icon/rod.ico</iconset>
+           <normaloff>:/icon/rod.png</normaloff>:/icon/rod.png</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -295,7 +295,7 @@ font-weight: bold;</string>
          </property>
          <property name="icon">
           <iconset resource="resource.qrc">
-           <normaloff>:/icon/cross.ico</normaloff>:/icon/cross.ico</iconset>
+           <normaloff>:/icon/cross.png</normaloff>:/icon/cross.png</iconset>
          </property>
          <property name="autoRaise">
           <bool>false</bool>

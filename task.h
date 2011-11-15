@@ -37,7 +37,6 @@ public:
     const QList<TestCase*>& getTestCaseList() const;
     const QString& getProblemTile() const;
     const QString& getSourceFileName() const;
-    const QString& getExecutableFileName() const;
     const QString& getInputFileName() const;
     const QString& getOutputFileName() const;
     bool getStandardInputCheck() const;
@@ -51,7 +50,6 @@ public:
     
     void setProblemTitle(const QString&);
     void setSourceFileName(const QString&);
-    void setExecutableFileName(const QString&);
     void setInputFileName(const QString&);
     void setOutputFileName(const QString&);
     void setStandardInputCheck(bool);
@@ -75,7 +73,6 @@ private:
     QList<TestCase*> testCaseList;
     QString problemTitle;
     QString sourceFileName;
-    QString executableFileName;
     QString inputFileName;
     QString outputFileName;
     bool standardInputCheck;

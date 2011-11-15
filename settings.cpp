@@ -233,23 +233,32 @@ void Settings::saveSettings()
     settings.setValue("OutputFileExtensions", outputFileExtensions);
     settings.endGroup();
     
-    /*settings.beginWriteArray("CompilerSettings");
+    settings.beginWriteArray("CompilerSettings");
     for (int i = 0; i < compilerList.size(); i ++) {
         settings.setArrayIndex(i);
+        settings.setValue("CompilerType", (int)compilerList[i]->getCompilerType());
         settings.setValue("CompilerName", compilerList[i]->getCompilerName());
         settings.setValue("SourceExtensions", compilerList[i]->getSourceExtensions());
-        settings.setValue("Location", compilerList[i]->getLocation());
+        settings.setValue("CompilerLocation", compilerList[i]->getCompilerLocation());
+        settings.setValue("InterpreterLocation", compilerList[i]->getInterpreterLocation());
+        settings.setValue("BytecodeExtensions", compilerList[i]->getBytecodeExtensions());
+        settings.setValue("TimeLimitRatio", compilerList[i]->getTimeLimitRatio());
+        settings.setValue("MemoryLimitRatio", compilerList[i]->getMemoryLimitRatio());
+        settings.setValue("DisableMemoryLimitCheck", compilerList[i]->getDisableMemoryLimitCheck());
         QStringList configurationNames = compilerList[i]->getConfigurationNames();
-        QStringList configurationSettings = compilerList[i]->getConfigurationSettings();
+        QStringList compilerArguments = compilerList[i]->getCompilerArguments();
+        QStringList interpreterArguments = compilerList[i]->getInterpreterArguments();
         settings.beginWriteArray("Configuration");
         for (int j = 0; j < configurationNames.size(); j ++) {
             settings.setArrayIndex(j);
             settings.setValue("Name", configurationNames[j]);
-            settings.setValue("Arguments", configurationSettings[j]);
+            settings.setValue("CompilerArguments", compilerArguments[j]);
+            settings.setValue("InterpreterArguments", interpreterArguments[j]);
         }
+        settings.setValue("EnvironmentVariables", compilerList[i]->getEnvironment().toStringList());
         settings.endArray();
     }
-    settings.endArray();*/
+    settings.endArray();
     
     settings.beginWriteArray("RecentContest");
     for (int i = 0; i < recentContest.size(); i ++) {
@@ -284,23 +293,39 @@ void Settings::loadSettings()
     outputFileExtensions = settings.value("OutputFileExtensions", QStringList() << "out" << "ans").toStringList();
     settings.endGroup();
     
-    /*int compilerCount = settings.beginReadArray("CompilerSettings");
+    int compilerCount = settings.beginReadArray("CompilerSettings");
     for (int i = 0; i < compilerCount; i ++) {
         settings.setArrayIndex(i);
         Compiler *compiler = new Compiler;
+        compiler->setCompilerType((Compiler::CompilerType)settings.value("CompilerType").toInt());
         compiler->setCompilerName(settings.value("CompilerName").toString());
         compiler->setSourceExtensions(settings.value("SourceExtensions").toStringList().join(";"));
-        compiler->setLocation(settings.value("Location").toString());
+        compiler->setCompilerLocation(settings.value("CompilerLocation").toString());
+        compiler->setInterpreterLocation(settings.value("InterpreterLocation").toString());
+        compiler->setBytecodeExtensions(settings.value("BytecodeExtensions").toStringList().join(";"));
+        compiler->setTimeLimitRatio(settings.value("TimeLimitRatio").toDouble());
+        compiler->setMemoryLimitRatio(settings.value("MemoryLimitRatio").toDouble());
+        compiler->setDisableMemoryLimitCheck(settings.value("DisableMemoryLimitCheck").toBool());
         int configurationCount = settings.beginReadArray("Configuration");
         for (int j = 0; j < configurationCount; j ++) {
             settings.setArrayIndex(j);
             compiler->addConfiguration(settings.value("Name").toString(),
-                                       settings.value("Arguments").toString());
+                                       settings.value("CompilerArguments").toString(),
+                                       settings.value("InterpreterArguments").toString());
         }
+        QStringList values = settings.value("EnvironmentVariables").toStringList();
+        QProcessEnvironment environment;
+        for (int i = 0; i < values.size(); i ++) {
+            int tmp = values[i].indexOf('=');
+            QString variable = values[i].mid(0, tmp);
+            QString value = values[i].mid(tmp + 1);
+            environment.insert(variable, value);
+        }
+        compiler->setEnvironment(environment);
         settings.endArray();
         addCompiler(compiler);
     }
-    settings.endArray();*/
+    settings.endArray();
     
     int listCount = settings.beginReadArray("RecentContest");
     for (int i = 0; i < listCount; i ++) {

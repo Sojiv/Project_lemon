@@ -19,6 +19,7 @@
 #include "compilersettings.h"
 #include "ui_compilersettings.h"
 #include "advancedcompilersettingsdialog.h"
+#include "addcompilerwizard.h"
 #include "settings.h"
 #include "compiler.h"
 
@@ -29,6 +30,11 @@ CompilerSettings::CompilerSettings(QWidget *parent) :
     ui->setupUi(this);
     
     ui->sourceExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), ui->sourceExtensions));
+    deleteCompilerKeyAction = new QAction(ui->compilerList);
+    deleteCompilerKeyAction->setShortcutContext(Qt::WidgetShortcut);
+    deleteCompilerKeyAction->setShortcut(QKeySequence::Delete);
+    deleteCompilerKeyAction->setEnabled(false);
+    ui->compilerList->addAction(deleteCompilerKeyAction);
     
     connect(ui->moveUpButton, SIGNAL(clicked()),
             this, SLOT(moveUpCompiler()));
@@ -46,6 +52,8 @@ CompilerSettings::CompilerSettings(QWidget *parent) :
             this, SLOT(compilerListCurrentRowChanged()));
     connect(ui->advancedButton, SIGNAL(clicked()),
             this, SLOT(advancedButtonClicked()));
+    connect(deleteCompilerKeyAction, SIGNAL(triggered()),
+            this, SLOT(deleteCompiler()));
 }
 
 CompilerSettings::~CompilerSettings()
@@ -71,7 +79,7 @@ void CompilerSettings::resetEditSettings(Settings *settings)
 
 bool CompilerSettings::checkValid()
 {
-    /*const QList<Compiler*> &compilerList = editSettings->getCompilerList();
+    const QList<Compiler*> &compilerList = editSettings->getCompilerList();
     QStringList compilerNames;
     for (int i = 0; i < compilerList.size(); i ++)
         compilerNames.append(compilerList[i]->getCompilerName());
@@ -97,32 +105,7 @@ bool CompilerSettings::checkValid()
             QMessageBox::warning(this, tr("Error"), tr("Empty source file extensions!"), QMessageBox::Close);
             return false;
         }
-        if (compilerList[i]->getLocation().isEmpty()) {
-            ui->compilerList->setCurrentRow(i);
-            ui->location->setFocus();
-            QMessageBox::warning(this, tr("Error"), tr("Empty compiler location!"), QMessageBox::Close);
-            return false;
-        }
-        const QStringList &configurationNames = compilerList[i]->getConfigurationNames();
-        for (int j = 0; j < configurationNames.size(); j ++) {
-            if (configurationNames[j].isEmpty()) {
-                ui->compilerList->setCurrentRow(i);
-                ui->configurations->setCurrentIndex(j);
-                ui->configurations->setFocus();
-                QMessageBox::warning(this, tr("Error"), tr("Empty configuration name!"), QMessageBox::Close);
-                return false;
-            }
-            if (configurationNames.count(configurationNames[j]) > 1) {
-                ui->compilerList->setCurrentRow(i);
-                ui->configurations->setCurrentIndex(j);
-                ui->configurations->setFocus();
-                QMessageBox::warning(this, tr("Error"),
-                                     tr("Configuration %1 appears more than once!").arg(configurationNames[j]),
-                                     QMessageBox::Close);
-                return false;
-            }
-        }
-    }*/
+    }
     return true;
 }
 
@@ -150,19 +133,36 @@ void CompilerSettings::moveDownCompiler()
 
 void CompilerSettings::addCompiler()
 {
-    Compiler *compiler = new Compiler;
-    editSettings->addCompiler(compiler);
-    compiler->setCompilerName(tr("New compiler"));
-    compiler->addConfiguration("default", "", "");
-    ui->compilerList->addItem(new QListWidgetItem(compiler->getCompilerName()));
-    ui->compilerList->setCurrentRow(ui->compilerList->count() - 1);
-    refreshItemState();
-    ui->compilerName->setFocus();
-    ui->compilerName->setSelection(0, ui->compilerName->text().length());
+    AddCompilerWizard *wizard = new AddCompilerWizard(this);
+    if (wizard->exec() == QDialog::Accepted) {
+        QList<Compiler*> compilerList = editSettings->getCompilerList();
+        QStringList compilerNames;
+        for (int i = 0; i < compilerList.size(); i ++)
+            compilerNames.append(compilerList[i]->getCompilerName());
+        compilerList = wizard->getCompilerList();
+        for (int i = 0; i < compilerList.size(); i ++) {
+            if (compilerNames.contains(compilerList[i]->getCompilerName())) {
+                int cnt = 2;
+                QString name = compilerList[i]->getCompilerName();
+                while (compilerNames.contains(QString("%1 (%2)").arg(name).arg(cnt)))
+                    cnt ++;
+                compilerList[i]->setCompilerName(QString("%1 (%2)").arg(name).arg(cnt));
+            }
+            editSettings->addCompiler(compilerList[i]);
+            ui->compilerList->addItem(new QListWidgetItem(compilerList[i]->getCompilerName()));
+            ui->compilerList->setCurrentRow(ui->compilerList->count() - 1);
+            refreshItemState();
+        }
+    }
+    delete wizard;
 }
 
 void CompilerSettings::deleteCompiler()
 {
+    if (QMessageBox::question(this, tr("Lemon"), tr("Are you sure to delete compiler %1?")
+                              .arg(curCompiler->getCompilerName()),
+                              QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel)
+        return;
     int index = ui->compilerList->currentRow();
     delete ui->compilerList->item(index);
     editSettings->deleteCompiler(index);
@@ -193,6 +193,7 @@ void CompilerSettings::refreshItemState()
         ui->compilerNameLabel->setEnabled(false);
         ui->sourceExtensionsLabel->setEnabled(false);
         ui->advancedButton->setEnabled(false);
+        deleteCompilerKeyAction->setEnabled(false);
     } else {
         if (ui->compilerList->currentRow() > 0)
             ui->moveUpButton->setEnabled(true);
@@ -209,6 +210,7 @@ void CompilerSettings::refreshItemState()
         ui->compilerNameLabel->setEnabled(true);
         ui->sourceExtensionsLabel->setEnabled(true);
         ui->advancedButton->setEnabled(true);
+        deleteCompilerKeyAction->setEnabled(true);
     }
 }
 

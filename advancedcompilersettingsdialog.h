@@ -45,6 +45,7 @@ private:
     int configCount;
 
 private slots:
+    void okayButtonClicked();
     void compilerTypeChanged();
     void compilerLocationChanged();
     void interpreterLocationChanged();

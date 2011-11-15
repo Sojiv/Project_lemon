@@ -31,8 +31,8 @@ class JudgingThread : public QThread
 public:
     explicit JudgingThread(QObject *parent = 0);
     void setCheckRejudgeMode(bool);
-    void setExtraTimeRation(double);
-    void setCompilerPath(const QString&);
+    void setExtraTimeRatio(double);
+    void setEnvironment(const QProcessEnvironment&);
     void setWorkingDirectory(const QString&);
     void setSpecialJudgeTimeLimit(int);
     void setExecutableFile(const QString&);
@@ -55,7 +55,7 @@ private:
     bool checkRejudgeMode;
     bool needRejudge;
     double extraTimeRatio;
-    QString compilerPath;
+    QProcessEnvironment environment;
     QString workingDirectory;
     QString executableFile;
     QString answerFile;

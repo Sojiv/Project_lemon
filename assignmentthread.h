@@ -57,7 +57,11 @@ private:
     CompileState compileState;
     QString compileMessage;
     QString sourceFile;
-    QString compilerPath;
+    QString executableFile;
+    double timeLimitRatio;
+    double memoryLimitRatio;
+    bool disableMemoryLimitCheck;
+    QProcessEnvironment environment;
     QList< QList<int> > timeUsed;
     QList< QList<int> > memoryUsed;
     QList< QList<int> > score;

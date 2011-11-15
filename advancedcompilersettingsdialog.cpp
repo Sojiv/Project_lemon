@@ -31,6 +31,8 @@ AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent) 
     ui->bytecodeExtension->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), ui->bytecodeExtension));
     ui->configurationSelect->setLineEdit(new QLineEdit(this));
     
+    connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()),
+            this, SLOT(okayButtonClicked()));
     connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)),
             this, SLOT(compilerTypeChanged()));
     connect(ui->compilerLocation, SIGNAL(textChanged(QString)),
@@ -96,6 +98,49 @@ Compiler* AdvancedCompilerSettingsDialog::getEditCompiler() const
     return editCompiler;
 }
 
+void AdvancedCompilerSettingsDialog::okayButtonClicked()
+{
+    if (ui->compilerLocation->isEnabled() && ui->compilerLocation->text().isEmpty()) {
+        ui->compilerLocation->setFocus();
+        QMessageBox::warning(this, tr("Error"), tr("Empty compiler\'s Location!"), QMessageBox::Close);
+        return;
+    }
+    if (ui->interpreterLocation->isEnabled() && ui->interpreterLocation->text().isEmpty()) {
+        ui->interpreterLocation->setFocus();
+        QMessageBox::warning(this, tr("Error"), tr("Empty interpreter\'s Location!"), QMessageBox::Close);
+        return;
+    }
+    if (ui->bytecodeExtension->isEnabled() && ui->bytecodeExtension->text().isEmpty()) {
+        ui->bytecodeExtension->setFocus();
+        QMessageBox::warning(this, tr("Error"), tr("Empty Byte-code Extensions!"), QMessageBox::Close);
+        return;
+    }
+    const QStringList &configurationNames = editCompiler->getConfigurationNames();
+    for (int j = 0; j < configurationNames.size(); j ++) {
+        if (configurationNames[j].isEmpty()) {
+            ui->configurationSelect->setCurrentIndex(j);
+            ui->configurationSelect->setFocus();
+            QMessageBox::warning(this, tr("Error"), tr("Empty configuration name!"), QMessageBox::Close);
+            return;
+        }
+        if (configurationNames.count(configurationNames[j]) > 1) {
+            ui->configurationSelect->setCurrentIndex(j);
+            ui->configurationSelect->setFocus();
+            QMessageBox::warning(this, tr("Error"),
+                                 tr("Configuration %1 appears more than once!").arg(configurationNames[j]),
+                                 QMessageBox::Close);
+            return;
+        }
+        if (configurationNames[j] == "disable") {
+            ui->configurationSelect->setCurrentIndex(j);
+            ui->configurationSelect->setFocus();
+            QMessageBox::warning(this, tr("Error"),tr("Invalid configuration name \"disable\"!"), QMessageBox::Close);
+            return;
+        }
+    }
+    accept();
+}
+
 void AdvancedCompilerSettingsDialog::compilerTypeChanged()
 {
     editCompiler->setCompilerType((Compiler::CompilerType)ui->typeSelect->currentIndex());
@@ -104,10 +149,14 @@ void AdvancedCompilerSettingsDialog::compilerTypeChanged()
         ui->interpreterLabel->setEnabled(false);
         ui->interpreterLocation->setEnabled(false);
         ui->interpreterSelectButton->setEnabled(false);
+        ui->interpreterArgumentsLabel->setEnabled(false);
+        ui->interpreterArguments->setEnabled(false);
     } else {
         ui->interpreterLabel->setEnabled(true);
         ui->interpreterLocation->setEnabled(true);
         ui->interpreterSelectButton->setEnabled(true);
+        ui->interpreterArgumentsLabel->setEnabled(true);
+        ui->interpreterArguments->setEnabled(true);
     }
     
     if (editCompiler->getCompilerType() == Compiler::InterpretiveWithByteCode) {
@@ -122,10 +171,14 @@ void AdvancedCompilerSettingsDialog::compilerTypeChanged()
         ui->compilerLabel->setEnabled(false);
         ui->compilerLocation->setEnabled(false);
         ui->compilerSelectButton->setEnabled(false);
+        ui->compilerArgumentsLabel->setEnabled(false);
+        ui->compilerArguments->setEnabled(false);
     } else {
         ui->compilerLabel->setEnabled(true);
         ui->compilerLocation->setEnabled(true);
         ui->compilerSelectButton->setEnabled(true);
+        ui->compilerArgumentsLabel->setEnabled(true);
+        ui->compilerArguments->setEnabled(true);
     }
 }
 

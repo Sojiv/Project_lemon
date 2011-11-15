@@ -25,7 +25,7 @@
 #include "contestant.h"
 #include "settings.h"
 #include "optionsdialog.h"
-#include "compilerselectingdialog.h"
+#include "addcompilerwizard.h"
 #include "newcontestdialog.h"
 #include "opencontestdialog.h"
 #include "welcomedialog.h"
@@ -146,91 +146,15 @@ void Lemon::closeEvent(QCloseEvent *event)
 
 void Lemon::welcome()
 {
-/*    QList<Compiler*> compilerList = settings->getCompilerList();
-    Compiler *gcc = 0, *gpp = 0, *fpc = 0;
-    for (int i = 0; i < compilerList.size(); i ++) {
-        if (compilerList[i]->getCompilerName() == "gcc")
-            gcc = compilerList[i];
-        if (compilerList[i]->getCompilerName() == "g++")
-            gpp = compilerList[i];
-        if (compilerList[i]->getCompilerName() == "fpc")
-            fpc = compilerList[i];
-    }
-    
-#ifdef Q_OS_WIN32
-    if (! gcc | ! gpp | ! fpc) {
-        CompilerSelectingDialog *dialog = new CompilerSelectingDialog(this);
-        if (gcc) dialog->setGccPath(gcc->getLocation());
-        if (gpp) dialog->setGppPath(gpp->getLocation());
-        if (fpc) dialog->setFpcPath(fpc->getLocation());
-        if (dialog->exec() == QDialog::Accepted) {
-            if (! dialog->getGccPath().isEmpty())
-                if (! gcc) {
-                    gcc = new Compiler;
-                    settings->addCompiler(gcc);
-                    gcc->setCompilerName("gcc");
-                    gcc->setLocation(dialog->getGccPath());
-                    gcc->setSourceExtensions("c");
-                    gcc->addConfiguration("default", "-o %e %s");
-                    gcc->addConfiguration("with O2", "-o %e %s -O2");
-                } else
-                    gcc->setLocation(dialog->getGccPath());
-            if (! dialog->getGppPath().isEmpty())
-                if (! gpp) {
-                    gpp = new Compiler;
-                    settings->addCompiler(gpp);
-                    gpp->setCompilerName("g++");
-                    gpp->setLocation(dialog->getGppPath());
-                    gpp->setSourceExtensions("cpp");
-                    gpp->addConfiguration("default", "-o %e %s");
-                    gpp->addConfiguration("with O2", "-o %e %s -O2");
-                } else
-                    gpp->setLocation(dialog->getGppPath());
-            if (! dialog->getFpcPath().isEmpty())
-                if (! fpc) {
-                    fpc = new Compiler;
-                    settings->addCompiler(fpc);
-                    fpc->setCompilerName("fpc");
-                    fpc->setLocation(dialog->getFpcPath());
-                    fpc->setSourceExtensions("pas");
-                    fpc->addConfiguration("default", "-o%e %s");
-                    fpc->addConfiguration("with O2", "-o%e %s -O2");
-                } else
-                    fpc->setLocation(dialog->getFpcPath());
+    if (settings->getCompilerList().size() == 0) {
+        AddCompilerWizard *wizard = new AddCompilerWizard(this);
+        if (wizard->exec() == QDialog::Accepted) {
+            QList<Compiler*> compilerList = wizard->getCompilerList();
+            for (int i = 0; i < compilerList.size(); i ++)
+                settings->addCompiler(compilerList[i]);
         }
-        delete dialog;
+        delete wizard;
     }
-#endif
-    
-#ifdef Q_OS_LINUX
-    if (! gcc && QFileInfo("/usr/bin/gcc").exists()) {
-        gcc = new Compiler;
-        settings->addCompiler(gcc);
-        gcc->setCompilerName("gcc");
-        gcc->setLocation("/usr/bin/gcc");
-        gcc->setSourceExtensions("c");
-        gcc->addConfiguration("default", "-o %e %s");
-        gcc->addConfiguration("with O2", "-o %e %s -O2");
-    }
-    if (! gpp && QFileInfo("/usr/bin/g++").exists()) {
-        gpp = new Compiler;
-        settings->addCompiler(gpp);
-        gpp->setCompilerName("g++");
-        gpp->setLocation("/usr/bin/g++");
-        gpp->setSourceExtensions("cpp");
-        gpp->addConfiguration("default", "-o %e %s");
-        gpp->addConfiguration("with O2", "-o %e %s -O2");
-    }
-    if (! fpc && QFileInfo("/usr/bin/fpc").exists()) {
-        fpc = new Compiler;
-        settings->addCompiler(fpc);
-        fpc->setCompilerName("fpc");
-        fpc->setLocation("/usr/bin/fpc");
-        fpc->setSourceExtensions("pas");
-        fpc->addConfiguration("default", "-o%e %s");
-        fpc->addConfiguration("with O2", "-o%e %s -O2");
-    }
-#endif*/
     
     WelcomeDialog *dialog = new WelcomeDialog(this);
     dialog->setRecentContest(settings->getRecentContest());
@@ -535,12 +459,6 @@ void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > 
     Task *newTask = new Task;
     newTask->setProblemTitle(title);
     newTask->setSourceFileName(title);
-#ifdef Q_OS_WIN32
-    newTask->setExecutableFileName(title + ".exe");
-#endif
-#ifdef Q_OS_LINUX
-    newTask->setExecutableFileName(title);
-#endif
     newTask->setInputFileName(title + ".in");
     newTask->setOutputFileName(title + ".out");
     newTask->refreshCompilerConfiguration(settings);
@@ -729,7 +647,7 @@ void Lemon::makeSelfTest()
                 out << QString("echo Input file: %1").arg(QFileInfo(outputFiles[k]).fileName()) << endl;
                 if (taskList[i]->getTaskType() == Task::Traditional) {
                     out << "time<enter" << endl;
-                    QString cmd = QString("\"") + taskList[i]->getExecutableFileName() + "\"";
+                    QString cmd = QString("\"") + taskList[i]->getSourceFileName() + ".exe" + "\"";
                     if (taskList[i]->getStandardInputCheck())
                         cmd += QString(" <\"%1\"").arg(QFileInfo(inputFiles[k]).fileName());
                     if (taskList[i]->getStandardOutputCheck())
@@ -784,7 +702,7 @@ void Lemon::makeSelfTest()
                                                    taskList[i]->getInputFileName()) << endl;
                 out << QString("echo \"Input file: %1\"").arg(QFileInfo(outputFiles[k]).fileName()) << endl;
                 if (taskList[i]->getTaskType() == Task::Traditional) {
-                    QString cmd = QString("\"") + taskList[i]->getExecutableFileName() + "\"";
+                    QString cmd = QString("\"") + taskList[i]->getSourceFileName() + "\"";
                     if (taskList[i]->getStandardInputCheck())
                         cmd += QString(" <\"%1\"").arg(QFileInfo(inputFiles[k]).fileName());
                     if (taskList[i]->getStandardOutputCheck())

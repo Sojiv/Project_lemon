@@ -49,14 +49,14 @@ void JudgingThread::setCheckRejudgeMode(bool check)
     checkRejudgeMode = check;
 }
 
-void JudgingThread::setExtraTimeRation(double ratio)
+void JudgingThread::setExtraTimeRatio(double ratio)
 {
     extraTimeRatio = ratio;
 }
 
-void JudgingThread::setCompilerPath(const QString &path)
+void JudgingThread::setEnvironment(const QProcessEnvironment &env)
 {
-    compilerPath = path;
+    environment = env;
 }
 
 void JudgingThread::setWorkingDirectory(const QString &directory)
@@ -459,13 +459,12 @@ void JudgingThread::runProgram()
                                    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
                                    CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     
-    QProcessEnvironment environment;
-    environment = QProcessEnvironment::systemEnvironment();
-    environment.insert("path", compilerPath + ";" + environment.value("path"));
-    QString values = QString("PATH=") + environment.value("path");
-    values += "\0\0";
+    si.hStdError = CreateFile((const WCHAR*)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
+                              FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
+                              CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     
-    if (! CreateProcess((const WCHAR*)(executableFile.utf16()), NULL, NULL, &sa,
+    QString values = environment.toStringList().join('\0') + '\0';
+    if (! CreateProcess(NULL, (WCHAR*)(executableFile.utf16()), NULL, &sa,
                         TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW, (LPVOID)(values.toLocal8Bit().data()),
                         (const WCHAR*)(workingDirectory.utf16()), &si, &pi)) {
         if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
@@ -485,19 +484,21 @@ void JudgingThread::runProgram()
             flag = true;
             break;
         }
-        PROCESS_MEMORY_COUNTERS info;
-        GetProcessMemoryInfo(pi.hProcess, &info, sizeof(info));
-        memoryUsed = info.PeakWorkingSetSize;
-        if (memoryUsed > memoryLimit * 1024 * 1024) {
-            TerminateProcess(pi.hProcess, 0);
-            if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
-            if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
-            CloseHandle(pi.hProcess);
-            CloseHandle(pi.hThread);
-            score = 0;
-            result = MemoryLimitExceeded;
-            timeUsed = -1;
-            return;
+        if (memoryLimit != -1) {
+            PROCESS_MEMORY_COUNTERS info;
+            GetProcessMemoryInfo(pi.hProcess, &info, sizeof(info));
+            memoryUsed = info.PeakWorkingSetSize;
+            if (memoryUsed > memoryLimit * 1024 * 1024) {
+                TerminateProcess(pi.hProcess, 0);
+                if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
+                if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+                CloseHandle(pi.hProcess);
+                CloseHandle(pi.hThread);
+                score = 0;
+                result = MemoryLimitExceeded;
+                timeUsed = -1;
+                return;
+            }
         }
         QCoreApplication::processEvents();
         if (stopJudging) {
@@ -532,7 +533,11 @@ void JudgingThread::runProgram()
         CloseHandle(pi.hThread);
         score = 0;
         result = RunTimeError;
-        message = tr("Exit code is %1").arg(exitCode);
+        QFile file(workingDirectory + "_tmperr");
+        if (file.open(QFile::ReadOnly)) {
+            QTextStream stream(&file);
+            message = stream.readAll();
+        }
         timeUsed = -1;
         return;
     }
@@ -554,6 +559,7 @@ void JudgingThread::runProgram()
     
     if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
     if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+    CloseHandle(si.hStdError);
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
 #endif
@@ -565,7 +571,8 @@ void JudgingThread::runProgram()
     if (task->getStandardOutputCheck())
         program->setStandardOutputFile(workingDirectory + "_tmpout");
     program->setWorkingDirectory(workingDirectory);
-    program->start(QFileInfo(executableFile).absoluteFilePath());
+    program->setProcessEnvironment(environment);
+    program->start(executableFile);
     if (! program->waitForStarted(-1)) {
         delete program;
         score = 0;
@@ -617,7 +624,7 @@ void JudgingThread::runProgram()
     if (program->exitCode() != 0) {
         score = 0;
         result = RunTimeError;
-        message = tr("Exit code is %1").arg(program->exitCode());
+        message = QString::fromLocal8Bit(program->readAllStandardError().data());
         timeUsed = -1;
         delete program;
         return;

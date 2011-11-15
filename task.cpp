@@ -46,11 +46,6 @@ const QString& Task::getSourceFileName() const
     return sourceFileName;
 }
 
-const QString& Task::getExecutableFileName() const
-{
-    return executableFileName;
-}
-
 const QString& Task::getInputFileName() const
 {
     return inputFileName;
@@ -111,11 +106,6 @@ void Task::setProblemTitle(const QString &title)
 void Task::setSourceFileName(const QString &fileName)
 {
     sourceFileName = fileName;
-}
-
-void Task::setExecutableFileName(const QString &fileName)
-{
-    executableFileName = fileName;
 }
 
 void Task::setInputFileName(const QString &fileName)
@@ -225,7 +215,6 @@ void Task::writeToStream(QDataStream &out)
 {
     out << problemTitle;
     out << sourceFileName;
-    out << executableFileName;
     out << inputFileName;
     out << outputFileName;
     out << standardInputCheck;
@@ -246,7 +235,6 @@ void Task::readFromStream(QDataStream &in)
     int tmp, count;
     in >> problemTitle;
     in >> sourceFileName;
-    in >> executableFileName;
     in >> inputFileName;
     in >> outputFileName;
     in >> standardInputCheck;

@@ -44,6 +44,7 @@ private:
     Ui::CompilerSettings *ui;
     Settings *editSettings;
     Compiler *curCompiler;
+    QAction *deleteCompilerKeyAction;
     void setCurrentCompiler(Compiler*);
     void refreshItemState();
 

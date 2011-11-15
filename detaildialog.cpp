@@ -167,9 +167,13 @@ QString DetailDialog::getCode(Contest *contest, Contestant *contestant)
                 }
                 
                 htmlCode += QString("<td align=\"center\">%1").arg(text);
-                if (! message[j][k].isEmpty())
+                if (! message[j][k].isEmpty()) {
+                    QString tmp = message[j][k];
+                    tmp.replace("\n", "\\n");
+                    tmp.replace("\"", "\\");
                     htmlCode += QString("<a href=\"javascript:alert(&quot;%1&quot;)\"> (...)")
-                                .arg(message[j][k]);
+                                .arg(tmp);
+                }
                 htmlCode += "</td>";
                 
                 htmlCode += "<td nowrap=\"nowrap\" align=\"center\">";

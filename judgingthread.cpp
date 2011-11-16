@@ -594,7 +594,7 @@ void JudgingThread::runProgram()
         if (get_pid_stat(int(program->pid()), &info)) {
             memoryUsed = qMax(memoryUsed, int(info.rss * sysconf(_SC_PAGESIZE)));
             timeUsed = info.utime * 1000 / sysconf(_SC_CLK_TCK);
-            if (memoryUsed > memoryLimit * 1024 * 1024) {
+            if (memoryLimit != -1 && memoryUsed > memoryLimit * 1024 * 1024) {
                 program->kill();
                 delete program;
                 score = 0;

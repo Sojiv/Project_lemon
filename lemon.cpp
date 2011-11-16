@@ -1022,7 +1022,7 @@ void Lemon::aboutLemon()
     QString text;
     text += "<h2>Project Lemon</h2>";
     text += tr("A tiny judging environment for OI contest") + "<br>";
-    text += tr("Version 1.0 Release") + "<br>";
+    text += tr("Version 1.1 Beta") + "<br>";
     text += tr("Build Date: %1").arg(__DATE__) + "<br>";
     text += tr("Copyright (c) 2011 Zhipeng Jia") + "<br>";
     text += tr("This program is under the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GPLv3</a> license") + "<br>";

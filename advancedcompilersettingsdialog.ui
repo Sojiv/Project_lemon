@@ -24,6 +24,9 @@
          <height>20</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">font-size:9pt;</string>
+       </property>
        <item>
         <property name="text">
          <string>Typical (Generate executable file)</string>

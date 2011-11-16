@@ -206,7 +206,11 @@ font-weight: bold;</string>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="compilerName"/>
+      <widget class="QLineEdit" name="compilerName">
+       <property name="styleSheet">
+        <string notr="true">font-size:9pt;</string>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="sourceExtensionsLabel">
@@ -220,7 +224,11 @@ font-weight: bold;</string>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="sourceExtensions"/>
+      <widget class="QLineEdit" name="sourceExtensions">
+       <property name="styleSheet">
+        <string notr="true">font-size:9pt;</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

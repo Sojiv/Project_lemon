@@ -19,6 +19,10 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) :
         ui->gppPath->setText("/usr/bin/g++");
     if (QFileInfo("/usr/bin/fpc").exists())
         ui->fpcPath->setText("/usr/bin/fpc");
+    if (QFileInfo("/usr/bin/javac").exists())
+        ui->javacPath->setText("/usr/bin/javac");
+    if (QFileInfo("/usr/bin/java").exists())
+        ui->javaPath->setText("/usr/bin/java");
     if (QFileInfo("/usr/bin/python").exists())
         ui->pythonPath->setText("/usr/bin/python");
 #endif

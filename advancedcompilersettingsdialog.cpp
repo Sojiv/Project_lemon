@@ -245,6 +245,7 @@ void AdvancedCompilerSettingsDialog::disableMemoryLimitCheckChanged()
 {
     bool check = ui->disableMemoryLimit->isChecked();
     editCompiler->setDisableMemoryLimitCheck(check);
+    ui->memoryLimitRatioLabel->setEnabled(! check);
     ui->memoryLimitRatio->setEnabled(! check);
 }
 

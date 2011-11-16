@@ -73,6 +73,9 @@ font-weight: bold;</string>
             <height>22</height>
            </size>
           </property>
+          <property name="styleSheet">
+           <string notr="true">font-size:9pt;</string>
+          </property>
          </widget>
         </item>
         <item>
@@ -119,6 +122,9 @@ font-weight: bold;</string>
             <width>58</width>
             <height>22</height>
            </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size:9pt;</string>
           </property>
          </widget>
         </item>
@@ -177,6 +183,9 @@ font-weight: bold;</string>
             <width>58</width>
             <height>22</height>
            </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size:9pt;</string>
           </property>
          </widget>
         </item>
@@ -262,7 +271,11 @@ font-weight: bold;</string>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="inputFilesPattern"/>
+       <widget class="QLineEdit" name="inputFilesPattern">
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="outputFilesPatternLabel">
@@ -276,7 +289,11 @@ font-weight: bold;</string>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="outputFilesPattern"/>
+       <widget class="QLineEdit" name="outputFilesPattern">
+        <property name="styleSheet">
+         <string notr="true">font-size:9pt;</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -367,7 +384,7 @@ font-weight: bold;</string>
           </property>
           <property name="icon">
            <iconset resource="resource.qrc">
-            <normaloff>:/icon/add.ico</normaloff>:/icon/add.ico</iconset>
+            <normaloff>:/icon/add.png</normaloff>:/icon/add.png</iconset>
           </property>
          </widget>
         </item>
@@ -390,7 +407,7 @@ font-weight: bold;</string>
           </property>
           <property name="icon">
            <iconset resource="resource.qrc">
-            <normaloff>:/icon/rod.ico</normaloff>:/icon/rod.ico</iconset>
+            <normaloff>:/icon/rod.png</normaloff>:/icon/rod.png</iconset>
           </property>
          </widget>
         </item>

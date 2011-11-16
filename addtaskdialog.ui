@@ -38,7 +38,11 @@ font-weight: bold;</string>
     </widget>
    </item>
    <item row="0" column="1" colspan="2">
-    <widget class="QComboBox" name="taskBox"/>
+    <widget class="QComboBox" name="taskBox">
+     <property name="styleSheet">
+      <string notr="true">font-size:9pt;</string>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="fullScoreLabel">
@@ -58,6 +62,9 @@ font-weight: bold;</string>
        <width>75</width>
        <height>22</height>
       </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:9pt;</string>
      </property>
     </widget>
    </item>
@@ -79,6 +86,9 @@ font-weight: bold;</string>
        <width>75</width>
        <height>22</height>
       </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:9pt;</string>
      </property>
     </widget>
    </item>
@@ -110,6 +120,9 @@ font-weight: bold;</string>
        <width>75</width>
        <height>22</height>
       </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size:9pt;</string>
      </property>
     </widget>
    </item>

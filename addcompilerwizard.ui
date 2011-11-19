@@ -518,18 +518,6 @@ font-weight: bold;</string>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>81</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>100</height>
-         </size>
-        </property>
         <property name="styleSheet">
          <string notr="true">font-size:9pt;</string>
         </property>
@@ -574,12 +562,6 @@ font-weight: bold;</string>
           <horstretch>1</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>81</height>
-         </size>
         </property>
         <property name="maximumSize">
          <size>
@@ -632,18 +614,6 @@ font-weight: bold;</string>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>81</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>100</height>
-         </size>
-        </property>
         <property name="styleSheet">
          <string notr="true">font-size:9pt;</string>
         </property>
@@ -691,18 +661,6 @@ font-weight: bold;</string>
           <horstretch>1</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>81</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>100</height>
-         </size>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size:9pt;</string>
@@ -754,18 +712,6 @@ font-weight: bold;</string>
           <horstretch>1</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>110</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>120</height>
-         </size>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size:9pt;</string>
@@ -893,18 +839,6 @@ font-weight: bold;</string>
           <horstretch>1</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>110</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>120</height>
-         </size>
         </property>
         <property name="styleSheet">
          <string notr="true">font-size:9pt;</string>

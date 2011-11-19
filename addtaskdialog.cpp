@@ -18,12 +18,18 @@
 
 #include "addtaskdialog.h"
 #include "ui_addtaskdialog.h"
+#include "settings.h"
 
 AddTaskDialog::AddTaskDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddTaskDialog)
 {
     ui->setupUi(this);
+    
+    ui->fullScore->setValidator(new QIntValidator(0, Settings::upperBoundForFullScore() * 100, ui->fullScore));
+    ui->timeLimit->setValidator(new QIntValidator(0, Settings::upperBoundForTimeLimit(), ui->timeLimit));
+    ui->memoryLimit->setValidator(new QIntValidator(0, Settings::upperBoundForMemoryLimit(), ui->memoryLimit));
+    
     connect(ui->taskBox, SIGNAL(currentIndexChanged(int)),
             this, SLOT(taskBoxIndexChanged()));
     connect(ui->fullScore, SIGNAL(textChanged(QString)),

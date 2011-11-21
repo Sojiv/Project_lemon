@@ -433,13 +433,13 @@ void AddCompilerWizard::accept()
             compiler->setCompilerName("g++");
             compiler->setCompilerLocation(ui->gppPath->text());
             compiler->setSourceExtensions("cpp;cc;cxx");
-            if (ui->gccO2Check->isChecked())
+            if (ui->gppO2Check->isChecked())
                 compiler->addConfiguration("default", "-o %s %s.* -O2", "");
             else
                 compiler->addConfiguration("default", "-o %s %s.*", "");
 #ifdef Q_OS_WIN32
             QProcessEnvironment environment;
-            QString path = QFileInfo(ui->gccPath->text()).absolutePath();
+            QString path = QFileInfo(ui->gppPath->text()).absolutePath();
             path.replace('/', QDir::separator());
             environment.insert("PATH", path);
             compiler->setEnvironment(environment);
@@ -452,7 +452,7 @@ void AddCompilerWizard::accept()
             compiler->setCompilerName("fpc");
             compiler->setCompilerLocation(ui->fpcPath->text());
             compiler->setSourceExtensions("pas;pp;inc");
-            if (ui->gccO2Check->isChecked())
+            if (ui->fpcO2Check->isChecked())
                 compiler->addConfiguration("default", "%s.* -O2", "");
             else
                 compiler->addConfiguration("default", "%s.*", "");

@@ -54,7 +54,7 @@ private:
     QList<QStringList> matchedInputFiles;
     QList<QStringList> matchedOutputFiles;
     void refreshButtonState();
-    void getFiles(const QString&, const QString&, const QStringList&, QStringList&);
+    void getFiles(const QString&, const QString&, QStringList&);
     QString getFullRegExp(const QString&);
     QStringList getMatchedPart(const QString&, const QString&);
     void searchMatchedFiles();

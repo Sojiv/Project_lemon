@@ -17,16 +17,14 @@
 ***************************************************************************/
 
 #include <QtGui/QApplication>
-#include <QMessageBox>
 #include "qtsingleapplication/qtsingleapplication.h"
 #include "lemon.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication::addLibraryPath("./plugins");
     QtSingleApplication a(argc, argv);
     
-    if (a.sendMessage("ok")) {
+    if (a.sendMessage("")) {
         a.activateWindow();
         return 0;
     }

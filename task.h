@@ -30,7 +30,7 @@ class Task : public QObject
     Q_OBJECT
 public:
     enum TaskType { Traditional, AnswersOnly };
-    enum ComparisonMode { LineByLineMode, RealNumberMode, SpecialJudgeMode };
+    enum ComparisonMode { LineByLineMode, IgnoreSpacesMode, RealNumberMode, SpecialJudgeMode };
     
     explicit Task(QObject *parent = 0);
     

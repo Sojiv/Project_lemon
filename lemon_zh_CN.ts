@@ -89,9 +89,9 @@
         <translation type="unfinished">步骤二：选择编译器路径进行配置。</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.ui" line="563"/>
-        <location filename="addcompilerwizard.ui" line="620"/>
-        <location filename="addcompilerwizard.ui" line="677"/>
+        <location filename="addcompilerwizard.ui" line="551"/>
+        <location filename="addcompilerwizard.ui" line="602"/>
+        <location filename="addcompilerwizard.ui" line="647"/>
         <location filename="addcompilerwizard.cpp" line="162"/>
         <location filename="addcompilerwizard.cpp" line="169"/>
         <location filename="addcompilerwizard.cpp" line="176"/>
@@ -99,23 +99,23 @@
         <translation type="unfinished">开启O2优化</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.ui" line="835"/>
+        <location filename="addcompilerwizard.ui" line="781"/>
         <source>Memory Limit</source>
         <translation type="unfinished">空间限制</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.ui" line="864"/>
+        <location filename="addcompilerwizard.ui" line="810"/>
         <source>MB</source>
         <translation type="unfinished">MB</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.ui" line="939"/>
+        <location filename="addcompilerwizard.ui" line="873"/>
         <location filename="addcompilerwizard.cpp" line="194"/>
         <source>Generate Optimized Byte-code</source>
         <translation type="unfinished">生成优化的字节码</translation>
     </message>
     <message>
-        <location filename="addcompilerwizard.ui" line="988"/>
+        <location filename="addcompilerwizard.ui" line="922"/>
         <source>Step III: Check the result and finish the wizard.</source>
         <translation type="unfinished">步骤三：检查结果并完成向导。</translation>
     </message>
@@ -515,92 +515,92 @@
 <context>
     <name>AdvancedCompilerSettingsDialog</name>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="14"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="20"/>
         <source>Compiler Settings</source>
         <translation type="unfinished">编译器设置</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="32"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="38"/>
         <source>Typical (Generate executable file)</source>
         <translation type="unfinished">传统型（生成可执行文件）</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="37"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="43"/>
         <source>Interpretive (Generate byte-code file)</source>
         <translation type="unfinished">解释型（生成中间字节码）</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="42"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="48"/>
         <source>Interpretive (Run source code directly)</source>
         <translation type="unfinished">解释型（直接运行源代码）</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="68"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="74"/>
         <source>Location</source>
         <translation type="unfinished">位置</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="84"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="95"/>
         <source>Compiler</source>
         <translation type="unfinished">编译器</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="105"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="122"/>
         <source>Interpreter</source>
         <translation type="unfinished">解释器</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="126"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="156"/>
         <source>Byte-code File Extensions</source>
         <translation type="unfinished">中间字节码后缀名</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="149"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="194"/>
         <source>Time and Memory Limit</source>
         <translation type="unfinished">时间、内存限制</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="165"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="210"/>
         <source>Time Limit Ration</source>
         <translation type="unfinished">时间限制比率</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="202"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="247"/>
         <source>Memory Limit Ration</source>
         <translation type="unfinished">内存限制比率</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="238"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="283"/>
         <source>Disable Memory Limit</source>
         <translation type="unfinished">取消内存限制</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="251"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="296"/>
         <source>Arguments</source>
         <translation type="unfinished">参数</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="267"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="318"/>
         <source>Configuration</source>
         <translation type="unfinished">配置</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="283"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="334"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="298"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="355"/>
         <source>Compiler&apos;s Arguments</source>
         <translation type="unfinished">编译器参数</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="312"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="375"/>
         <source>Interpreter&apos;s Arguments</source>
         <translation type="unfinished">解释器参数</translation>
     </message>
     <message>
-        <location filename="advancedcompilersettingsdialog.ui" line="340"/>
+        <location filename="advancedcompilersettingsdialog.ui" line="403"/>
         <source>Environment Variables</source>
         <translation type="unfinished">环境变量</translation>
     </message>
@@ -1286,61 +1286,64 @@
     <message>
         <location filename="judgingthread.cpp" line="153"/>
         <location filename="judgingthread.cpp" line="255"/>
+        <location filename="judgingthread.cpp" line="363"/>
         <source>Cannot open contestant&apos;s output file</source>
         <translation type="unfinished">无法打开选手输出文件</translation>
     </message>
     <message>
         <location filename="judgingthread.cpp" line="160"/>
         <location filename="judgingthread.cpp" line="262"/>
+        <location filename="judgingthread.cpp" line="370"/>
         <source>Cannot open standard output file</source>
         <translation type="unfinished">无法打开标准输出文件</translation>
     </message>
     <message>
         <location filename="judgingthread.cpp" line="229"/>
-        <location filename="judgingthread.cpp" line="311"/>
+        <location filename="judgingthread.cpp" line="337"/>
+        <location filename="judgingthread.cpp" line="419"/>
         <source>Read %1 but expect %2</source>
         <translation type="unfinished">读取到%1，但期望%2</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="278"/>
+        <location filename="judgingthread.cpp" line="386"/>
         <source>Invalid characters found</source>
         <translation type="unfinished">包含无效字符</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="286"/>
+        <location filename="judgingthread.cpp" line="394"/>
         <source>Invalid characters in standard output file</source>
         <translation type="unfinished">标准输出文件中包含无效字符</translation>
     </message>
     <message>
         <location filename="judgingthread.cpp" line="211"/>
-        <location filename="judgingthread.cpp" line="295"/>
+        <location filename="judgingthread.cpp" line="403"/>
         <source>Shorter than standard output</source>
         <translation type="unfinished">比标准输出短</translation>
     </message>
     <message>
         <location filename="judgingthread.cpp" line="220"/>
-        <location filename="judgingthread.cpp" line="303"/>
+        <location filename="judgingthread.cpp" line="411"/>
         <source>Longer than standard output</source>
         <translation type="unfinished">比标准输出长</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="335"/>
-        <location filename="judgingthread.cpp" line="666"/>
+        <location filename="judgingthread.cpp" line="443"/>
+        <location filename="judgingthread.cpp" line="781"/>
         <source>Cannot find standard input file</source>
         <translation type="unfinished">找不到标准输入文件</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="342"/>
+        <location filename="judgingthread.cpp" line="450"/>
         <source>Cannot find contestant&apos;s output file</source>
         <translation type="unfinished">找不到选手输出文件</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="349"/>
+        <location filename="judgingthread.cpp" line="457"/>
         <source>Cannot find standard output file</source>
         <translation type="unfinished">找不到标准输出文件</translation>
     </message>
     <message>
-        <location filename="judgingthread.cpp" line="673"/>
+        <location filename="judgingthread.cpp" line="788"/>
         <source>Cannot copy standard input file</source>
         <translation type="unfinished">无法复制标准输入文件</translation>
     </message>
@@ -1976,36 +1979,41 @@
     </message>
     <message>
         <location filename="taskeditwidget.ui" line="203"/>
+        <source>Line-by-line mode (ignore extra spaces)</source>
+        <translation type="unfinished">逐行比较模式（忽略行末空格）</translation>
+    </message>
+    <message>
+        <location filename="taskeditwidget.ui" line="208"/>
         <source>Real number mode</source>
         <translation type="unfinished">实数比较模式</translation>
     </message>
     <message>
-        <location filename="taskeditwidget.ui" line="208"/>
+        <location filename="taskeditwidget.ui" line="213"/>
         <source>Special judge mode</source>
         <translation type="unfinished">自定义校验器模式</translation>
     </message>
     <message>
-        <location filename="taskeditwidget.ui" line="239"/>
+        <location filename="taskeditwidget.ui" line="244"/>
         <source>Real Number Precision:</source>
         <translation type="unfinished">实数精度：</translation>
     </message>
     <message>
-        <location filename="taskeditwidget.ui" line="266"/>
+        <location filename="taskeditwidget.ui" line="271"/>
         <source>digits</source>
         <translation type="unfinished">位</translation>
     </message>
     <message>
-        <location filename="taskeditwidget.ui" line="321"/>
+        <location filename="taskeditwidget.ui" line="326"/>
         <source>Compiler Settings</source>
         <translation type="unfinished">编译器设置</translation>
     </message>
     <message>
-        <location filename="taskeditwidget.ui" line="368"/>
+        <location filename="taskeditwidget.ui" line="373"/>
         <source>Configuration:</source>
         <translation type="unfinished">配置：</translation>
     </message>
     <message>
-        <location filename="taskeditwidget.ui" line="404"/>
+        <location filename="taskeditwidget.ui" line="409"/>
         <source>Extension of Contestant&apos;s Answer File</source>
         <translation type="unfinished">选手答案文件扩展名</translation>
     </message>

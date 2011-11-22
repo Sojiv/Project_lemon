@@ -246,6 +246,116 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
     fclose(standardOutputFile);
 }
 
+void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
+{
+    FILE *contestantOutputFile = fopen(contestantOutput.toLocal8Bit().data(), "r");
+    if (contestantOutputFile == NULL) {
+        score = 0;
+        result = FileError;
+        message = tr("Cannot open contestant\'s output file");
+        return;
+    }
+    FILE *standardOutputFile = fopen(outputFile.toLocal8Bit().data(), "r");
+    if (standardOutputFile == NULL) {
+        score = 0;
+        result = FileError;
+        message = tr("Cannot open standard output file");
+        fclose(contestantOutputFile);
+        return;
+    }
+    
+    char str1[20], str2[20], ch;
+    bool chk1 = false, chk2 = false;
+    bool chkEof1 = false, chkEof2 = false;
+    bool chkEoln1 = false, chkEoln2 = false;
+    int len1, len2;
+    while (true) {
+        len1 = 0;
+        while (len1 < 10) {
+            if (chkEoln1 && ! chkEoln2) break;
+            ch = fgetc(contestantOutputFile);
+            if (ch == EOF) break;
+            if (! chk1 && ch == '\n') {
+                chkEoln1 = true;
+                break;
+            }
+            if (chk1 && ch == '\n') {
+                chk1 = false;
+                continue;
+            }
+            if (ch == '\r') {
+                chk1 = true;
+                chkEoln1 = true;
+                break;
+            }
+            if (chk1) chk1 = false;
+            str1[len1 ++] = ch;
+        }
+        str1[len1 ++] = '\0';
+        if (ch == EOF) chkEof1 = true; else chkEof1 = false;
+        if (chkEof1) chkEoln1 = true;
+        
+        len2 = 0;
+        while (len2 < 10) {
+            if (! chkEoln1 && chkEoln2) break;
+            ch = fgetc(standardOutputFile);
+            if (ch == EOF) break;
+            if (! chk2 && ch == '\n') {
+                chkEoln2 = true;
+                break;
+            }
+            if (chk2 && ch == '\n') {
+                chk2 = false;
+                continue;
+            }
+            if (ch == '\r') {
+                chk2 = true;
+                chkEoln2 = true;
+                break;
+            }
+            if (chk2) chk2 = false;
+            str2[len2 ++] = ch;
+        }
+        str2[len2 ++] = '\0';
+        if (ch == EOF) chkEof2 = true; else chkEof2 = false;
+        if (chkEof2) chkEoln2 = true;
+        
+        if (chkEoln1) {
+            while (len1 > 0 && str1[len1-1] == ' ') len1 --;
+            str1[len1 ++] = '\0';
+        }
+        
+        if (chkEoln2) {
+            while (len2 > 0 && str2[len2-1] == ' ') len2 --;
+            str2[len2 ++] = '\0';
+        }
+        
+        if (chkEoln1 && chkEoln2)
+            chkEoln1 = chkEoln2 = false;
+        
+        if (len1 != len2 || strcmp(str1, str2) != 0) {
+            score = 0;
+            result = WrongAnswer;
+            message = tr("Read %1 but expect %2").arg(str1).arg(str2);
+            fclose(contestantOutputFile);
+            fclose(standardOutputFile);
+            return;
+        }
+        if (chkEof1 && chkEof2) break;
+        QCoreApplication::processEvents();
+        if (stopJudging) {
+            fclose(contestantOutputFile);
+            fclose(standardOutputFile);
+            return;
+        }
+    }
+    
+    score = fullScore;
+    result = CorrectAnswer;
+    fclose(contestantOutputFile);
+    fclose(standardOutputFile);
+}
+
 void JudgingThread::compareRealNumbers(const QString &contestantOutput)
 {
     FILE *contestantOutputFile = fopen(contestantOutput.toLocal8Bit().data(), "r");
@@ -643,6 +753,13 @@ void JudgingThread::judgeOutput()
             compareLineByLine(workingDirectory + task->getOutputFileName());
     }
     
+    if (task->getComparisonMode() == Task::IgnoreSpacesMode) {
+        if (task->getStandardOutputCheck())
+            compareIgnoreSpaces(workingDirectory + "_tmpout");
+        else
+            compareIgnoreSpaces(workingDirectory + task->getOutputFileName());
+    }
+    
     if (task->getComparisonMode() == Task::RealNumberMode) {
         if (task->getStandardOutputCheck())
             compareRealNumbers(workingDirectory + "_tmpout");
@@ -739,6 +856,8 @@ void JudgingThread::judgeAnswersOnlyTask()
 {
     if (task->getComparisonMode() == Task::LineByLineMode)
         compareLineByLine(answerFile);
+    if (task->getComparisonMode() == Task::IgnoreSpacesMode)
+        compareIgnoreSpaces(answerFile);
     if (task->getComparisonMode() == Task::RealNumberMode)
         compareRealNumbers(answerFile);
     if (task->getComparisonMode() == Task::SpecialJudgeMode)

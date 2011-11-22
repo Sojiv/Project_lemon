@@ -200,6 +200,11 @@ font-weight: bold;</string>
      </item>
      <item>
       <property name="text">
+       <string>Line-by-line mode (ignore extra spaces)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>Real number mode</string>
       </property>
      </item>
@@ -219,9 +224,10 @@ font-weight: bold;</string>
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="lineByLineMode"/>
+     <widget class="QWidget" name="ignoreSpacesMode"/>
      <widget class="QWidget" name="realNumberMode">
       <layout class="QHBoxLayout" name="horizontalLayout_9">
        <item>

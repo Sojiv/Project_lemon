@@ -73,6 +73,7 @@ private:
     QString message;
     bool stopJudging;
     void compareLineByLine(const QString&);
+    void compareIgnoreSpaces(const QString&);
     void compareRealNumbers(const QString&);
     void specialJudge(const QString&);
     void runProgram();

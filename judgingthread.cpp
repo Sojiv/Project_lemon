@@ -264,74 +264,92 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
         return;
     }
     
-    char str1[20], str2[20], ch;
-    bool chk1 = false, chk2 = false;
-    bool chkEof1 = false, chkEof2 = false;
-    bool chkEoln1 = false, chkEoln2 = false;
-    int len1, len2;
+    char ch1 = '\n', ch2 = '\n';
+    char str1[20], str2[20];
+    int flag1, flag2;
     while (true) {
-        len1 = 0;
+        if (ch1 == '\n' || ch1 == '\r' || ch1 == EOF) {
+            if (ch1 == '\r') {
+                ch1 = fgetc(contestantOutputFile);
+                if (ch1 == '\n') ch1 = fgetc(contestantOutputFile);
+            } else
+                ch1 = fgetc(contestantOutputFile);
+            while (ch1 == ' ' || ch1 == '\t')
+                ch1 = fgetc(contestantOutputFile);
+            flag1 = 2;
+        } else
+            if (ch1 == ' ' || ch1 == '\t') {
+                while (ch1 == ' ' || ch1 == '\t')
+                    ch1 = fgetc(contestantOutputFile);
+                if (ch1 == '\n' || ch1 == '\r' || ch1 == EOF) {
+                    if (ch1 == '\r') {
+                        ch1 = fgetc(contestantOutputFile);
+                        if (ch1 == '\n') ch1 = fgetc(contestantOutputFile);
+                    } else
+                        ch1 = fgetc(contestantOutputFile);
+                    while (ch1 == ' ' || ch1 == '\t')
+                        ch1 = fgetc(contestantOutputFile);
+                    flag1 = 2;
+                } else
+                    flag1 = 1;
+            } else
+                flag1 = 0;
+        
+        if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF) {
+            if (ch2 == '\r') {
+                ch2 = fgetc(standardOutputFile);
+                if (ch2 == '\n') ch2 = fgetc(standardOutputFile);
+            } else
+                ch2 = fgetc(standardOutputFile);
+            while (ch2 == ' ' || ch2 == '\t')
+                ch2 = fgetc(standardOutputFile);
+            flag2 = 2;
+        } else
+            if (ch2 == ' ' || ch2 == '\t') {
+                while (ch2 == ' ' || ch2 == '\t')
+                    ch2 = fgetc(standardOutputFile);
+                if (ch2 == '\n' || ch2 == '\r' || ch2 == EOF) {
+                    if (ch2 == '\r') {
+                        ch2 = fgetc(standardOutputFile);
+                        if (ch2 == '\n') ch2 = fgetc(standardOutputFile);
+                    } else
+                        ch2 = fgetc(standardOutputFile);
+                    while (ch2 == ' ' || ch2 == '\t')
+                        ch2 = fgetc(standardOutputFile);
+                    flag2 = 2;
+                } else
+                    flag2 = 1;
+            } else
+                flag2 = 0;
+        
+        if (flag1 != flag2) {
+            score = 0;
+            result = WrongAnswer;
+            message = tr("Presentation error");
+            fclose(contestantOutputFile);
+            fclose(standardOutputFile);
+            return;
+        }
+        
+        int len1 = 0;
         while (len1 < 10) {
-            if (chkEoln1 && ! chkEoln2) break;
-            ch = fgetc(contestantOutputFile);
-            if (ch == EOF) break;
-            if (! chk1 && ch == '\n') {
-                chkEoln1 = true;
+            if (ch1 != ' ' && ch1 != '\t' && ch1 != '\n' && ch1 != '\r' && ch1 != EOF)
+                str1[len1 ++] = ch1;
+            else
                 break;
-            }
-            if (chk1 && ch == '\n') {
-                chk1 = false;
-                continue;
-            }
-            if (ch == '\r') {
-                chk1 = true;
-                chkEoln1 = true;
-                break;
-            }
-            if (chk1) chk1 = false;
-            str1[len1 ++] = ch;
+            ch1 = fgetc(contestantOutputFile);
         }
-        str1[len1 ++] = '\0';
-        if (ch == EOF) chkEof1 = true; else chkEof1 = false;
-        if (chkEof1) chkEoln1 = true;
+        str1[len1] = '\0';
         
-        len2 = 0;
+        int len2 = 0;
         while (len2 < 10) {
-            if (! chkEoln1 && chkEoln2) break;
-            ch = fgetc(standardOutputFile);
-            if (ch == EOF) break;
-            if (! chk2 && ch == '\n') {
-                chkEoln2 = true;
+            if (ch2 != ' ' && ch2 != '\t' && ch2 != '\n' && ch2 != '\r' && ch2 != EOF)
+                str2[len2 ++] = ch2;
+            else
                 break;
-            }
-            if (chk2 && ch == '\n') {
-                chk2 = false;
-                continue;
-            }
-            if (ch == '\r') {
-                chk2 = true;
-                chkEoln2 = true;
-                break;
-            }
-            if (chk2) chk2 = false;
-            str2[len2 ++] = ch;
+            ch2 = fgetc(standardOutputFile);
         }
-        str2[len2 ++] = '\0';
-        if (ch == EOF) chkEof2 = true; else chkEof2 = false;
-        if (chkEof2) chkEoln2 = true;
-        
-        if (chkEoln1) {
-            while (len1 > 0 && str1[len1-1] == ' ') len1 --;
-            str1[len1 ++] = '\0';
-        }
-        
-        if (chkEoln2) {
-            while (len2 > 0 && str2[len2-1] == ' ') len2 --;
-            str2[len2 ++] = '\0';
-        }
-        
-        if (chkEoln1 && chkEoln2)
-            chkEoln1 = chkEoln2 = false;
+        str2[len2] = '\0';
         
         if (len1 != len2 || strcmp(str1, str2) != 0) {
             score = 0;
@@ -341,7 +359,8 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
             fclose(standardOutputFile);
             return;
         }
-        if (chkEof1 && chkEof2) break;
+        if (ch1 == EOF && ch2 == EOF) break;
+        
         QCoreApplication::processEvents();
         if (stopJudging) {
             fclose(contestantOutputFile);

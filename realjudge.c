@@ -16,20 +16,20 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
-#include <stdio.h>
-#include <math.h>
+#include "stdio.h"
+#include "math.h"
 
 int main(int argc, char **argv) {
     FILE *contestantOutputFile = fopen(argv[1], "r");
     if (contestantOutputFile == NULL) {
         printf("Cannot open contestant\'s output file\n");
-        return;
+        return 0;
     }
     FILE *standardOutputFile = fopen(argv[2], "r");
     if (standardOutputFile == NULL) {
         printf("Cannot open standard output file\n");
         fclose(contestantOutputFile);
-        return;
+        return 0;
     }
     
 	int realPrecision, i;
@@ -46,36 +46,37 @@ int main(int argc, char **argv) {
             printf("Wrong answer\nInvalid characters found\n");
             fclose(contestantOutputFile);
             fclose(standardOutputFile);
-            return;
+            return 0;
         }
         if (cnt2 == 0) {
             printf("Invalid characters in standard output file\n");
             fclose(contestantOutputFile);
             fclose(standardOutputFile);
-            return;
+            return 0;
         }
         if (cnt1 == EOF && cnt2 == EOF) break;
         if (cnt1 == EOF && cnt2 == 1) {
             printf("Wrong answer\nShorter than standard output\n");
             fclose(contestantOutputFile);
             fclose(standardOutputFile);
-            return;
+            return 0;
         }
         if (cnt1 == 1 && cnt2 == EOF) {
             printf("Wrong answer\nLonger than standard output\n");
             fclose(contestantOutputFile);
             fclose(standardOutputFile);
-            return;
+            return 0;
         }
         if (fabs(a - b) > eps) {
 			printf("Wrong answer\nRead %.10lf but expect %.10lf\n", a, b);
             fclose(contestantOutputFile);
             fclose(standardOutputFile);
-            return;
+            return 0;
         }
     }
     
 	printf("Correct answer\n");
     fclose(contestantOutputFile);
     fclose(standardOutputFile);
+    return 0;
 }

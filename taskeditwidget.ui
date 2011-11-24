@@ -200,7 +200,7 @@ font-weight: bold;</string>
      </item>
      <item>
       <property name="text">
-       <string>Line-by-line mode (ignore extra spaces)</string>
+       <string>Line-by-line mode (ignore extra spaces and tabs)</string>
       </property>
      </item>
      <item>

@@ -600,11 +600,11 @@ void Lemon::makeSelfTest()
 #endif
         if (taskList[i]->getComparisonMode() == Task::RealNumberMode) {
 #ifdef Q_OS_WIN32
-            QFile::copy(":/realjudge/realjudge_win32.exe",
+            QFile::copy(":/judge/realjudge_win32.exe",
                         Settings::selfTestPath() + taskList[i]->getSourceFileName() + QDir::separator() + "realjudge.exe");
 #endif
 #ifdef Q_OS_LINUX
-            QFile::copy(":/realjudge/realjudge_linux",
+            QFile::copy(":/judge/realjudge_linux",
                         Settings::selfTestPath() + taskList[i]->getSourceFileName() + QDir::separator() + "realjudge");
             QProcess::execute(QString("chmod +wx \"") + Settings::selfTestPath() + taskList[i]->getSourceFileName()
                               + QDir::separator() + "realjudge" + "\"");
@@ -665,9 +665,11 @@ void Lemon::makeSelfTest()
                     outputFileName = QFileInfo(inputFiles[k]).completeBaseName() + "."
                                      + taskList[i]->getAnswerFileExtension();
                 }
-                if (taskList[i]->getComparisonMode() == Task::LineByLineMode
-                        || taskList[i]->getComparisonMode() == Task::IgnoreSpacesMode) {
+                if (taskList[i]->getComparisonMode() == Task::LineByLineMode) {
                     out << QString("fc \"%1\" \"%2\"").arg(outputFileName, QFileInfo(outputFiles[k]).fileName()) << endl;
+                }
+                if (taskList[i]->getComparisonMode() == Task::IgnoreSpacesMode) {
+                    out << QString("fc \"%1\" \"%2\" /W").arg(outputFileName, QFileInfo(outputFiles[k]).fileName()) << endl;
                 }
                 if (taskList[i]->getComparisonMode() == Task::RealNumberMode) {
                     out << QString("realjudge.exe \"%1\" \"%2\" \"%3\"")
@@ -720,11 +722,19 @@ void Lemon::makeSelfTest()
                     outputFileName = QFileInfo(inputFiles[k]).completeBaseName() + "."
                                      + taskList[i]->getAnswerFileExtension();
                 }
-                if (taskList[i]->getComparisonMode() == Task::LineByLineMode
-                        || taskList[i]->getComparisonMode() == Task::IgnoreSpacesMode) {
+                if (taskList[i]->getComparisonMode() == Task::LineByLineMode) {
                     QString arg = QString("\"%1\" \"%2\"").arg(outputFileName, QFileInfo(outputFiles[k]).fileName());
                     out << "if ! diff " << arg << " --strip-trailing-cr -q;then" << endl;
                     out << "diff " << arg << " --strip-trailing-cr -y" << endl;
+                    out << QString("echo \"Wrong answer\"") << endl;
+                    out << "else" << endl;
+                    out << QString("echo \"Correct answer\"") << endl;
+                    out << "fi" << endl;
+                }
+                if (taskList[i]->getComparisonMode() == Task::IgnoreSpacesMode) {
+                    QString arg = QString("\"%1\" \"%2\"").arg(outputFileName, QFileInfo(outputFiles[k]).fileName());
+                    out << "if ! diff " << arg << " --strip-trailing-cr -q --ignore-all-space;then" << endl;
+                    out << "diff " << arg << " --strip-trailing-cr -y --ignore-all-space" << endl;
                     out << QString("echo \"Wrong answer\"") << endl;
                     out << "else" << endl;
                     out << QString("echo \"Correct answer\"") << endl;

@@ -665,7 +665,8 @@ void Lemon::makeSelfTest()
                     outputFileName = QFileInfo(inputFiles[k]).completeBaseName() + "."
                                      + taskList[i]->getAnswerFileExtension();
                 }
-                if (taskList[i]->getComparisonMode() == Task::LineByLineMode) {
+                if (taskList[i]->getComparisonMode() == Task::LineByLineMode
+                        || taskList[i]->getComparisonMode() == Task::IgnoreSpacesMode) {
                     out << QString("fc \"%1\" \"%2\"").arg(outputFileName, QFileInfo(outputFiles[k]).fileName()) << endl;
                 }
                 if (taskList[i]->getComparisonMode() == Task::RealNumberMode) {
@@ -719,7 +720,8 @@ void Lemon::makeSelfTest()
                     outputFileName = QFileInfo(inputFiles[k]).completeBaseName() + "."
                                      + taskList[i]->getAnswerFileExtension();
                 }
-                if (taskList[i]->getComparisonMode() == Task::LineByLineMode) {
+                if (taskList[i]->getComparisonMode() == Task::LineByLineMode
+                        || taskList[i]->getComparisonMode() == Task::IgnoreSpacesMode) {
                     QString arg = QString("\"%1\" \"%2\"").arg(outputFileName, QFileInfo(outputFiles[k]).fileName());
                     out << "if ! diff " << arg << " --strip-trailing-cr -q;then" << endl;
                     out << "diff " << arg << " --strip-trailing-cr -y" << endl;

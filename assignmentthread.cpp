@@ -310,9 +310,9 @@ void AssignmentThread::assign()
     JudgingThread *thread = new JudgingThread();
     thread->setCheckRejudgeMode(checkRejudgeMode);
     if (checkRejudgeMode)
-        thread->setExtraTimeRatio(0.2);
+        thread->setExtraTimeRatio(0.1);
     else
-        thread->setExtraTimeRatio(0.2 * settings->getNumberOfThreads());
+        thread->setExtraTimeRatio(0.1 * settings->getNumberOfThreads());
     QString workingDirectory = QDir(Settings::temporaryPath()
                                + QString("_%1.%2").arg(curTestCaseIndex).arg(curSingleCaseIndex))
                                .absolutePath() + QDir::separator();

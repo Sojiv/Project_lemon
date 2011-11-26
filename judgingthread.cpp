@@ -27,12 +27,6 @@
 #include "psapi.h"
 #endif
 
-#ifdef Q_OS_LINUX
-#include "unistd.h"
-#include "time.h"
-#include "linux_proc.h"
-#endif
-
 JudgingThread::JudgingThread(QObject *parent) :
     QThread(parent)
 {
@@ -702,72 +696,90 @@ void JudgingThread::runProgram()
 #endif
     
 #ifdef Q_OS_LINUX
-    QProcess *program = new QProcess(this);
+    QFile::copy(":/runner/runner_unix", workingDirectory + "runner");
+    QProcess::execute(QString("chmod +wx \"") + workingDirectory + "runner" + "\"");
+    
+    QProcess *runner = new QProcess(this);
+    QStringList arguments;
+    arguments << executableFile;
     if (task->getStandardInputCheck())
-        program->setStandardInputFile(inputFile);
+        arguments << QFileInfo(inputFile).absoluteFilePath();
+    else
+        arguments << "";
     if (task->getStandardOutputCheck())
-        program->setStandardOutputFile(workingDirectory + "_tmpout");
-    program->setWorkingDirectory(workingDirectory);
-    program->setProcessEnvironment(environment);
-    program->start(executableFile);
-    if (! program->waitForStarted(-1)) {
-        delete program;
+        arguments << "_tmpout";
+    else
+        arguments << "";
+    arguments << "_tmperr";
+    arguments << QString("%1").arg(qCeil(timeLimit * (1 + extraTimeRatio * 2)));
+    arguments << QString("%1").arg(memoryLimit);
+    runner->setProcessEnvironment(environment);
+    runner->setWorkingDirectory(workingDirectory);
+    runner->start(workingDirectory + "runner", arguments);
+    if (! runner->waitForStarted(-1)) {
+        delete runner;
         score = 0;
         result = CannotStartProgram;
+        qDebug() << "jiong";
         return;
     }
     
-    proc_info info;
-    bool flag = false;
-    QElapsedTimer timer;
-    timer.start();
-    
-    while (timer.elapsed() < timeLimit * (1 + extraTimeRatio * 2)) {
-        if (program->state() != QProcess::Running) {
-            flag = true;
-            break;
-        }
-        
-        if (get_pid_stat(int(program->pid()), &info)) {
-            memoryUsed = qMax(memoryUsed, int(info.rss * sysconf(_SC_PAGESIZE)));
-            timeUsed = info.utime * 1000 / sysconf(_SC_CLK_TCK);
-            if (memoryLimit != -1 && memoryUsed > memoryLimit * 1024 * 1024) {
-                program->kill();
-                delete program;
-                score = 0;
-                result = MemoryLimitExceeded;
-                timeUsed = -1;
-                return;
-            }
-        }
+    while (true) {
+        if (runner->state() != QProcess::Running) break;
         QCoreApplication::processEvents();
         if (stopJudging) {
-            program->kill();
-            delete program;
+            runner->kill();
+            delete runner;
             return;
         }
-        msleep(1);
+        msleep(10);
     }
     
-    if (! flag) {
-        program->kill();
-        delete program;
+    int code = runner->exitCode();
+    
+    if (code == 1) {
+        delete runner;
+        score = 0;
+        result = CannotStartProgram;
+        timeUsed = memoryUsed = -1;
+        return;
+    }
+    
+    if (code == 2) {
+        delete runner;
+        score = 0;
+        result = RunTimeError;
+        QFile file(workingDirectory + "_tmperr");
+        if (file.open(QFile::ReadOnly)) {
+            QTextStream stream(&file);
+            message = stream.readAll();
+            file.close();
+        }
+        timeUsed = memoryUsed = -1;
+        return;
+    }
+    
+    QString out = QString::fromLocal8Bit(runner->readAllStandardOutput().data());
+    QTextStream stream(&out, QIODevice::ReadOnly);
+    stream >> timeUsed >> memoryUsed;
+    
+    if (code == 3) {
+        delete runner;
         score = 0;
         result = TimeLimitExceeded;
         timeUsed = -1;
         return;
     }
     
-    if (program->exitCode() != 0) {
+    if (code == 4) {
+        delete runner;
         score = 0;
-        result = RunTimeError;
-        message = QString::fromLocal8Bit(program->readAllStandardError().data());
-        timeUsed = -1;
-        delete program;
+        result = MemoryLimitExceeded;
+        memoryUsed = -1;
         return;
     }
     
-    delete program;
+    delete runner;
 #endif
 }
 

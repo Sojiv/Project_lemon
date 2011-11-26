@@ -86,7 +86,6 @@ HEADERS  += lemon.h \
     newcontestdialog.h \
     opencontestdialog.h \
     welcomedialog.h \
-    linux_proc.h \
     addtaskdialog.h \
     qtlockedfile/qtlockedfile.h \
     qtsingleapplication/qtsinglecoreapplication.h \
@@ -127,6 +126,3 @@ win32:LIBS += -lpsapi
 win32:CONFIG += qaxcontainer
 
 RESOURCES += resource.qrc
-
-
-

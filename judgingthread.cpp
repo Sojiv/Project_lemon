@@ -22,11 +22,6 @@
 #include "settings.h"
 #include "task.h"
 
-#ifdef Q_OS_WIN32
-#include "windows.h"
-#include "psapi.h"
-#endif
-
 JudgingThread::JudgingThread(QObject *parent) :
     QThread(parent)
 {
@@ -557,147 +552,16 @@ void JudgingThread::specialJudge(const QString &fileName)
 void JudgingThread::runProgram()
 {
     result = CorrectAnswer;
+    int extraTime = qCeil(qMax(2000, timeLimit * 2) * extraTimeRatio);
     
 #ifdef Q_OS_WIN32
-    SetErrorMode(SEM_NOGPFAULTERRORBOX);
-    
-    STARTUPINFO si;
-    PROCESS_INFORMATION pi;
-    SECURITY_ATTRIBUTES sa;
-    
-    ZeroMemory(&si, sizeof(si));
-    si.cb = sizeof(si);
-    si.dwFlags = STARTF_USESTDHANDLES;
-    ZeroMemory(&pi, sizeof(pi));
-    ZeroMemory(&sa, sizeof(sa));
-    sa.bInheritHandle = TRUE;
-    
-    if (task->getStandardInputCheck())
-        si.hStdInput = CreateFile((const WCHAR*)(inputFile.utf16()), GENERIC_READ,
-                                  FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-                                  OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-    
-    if (task->getStandardOutputCheck())
-        si.hStdOutput = CreateFile((const WCHAR*)((workingDirectory + "_tmpout").utf16()), GENERIC_WRITE,
-                                   FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-                                   CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-    
-    si.hStdError = CreateFile((const WCHAR*)((workingDirectory + "_tmperr").utf16()), GENERIC_WRITE,
-                              FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
-                              CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-    
-    QString values = environment.toStringList().join('\0') + '\0';
-    if (! CreateProcess(NULL, (WCHAR*)(executableFile.utf16()), NULL, &sa,
-                        TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW, (LPVOID)(values.toLocal8Bit().data()),
-                        (const WCHAR*)(workingDirectory.utf16()), &si, &pi)) {
-        if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
-        if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
-        CloseHandle(si.hStdError);
-        score = 0;
-        result = CannotStartProgram;
-        return;
-    }
-    SetProcessWorkingSetSize(pi.hProcess, memoryLimit * 1024 * 1024 / 4, memoryLimit * 1024 * 1024);
-    
-    bool flag = false;
-    QElapsedTimer timer;
-    timer.start();
-    
-    while (timer.elapsed() < timeLimit * (1 + extraTimeRatio * 2)) {
-        if (WaitForSingleObject(pi.hProcess, 0) == WAIT_OBJECT_0) {
-            flag = true;
-            break;
-        }
-        if (memoryLimit != -1) {
-            PROCESS_MEMORY_COUNTERS info;
-            info.cb = sizeof(info);
-            GetProcessMemoryInfo(pi.hProcess, &info, sizeof(info));
-            memoryUsed = info.PeakWorkingSetSize;
-            if (memoryUsed > memoryLimit * 1024 * 1024) {
-                TerminateProcess(pi.hProcess, 0);
-                if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
-                if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
-                CloseHandle(si.hStdError);
-                CloseHandle(pi.hProcess);
-                CloseHandle(pi.hThread);
-                score = 0;
-                result = MemoryLimitExceeded;
-                timeUsed = -1;
-                return;
-            }
-        }
-        QCoreApplication::processEvents();
-        if (stopJudging) {
-            TerminateProcess(pi.hProcess, 0);
-            if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
-            if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
-            CloseHandle(si.hStdError);
-            CloseHandle(pi.hProcess);
-            CloseHandle(pi.hThread);
-            return;
-        }
-        Sleep(10);
-    }
-    
-    if (! flag) {
-        TerminateProcess(pi.hProcess, 0);
-        if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
-        if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
-        CloseHandle(si.hStdError);
-        CloseHandle(pi.hProcess);
-        CloseHandle(pi.hThread);
-        score = 0;
-        result = TimeLimitExceeded;
-        timeUsed = -1;
-        return;
-    }
-    
-    unsigned long exitCode;
-    GetExitCodeProcess(pi.hProcess, &exitCode);
-    if (exitCode != 0) {
-        if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
-        if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
-        CloseHandle(si.hStdError);
-        CloseHandle(pi.hProcess);
-        CloseHandle(pi.hThread);
-        score = 0;
-        result = RunTimeError;
-        QFile file(workingDirectory + "_tmperr");
-        if (file.open(QFile::ReadOnly)) {
-            QTextStream stream(&file);
-            message = stream.readAll();
-            file.close();
-        }
-        timeUsed = -1;
-        return;
-    }
-    
-    FILETIME creationTime, exitTime, kernelTime, userTime;
-    GetProcessTimes(pi.hProcess, &creationTime, &exitTime, &kernelTime, &userTime);
-    
-    SYSTEMTIME realTime;
-    FileTimeToSystemTime(&userTime, &realTime);
-    
-    timeUsed = realTime.wMilliseconds
-               + realTime.wSecond * 1000
-               + realTime.wMinute * 60 * 1000
-               + realTime.wHour * 60 * 60 * 1000;
-    
-    PROCESS_MEMORY_COUNTERS info;
-    info.cb = sizeof(info);
-    GetProcessMemoryInfo(pi.hProcess, &info, sizeof(info));
-    memoryUsed = info.PeakWorkingSetSize;
-    
-    if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
-    if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
-    CloseHandle(si.hStdError);
-    CloseHandle(pi.hProcess);
-    CloseHandle(pi.hThread);
+    QFile::copy(":/runner/runner_win32.exe", workingDirectory + "runner.exe");
 #endif
     
 #ifdef Q_OS_LINUX
     QFile::copy(":/runner/runner_unix", workingDirectory + "runner");
     QProcess::execute(QString("chmod +wx \"") + workingDirectory + "runner" + "\"");
+#endif
     
     QProcess *runner = new QProcess(this);
     QStringList arguments;
@@ -711,28 +575,26 @@ void JudgingThread::runProgram()
     else
         arguments << "";
     arguments << "_tmperr";
-    arguments << QString("%1").arg(qCeil(timeLimit * (1 + extraTimeRatio * 2)));
+    arguments << QString("%1").arg(timeLimit + extraTime);
     arguments << QString("%1").arg(memoryLimit);
     runner->setProcessEnvironment(environment);
     runner->setWorkingDirectory(workingDirectory);
+#ifdef Q_OS_WIN32
+    runner->start(workingDirectory + "runner.exe", arguments);
+#endif
+#ifdef Q_OS_LINUX
     runner->start(workingDirectory + "runner", arguments);
+#endif
     if (! runner->waitForStarted(-1)) {
         delete runner;
         score = 0;
         result = CannotStartProgram;
-        qDebug() << "jiong";
         return;
     }
     
-    bool flag = false;
-    QElapsedTimer timer;
-    timer.start();
-    
-    while (timer.elapsed() < timeLimit * (1 + extraTimeRatio * 2)) {
-        if (runner->state() != QProcess::Running) {
-            flag = true;
-            break;
-        }
+#ifdef Q_OS_WIN32
+    while (true) {
+        if (runner->state() != QProcess::Running) break;
         QCoreApplication::processEvents();
         if (stopJudging) {
             runner->kill();
@@ -741,15 +603,36 @@ void JudgingThread::runProgram()
         }
         msleep(10);
     }
+#endif
+    
+#ifdef Q_OS_LINUX
+    bool flag = false;
+    QElapsedTimer timer;
+    timer.start();
+    
+    while (timer.elapsed() < timeLimit + extraTime) {
+        if (runner->state() != QProcess::Running) {
+            flag = true;
+            break;
+        }
+        QCoreApplication::processEvents();
+        if (stopJudging) {
+            runner->terminate();
+            delete runner;
+            return;
+        }
+        msleep(10);
+    }
     
     if (! flag) {
-        runner->kill();
+        runner->terminate();
         delete runner;
         score = 0;
         result = TimeLimitExceeded;
         timeUsed = memoryLimit = -1;
         return;
     }
+#endif
     
     int code = runner->exitCode();
     
@@ -798,7 +681,6 @@ void JudgingThread::runProgram()
     }
     
     delete runner;
-#endif
 }
 
 void JudgingThread::judgeOutput()

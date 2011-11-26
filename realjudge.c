@@ -16,10 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
-#include "stdio.h"
-#include "math.h"
+#include <stdio.h>
+#include <math.h>
 
-int main(int argc, char **argv) {
+int main(int argc, char *argv[]) {
     FILE *contestantOutputFile = fopen(argv[1], "r");
     if (contestantOutputFile == NULL) {
         printf("Cannot open contestant\'s output file\n");

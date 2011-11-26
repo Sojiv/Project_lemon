@@ -603,7 +603,7 @@ void JudgingThread::runProgram()
         if (runner->state() != QProcess::Running) break;
         QCoreApplication::processEvents();
         if (stopJudging) {
-            runner->kill();
+            runner->waitForFinished(-1);
             delete runner;
             return;
         }

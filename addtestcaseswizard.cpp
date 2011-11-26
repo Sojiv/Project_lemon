@@ -26,9 +26,9 @@ AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) :
 {
     ui->setupUi(this);
     
-    ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), ui->fullScore));
-    ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), ui->timeLimit));
-    ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), ui->memoryLimit));
+    ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
+    ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
+    ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
     
     connect(ui->fullScore, SIGNAL(textChanged(QString)),
             this, SLOT(fullScoreChanged(QString)));
@@ -330,13 +330,15 @@ bool AddTestCasesWizard::validateCurrentPage()
         for (int i = 0; i < ui->argumentList->rowCount(); i ++) {
             if (inputFilesPattern.count(QString("<%1>").arg(i + 1)) > 1) {
                 ui->inputFilesPattern->setFocus();
-                QMessageBox::warning(this, tr("Error"), tr("Argument <%1> appears more than once in input files pattern!").arg(i + 1),
+                QMessageBox::warning(this, tr("Error"),
+                                     tr("Argument <%1> appears more than once in input files pattern!").arg(i + 1),
                                      QMessageBox::Close);
                 return false;
             }
             if (outputFilesPattern.count(QString("<%1>").arg(i + 1)) > 1) {
                 ui->outputFilesPattern->setFocus();
-                QMessageBox::warning(this, tr("Error"), tr("Argument <%1> appears more than once in output files pattern!").arg(i + 1),
+                QMessageBox::warning(this, tr("Error"),
+                                     tr("Argument <%1> appears more than once in output files pattern!").arg(i + 1),
                                      QMessageBox::Close);
                 return false;
             }

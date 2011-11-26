@@ -216,7 +216,8 @@ bool AssignmentThread::traditionalTaskPrepare()
                                     QStringList filters = compilerList[i]->getBytecodeExtensions();
                                     for (int k = 0; k < filters.size(); k ++)
                                         filters[k] = QString("*.") + filters[k];
-                                    if (QDir(Settings::temporaryPath() + contestantName).entryList(filters, QDir::Files).size() == 0)
+                                    if (QDir(Settings::temporaryPath() + contestantName)
+                                            .entryList(filters, QDir::Files).size() == 0)
                                         compileState = InvalidCompiler;
                                     else
                                         compileState = CompileSuccessfully;
@@ -338,7 +339,8 @@ void AssignmentThread::assign()
     connect(thread, SIGNAL(finished()), this, SLOT(threadFinished()));
     connect(this, SIGNAL(stopJudgingSignal()), thread, SLOT(stopJudgingSlot()));
     
-    inputFiles[curTestCaseIndex][curSingleCaseIndex] = QFileInfo(curTestCase->getInputFiles().at(curSingleCaseIndex)).fileName();
+    inputFiles[curTestCaseIndex][curSingleCaseIndex]
+            = QFileInfo(curTestCase->getInputFiles().at(curSingleCaseIndex)).fileName();
     thread->setInputFile(Settings::dataPath() + curTestCase->getInputFiles().at(curSingleCaseIndex));
     thread->setOutputFile(Settings::dataPath() + curTestCase->getOutputFiles().at(curSingleCaseIndex));
     thread->setFullScore(curTestCase->getFullScore());

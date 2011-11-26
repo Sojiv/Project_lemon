@@ -22,7 +22,7 @@
 #include <QtCore>
 #include <QObject>
 #include "globaltype.h"
-#define MagicNumber 0x20101231
+#define MagicNumber 0x20110316
 
 class Task;
 class Settings;

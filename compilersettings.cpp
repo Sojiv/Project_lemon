@@ -29,7 +29,7 @@ CompilerSettings::CompilerSettings(QWidget *parent) :
 {
     ui->setupUi(this);
     
-    ui->sourceExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), ui->sourceExtensions));
+    ui->sourceExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
     deleteCompilerKeyAction = new QAction(ui->compilerList);
     deleteCompilerKeyAction->setShortcutContext(Qt::WidgetShortcut);
     deleteCompilerKeyAction->setShortcut(QKeySequence::Delete);

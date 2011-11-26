@@ -34,10 +34,10 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
     connect(this, SIGNAL(dataPathChanged()),
             ui->specialJudge, SLOT(refreshFileList()));
     
-    ui->sourceFileName->setValidator(new QRegExpValidator(QRegExp("\\w+"), ui->sourceFileName));
-    ui->inputFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), ui->inputFileName));
-    ui->outputFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), ui->outputFileName));
-    ui->answerFileExtension->setValidator(new QRegExpValidator(QRegExp("\\w+"), ui->answerFileExtension));
+    ui->sourceFileName->setValidator(new QRegExpValidator(QRegExp("\\w+"), this));
+    ui->inputFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), this));
+    ui->outputFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), this));
+    ui->answerFileExtension->setValidator(new QRegExpValidator(QRegExp("\\w+"), this));
     
     connect(ui->problemTitle, SIGNAL(textChanged(QString)),
             this, SLOT(problemTitleChanged(QString)));

@@ -93,8 +93,14 @@ void TestCase::writeToStream(QDataStream &out)
     out << fullScore;
     out << timeLimit;
     out << memoryLimit;
-    out << inputFiles;
-    out << outputFiles;
+    QStringList _inputFiles(inputFiles);
+    for (int i = 0; i < _inputFiles.size(); i ++)
+        _inputFiles[i].replace(QDir::separator(), '/');
+    QStringList _outputFiles(outputFiles);
+    for (int i = 0; i < _outputFiles.size(); i ++)
+        _outputFiles[i].replace(QDir::separator(), '/');
+    out << _inputFiles;
+    out << _outputFiles;
 }
 
 void TestCase::readFromStream(QDataStream &in)
@@ -104,4 +110,8 @@ void TestCase::readFromStream(QDataStream &in)
     in >> memoryLimit;
     in >> inputFiles;
     in >> outputFiles;
+    for (int i = 0; i < inputFiles.size(); i ++)
+        inputFiles[i].replace('/', QDir::separator());
+    for (int i = 0; i < outputFiles.size(); i ++)
+        outputFiles[i].replace('/', QDir::separator());
 }

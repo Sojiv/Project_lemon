@@ -61,7 +61,8 @@ QString DetailDialog::getCode(Contest *contest, Contestant *contestant)
                         break;
                     }
                     case CompileTimeLimitExceeded: {
-                        htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
+                        htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: "))
+                                    .arg(contestant->getSourceFile(i));
                         htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Compile time limit exceeded"));
                         break;
                     }
@@ -70,7 +71,8 @@ QString DetailDialog::getCode(Contest *contest, Contestant *contestant)
                         break;
                     }
                     case CompileError: {
-                        htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
+                        htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: "))
+                                    .arg(contestant->getSourceFile(i));
                         htmlCode += QString("&nbsp;&nbsp;%1").arg(tr("Compile error"));
                         if (! contestant->getCompileMessage(i).isEmpty()) {
                             QString compileMessage = contestant->getCompileMessage(i);

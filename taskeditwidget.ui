@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>443</width>
+    <width>462</width>
     <height>438</height>
    </rect>
   </property>
@@ -23,8 +23,7 @@
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+      <string notr="true">font-size:9pt;font-weight:bold;</string>
      </property>
      <property name="text">
       <string>Problem Title</string>
@@ -43,8 +42,7 @@ font-weight: bold;</string>
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+      <string notr="true">font-size:9pt;font-weight:bold;</string>
      </property>
      <property name="text">
       <string>Task Type</string>
@@ -100,8 +98,7 @@ font-weight: bold;</string>
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+      <string notr="true">font-size:9pt;font-weight:bold;</string>
      </property>
      <property name="text">
       <string>Source File Name</string>
@@ -120,8 +117,7 @@ font-weight: bold;</string>
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+      <string notr="true">font-size:9pt;font-weight: bold;</string>
      </property>
      <property name="text">
       <string>Input File Name</string>
@@ -150,8 +146,7 @@ font-weight: bold;</string>
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+      <string notr="true">font-size:9pt;font-weight:bold;</string>
      </property>
      <property name="text">
       <string>Output File Name</string>
@@ -180,8 +175,7 @@ font-weight: bold;</string>
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+      <string notr="true">font-size:9pt;font-weight:bold;</string>
      </property>
      <property name="text">
       <string>Comparison Mode</string>
@@ -239,7 +233,7 @@ font-weight: bold;</string>
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true">font:8pt;</string>
          </property>
          <property name="text">
           <string>Real Number Precision:</string>
@@ -265,8 +259,7 @@ font-weight: bold;</string>
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">font: 8pt &quot;MS Shell Dlg 2&quot;;
-</string>
+          <string notr="true">font:8pt;</string>
          </property>
          <property name="text">
           <string>digits</string>
@@ -320,8 +313,7 @@ font-weight: bold;</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:9pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Compiler Settings</string>
@@ -403,8 +395,7 @@ font-weight: bold;</string>
         </sizepolicy>
        </property>
        <property name="styleSheet">
-        <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:9pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Extension of Contestant's Answer File</string>

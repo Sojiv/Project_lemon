@@ -26,9 +26,9 @@ AddTaskDialog::AddTaskDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     
-    ui->fullScore->setValidator(new QIntValidator(0, Settings::upperBoundForFullScore() * 100, ui->fullScore));
-    ui->timeLimit->setValidator(new QIntValidator(0, Settings::upperBoundForTimeLimit(), ui->timeLimit));
-    ui->memoryLimit->setValidator(new QIntValidator(0, Settings::upperBoundForMemoryLimit(), ui->memoryLimit));
+    ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore() * 100, this));
+    ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
+    ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
     
     connect(ui->taskBox, SIGNAL(currentIndexChanged(int)),
             this, SLOT(taskBoxIndexChanged()));

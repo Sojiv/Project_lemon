@@ -8,9 +8,9 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) :
 {
     ui->setupUi(this);
     
-    ui->sourceFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), ui->sourceFileExtensions));
-    ui->bytecodeFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), ui->bytecodeFileExtensions));
-    ui->javaMemoryLimit->setValidator(new QIntValidator(128, 2048, ui->javaMemoryLimit));
+    ui->sourceFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
+    ui->bytecodeFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
+    ui->javaMemoryLimit->setValidator(new QIntValidator(128, 2048, this));
     
 #ifdef Q_OS_LINUX
     if (QFileInfo("/usr/bin/gcc").exists())

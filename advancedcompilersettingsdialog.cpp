@@ -28,7 +28,7 @@ AdvancedCompilerSettingsDialog::AdvancedCompilerSettingsDialog(QWidget *parent) 
     ui->setupUi(this);
     
     editCompiler = new Compiler(this);
-    ui->bytecodeExtension->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), ui->bytecodeExtension));
+    ui->bytecodeExtension->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
     ui->configurationSelect->setLineEdit(new QLineEdit(this));
     
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()),

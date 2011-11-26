@@ -598,6 +598,7 @@ void JudgingThread::runProgram()
                         (const WCHAR*)(workingDirectory.utf16()), &si, &pi)) {
         if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
         if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+        CloseHandle(si.hStdError);
         score = 0;
         result = CannotStartProgram;
         return;
@@ -615,12 +616,14 @@ void JudgingThread::runProgram()
         }
         if (memoryLimit != -1) {
             PROCESS_MEMORY_COUNTERS info;
+            info.cb = sizeof(info);
             GetProcessMemoryInfo(pi.hProcess, &info, sizeof(info));
             memoryUsed = info.PeakWorkingSetSize;
             if (memoryUsed > memoryLimit * 1024 * 1024) {
                 TerminateProcess(pi.hProcess, 0);
                 if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
                 if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+                CloseHandle(si.hStdError);
                 CloseHandle(pi.hProcess);
                 CloseHandle(pi.hThread);
                 score = 0;
@@ -634,6 +637,7 @@ void JudgingThread::runProgram()
             TerminateProcess(pi.hProcess, 0);
             if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
             if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+            CloseHandle(si.hStdError);
             CloseHandle(pi.hProcess);
             CloseHandle(pi.hThread);
             return;
@@ -645,6 +649,7 @@ void JudgingThread::runProgram()
         TerminateProcess(pi.hProcess, 0);
         if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
         if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+        CloseHandle(si.hStdError);
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
         score = 0;
@@ -658,6 +663,7 @@ void JudgingThread::runProgram()
     if (exitCode != 0) {
         if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
         if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+        CloseHandle(si.hStdError);
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
         score = 0;
@@ -666,6 +672,7 @@ void JudgingThread::runProgram()
         if (file.open(QFile::ReadOnly)) {
             QTextStream stream(&file);
             message = stream.readAll();
+            file.close();
         }
         timeUsed = -1;
         return;
@@ -683,6 +690,7 @@ void JudgingThread::runProgram()
                + realTime.wHour * 60 * 60 * 1000;
     
     PROCESS_MEMORY_COUNTERS info;
+    info.cb = sizeof(info);
     GetProcessMemoryInfo(pi.hProcess, &info, sizeof(info));
     memoryUsed = info.PeakWorkingSetSize;
     

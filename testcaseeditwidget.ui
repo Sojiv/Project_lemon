@@ -169,8 +169,7 @@
         </sizepolicy>
        </property>
        <property name="styleSheet">
-        <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:9pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Full Score</string>
@@ -215,8 +214,7 @@ font-weight: bold;</string>
         </sizepolicy>
        </property>
        <property name="styleSheet">
-        <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:9pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Time Limit</string>
@@ -281,8 +279,7 @@ font-weight: bold;</string>
         </sizepolicy>
        </property>
        <property name="styleSheet">
-        <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:9pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Memory Limit</string>

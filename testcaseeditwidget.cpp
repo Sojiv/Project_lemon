@@ -35,9 +35,9 @@ TestCaseEditWidget::TestCaseEditWidget(QWidget *parent) :
     deleteAction->setEnabled(false);
     ui->fileList->addAction(deleteAction);
     
-    ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), ui->fullScore));
-    ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), ui->timeLimit));
-    ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), ui->memoryLimit));
+    ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
+    ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
+    ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
     ui->fileList->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
     
     ui->inputFileEdit->setFilters(QDir::Files);

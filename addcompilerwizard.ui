@@ -19,6 +19,9 @@
   <property name="windowTitle">
    <string>Add Compilers Wizard</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font-size:9pt;</string>
+  </property>
   <widget class="QWizardPage" name="selectTypePage">
    <layout class="QVBoxLayout" name="verticalLayout_6">
     <property name="spacing">
@@ -27,8 +30,7 @@
     <item>
      <widget class="QLabel" name="stepOneLabel">
       <property name="styleSheet">
-       <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+       <string notr="true">font-size:10pt;font-weight:bold;</string>
       </property>
       <property name="text">
        <string>Step I: Choose whether you want to use built-in configuration for certain compilers or customize a compiler's configuration.</string>
@@ -216,8 +218,7 @@ font-weight: bold;</string>
     <item>
      <widget class="QLabel" name="stepTwoLabel">
       <property name="styleSheet">
-       <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+       <string notr="true">font-size:10pt;font-weight:bold;</string>
       </property>
       <property name="text">
        <string>Step II: Select compiler's location to configure it.</string>
@@ -494,8 +495,7 @@ font-weight: bold;</string>
     <item>
      <widget class="QLabel" name="stepTwoLabel_2">
       <property name="styleSheet">
-       <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+       <string notr="true">font-size:10pt;font-weight:bold;</string>
       </property>
       <property name="text">
        <string>Step II: Select compilers' locations to configure them.</string>
@@ -915,8 +915,7 @@ font-weight: bold;</string>
     <item>
      <widget class="QLabel" name="stepThreeLabel">
       <property name="styleSheet">
-       <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+       <string notr="true">font-size:10pt;font-weight:bold;</string>
       </property>
       <property name="text">
        <string>Step III: Check the result and finish the wizard.</string>

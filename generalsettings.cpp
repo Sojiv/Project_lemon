@@ -26,15 +26,15 @@ GeneralSettings::GeneralSettings(QWidget *parent) :
 {
     ui->setupUi(this);
     
-    ui->defaultFullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), ui->defaultFullScore));
-    ui->defaultTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), ui->defaultTimeLimit));
-    ui->defaultMemoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), ui->defaultMemoryLimit));
-    ui->compileTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), ui->compileTimeLimit));
-    ui->specialJudgeTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), ui->specialJudgeTimeLimit));
-    ui->fileSizeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForFileSizeLimit(), ui->fileSizeLimit));
-    ui->numberOfThreads->setValidator(new QIntValidator(1, Settings::upperBoundForNumberOfThreads(), ui->defaultFullScore));
-    ui->inputFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), ui->inputFileExtensions));
-    ui->outputFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), ui->outputFileExtensions));
+    ui->defaultFullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
+    ui->defaultTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
+    ui->defaultMemoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
+    ui->compileTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
+    ui->specialJudgeTimeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
+    ui->fileSizeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForFileSizeLimit(), this));
+    ui->numberOfThreads->setValidator(new QIntValidator(1, Settings::upperBoundForNumberOfThreads(), this));
+    ui->inputFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
+    ui->outputFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
     
     connect(ui->defaultFullScore, SIGNAL(textChanged(QString)),
             this, SLOT(defaultFullScoreChanged(QString)));

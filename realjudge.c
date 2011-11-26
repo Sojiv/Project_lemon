@@ -32,8 +32,8 @@ int main(int argc, char **argv) {
         return 0;
     }
     
-	int realPrecision, i;
-	sscanf(argv[3], "%d", &realPrecision);
+    int realPrecision, i;
+    sscanf(argv[3], "%d", &realPrecision);
     double eps = 1;
     for (i = 0; i < realPrecision; i ++)
         eps *= 0.1;
@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
         }
     }
     
-	printf("Correct answer\n");
+    printf("Correct answer\n");
     fclose(contestantOutputFile);
     fclose(standardOutputFile);
     return 0;

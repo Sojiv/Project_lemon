@@ -385,7 +385,6 @@ void Contest::stopJudgingSlot()
 
 void Contest::writeToStream(QDataStream &out)
 {
-    out << signed(MagicNumber);
     out << contestTitle;
     out << taskList.size();
     for (int i = 0; i < taskList.size(); i ++)

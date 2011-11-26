@@ -88,8 +88,7 @@
            </sizepolicy>
           </property>
           <property name="styleSheet">
-           <string notr="true">font-size:9pt;
-font-weight:bold;</string>
+           <string notr="true">font-size:9pt;font-weight:bold;</string>
           </property>
           <property name="text">
            <string>Compiler</string>
@@ -115,8 +114,7 @@ font-weight:bold;</string>
            </sizepolicy>
           </property>
           <property name="styleSheet">
-           <string notr="true">font-size:9pt;
-font-weight:bold;</string>
+           <string notr="true">font-size:9pt;font-weight:bold;</string>
           </property>
           <property name="text">
            <string>Interpreter</string>
@@ -149,8 +147,7 @@ font-weight:bold;</string>
            </sizepolicy>
           </property>
           <property name="styleSheet">
-           <string notr="true">font-size:9pt;
-font-weight:bold;</string>
+           <string notr="true">font-size:9pt;font-weight:bold;</string>
           </property>
           <property name="text">
            <string>Byte-code File Extensions</string>
@@ -203,8 +200,7 @@ font-weight:bold;</string>
       <item row="0" column="0">
        <widget class="QLabel" name="timeLimitRationLabel">
         <property name="styleSheet">
-         <string notr="true">font-size:9pt;
-font-weight:bold;</string>
+         <string notr="true">font-size:9pt;font-weight:bold;</string>
         </property>
         <property name="text">
          <string>Time Limit Ration</string>
@@ -240,8 +236,7 @@ font-weight:bold;</string>
       <item row="1" column="0">
        <widget class="QLabel" name="memoryLimitRatioLabel">
         <property name="styleSheet">
-         <string notr="true">font-size:9pt;
-font-weight:bold;</string>
+         <string notr="true">font-size:9pt;font-weight:bold;</string>
         </property>
         <property name="text">
          <string>Memory Limit Ration</string>
@@ -311,8 +306,7 @@ font-weight:bold;</string>
          </sizepolicy>
         </property>
         <property name="styleSheet">
-         <string notr="true">font-size:9pt;
-font-weight:bold;</string>
+         <string notr="true">font-size:9pt;font-weight:bold;</string>
         </property>
         <property name="text">
          <string>Configuration</string>
@@ -348,8 +342,7 @@ font-weight:bold;</string>
          </sizepolicy>
         </property>
         <property name="styleSheet">
-         <string notr="true">font-size:9pt;
-font-weight:bold;</string>
+         <string notr="true">font-size:9pt;font-weight:bold;</string>
         </property>
         <property name="text">
          <string>Compiler's Arguments</string>
@@ -368,8 +361,7 @@ font-weight:bold;</string>
          </sizepolicy>
         </property>
         <property name="styleSheet">
-         <string notr="true">font-size:9pt;
-font-weight:bold;</string>
+         <string notr="true">font-size:9pt;font-weight:bold;</string>
         </property>
         <property name="text">
          <string>Interpreter's Arguments</string>
@@ -408,6 +400,9 @@ font-weight:bold;</string>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">font-size:9pt;</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

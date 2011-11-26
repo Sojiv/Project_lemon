@@ -124,8 +124,7 @@
         <item>
          <widget class="ResultViewer" name="resultViewer">
           <property name="styleSheet">
-           <string notr="true">font-size: 9pt;
-</string>
+           <string notr="true">font-size:9pt;</string>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>

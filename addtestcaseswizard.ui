@@ -19,6 +19,9 @@
   <property name="windowTitle">
    <string>Add Test Cases</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font-size:9pt;</string>
+  </property>
   <widget class="QWizardPage" name="wizardPage1">
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
@@ -27,8 +30,7 @@
     <item>
      <widget class="QLabel" name="stepOneLabel">
       <property name="styleSheet">
-       <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+       <string notr="true">font-size:10pt;font-weight:bold;</string>
       </property>
       <property name="text">
        <string>Step I: Input the full score, time limit and memory limit for each new test case.</string>
@@ -49,8 +51,7 @@ font-weight: bold;</string>
       <item row="0" column="0">
        <widget class="QLabel" name="fullScoreLabel">
         <property name="styleSheet">
-         <string notr="true">font-size: 9pt;
-</string>
+         <string notr="true">font-size:9pt;</string>
         </property>
         <property name="text">
          <string>Full Score</string>
@@ -96,8 +97,7 @@ font-weight: bold;</string>
       <item row="1" column="0">
        <widget class="QLabel" name="timeLimitLabel">
         <property name="styleSheet">
-         <string notr="true">font-size: 9pt;
-</string>
+         <string notr="true">font-size:9pt;</string>
         </property>
         <property name="text">
          <string>Time Limit</string>
@@ -131,8 +131,7 @@ font-weight: bold;</string>
         <item>
          <widget class="QLabel" name="msLabel">
           <property name="styleSheet">
-           <string notr="true">font-size: 9pt;
-</string>
+           <string notr="true">font-size:9pt;</string>
           </property>
           <property name="text">
            <string>ms</string>
@@ -157,8 +156,7 @@ font-weight: bold;</string>
       <item row="2" column="0">
        <widget class="QLabel" name="memoryLimitLabel">
         <property name="styleSheet">
-         <string notr="true">font-size: 9pt;
-</string>
+         <string notr="true">font-size:9pt;</string>
         </property>
         <property name="text">
          <string>Memory Limit</string>
@@ -192,8 +190,7 @@ font-weight: bold;</string>
         <item>
          <widget class="QLabel" name="mbLabel">
           <property name="styleSheet">
-           <string notr="true">font-size: 9pt;
-</string>
+           <string notr="true">font-size:9pt;</string>
           </property>
           <property name="text">
            <string>MB</string>
@@ -240,8 +237,7 @@ font-weight: bold;</string>
     <item>
      <widget class="QLabel" name="stepTwoLabel">
       <property name="styleSheet">
-       <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+       <string notr="true">font-size:10pt;font-weight:bold;</string>
       </property>
       <property name="text">
        <string>Step II: Input patterns for input files and output files. You can use argument &lt;1&gt;, &lt;2&gt;, etc. to represent a regular expression. Input and output files will in the same test case when their matched parts of checked expressions are identical.</string>
@@ -262,8 +258,7 @@ font-weight: bold;</string>
       <item row="0" column="0">
        <widget class="QLabel" name="inputFilesPatternLabel">
         <property name="styleSheet">
-         <string notr="true">font-size: 9pt;
-</string>
+         <string notr="true">font-size:9pt;</string>
         </property>
         <property name="text">
          <string>Input Files Pattern</string>
@@ -280,8 +275,7 @@ font-weight: bold;</string>
       <item row="1" column="0">
        <widget class="QLabel" name="outputFilesPatternLabel">
         <property name="styleSheet">
-         <string notr="true">font-size: 9pt;
-</string>
+         <string notr="true">font-size:9pt;</string>
         </property>
         <property name="text">
          <string>Output Files Pattern</string>
@@ -438,8 +432,7 @@ font-weight: bold;</string>
     <item>
      <widget class="QLabel" name="stepThreeLabel">
       <property name="styleSheet">
-       <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+       <string notr="true">font-size:10pt;font-weight:bold;</string>
       </property>
       <property name="text">
        <string>Step III: Preview the result and finish the wizard.</string>

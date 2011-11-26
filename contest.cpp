@@ -138,7 +138,15 @@ void Contest::clearPath(const QString &curDir)
     QDir dir(curDir);
     QStringList fileList = dir.entryList(QDir::Files);
     for (int i = 0; i < fileList.size(); i ++)
-        dir.remove(fileList[i]);
+        if (! dir.remove(fileList[i])) {
+#ifdef Q_OS_WIN32
+            QProcess::execute(QString("attrib -R \"") + curDir + fileList[i] + "\"");
+#endif
+#ifdef Q_OS_LINUX
+            QProcess::execute(QString("chmod +w \"") + curDir + fileList[i] + "\"");
+#endif
+            dir.remove(fileList[i]);
+        }
     QStringList dirList = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
     for (int i = 0; i < dirList.size(); i ++) {
         clearPath(curDir + dirList[i] + QDir::separator());

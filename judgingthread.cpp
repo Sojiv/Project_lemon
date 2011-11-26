@@ -658,7 +658,7 @@ void JudgingThread::runProgram()
     QElapsedTimer timer;
     timer.start();
     
-    while (timer.elapsed() < timeLimit + extraTime) {
+    while (timer.elapsed() <= timeLimit + extraTime) {
         if (WaitForSingleObject(pi.hProcess, 0) == WAIT_OBJECT_0) {
             flag = true;
             break;
@@ -746,14 +746,14 @@ void JudgingThread::runProgram()
 #endif
     
 #ifdef Q_OS_LINUX
-    QFile::copy(":/runner/runner_unix", workingDirectory + "runner");
-    QProcess::execute(QString("chmod +wx \"") + workingDirectory + "runner" + "\"");
+    QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
+    QProcess::execute(QString("chmod +wx \"") + workingDirectory + "watcher" + "\"");
     
     QProcess *runner = new QProcess(this);
     QStringList argumentsList;
     argumentsList << executableFile << QString("\"%1\" %2").arg(executableFile, arguments);
     if (task->getStandardInputCheck())
-        argumentsList << QFileInfo(inputFile).absoluteFilePath().replace('/', QDir::separator());
+        argumentsList << inputFile;
     else
         argumentsList << "";
     if (task->getStandardOutputCheck())
@@ -765,7 +765,7 @@ void JudgingThread::runProgram()
     argumentsList << QString("%1").arg(memoryLimit);
     runner->setProcessEnvironment(environment);
     runner->setWorkingDirectory(workingDirectory);
-    runner->start(workingDirectory + "runner", argumentsList);
+    runner->start(workingDirectory + "watcher", argumentsList);
     if (! runner->waitForStarted(-1)) {
         delete runner;
         score = 0;
@@ -777,7 +777,7 @@ void JudgingThread::runProgram()
     QElapsedTimer timer;
     timer.start();
     
-    while (timer.elapsed() < timeLimit + extraTime) {
+    while (timer.elapsed() <= timeLimit + extraTime) {
         if (runner->state() != QProcess::Running) {
             flag = true;
             break;

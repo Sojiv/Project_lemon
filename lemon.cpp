@@ -31,7 +31,6 @@
 #include "welcomedialog.h"
 #include "addtaskdialog.h"
 #include "detaildialog.h"
-#include "time.h"
 
 Lemon::Lemon(QWidget *parent) :
     QMainWindow(parent),

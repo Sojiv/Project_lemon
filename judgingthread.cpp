@@ -724,8 +724,15 @@ void JudgingThread::runProgram()
         return;
     }
     
-    while (true) {
-        if (runner->state() != QProcess::Running) break;
+    bool flag = false;
+    QElapsedTimer timer;
+    timer.start();
+    
+    while (timer.elapsed() < timeLimit * (1 + extraTimeRatio * 2)) {
+        if (runner->state() != QProcess::Running) {
+            flag = true;
+            break;
+        }
         QCoreApplication::processEvents();
         if (stopJudging) {
             runner->kill();
@@ -733,6 +740,15 @@ void JudgingThread::runProgram()
             return;
         }
         msleep(10);
+    }
+    
+    if (! flag) {
+        runner->kill();
+        delete runner;
+        score = 0;
+        result = TimeLimitExceeded;
+        timeUsed = memoryLimit = -1;
+        return;
     }
     
     int code = runner->exitCode();
@@ -762,6 +778,8 @@ void JudgingThread::runProgram()
     QString out = QString::fromLocal8Bit(runner->readAllStandardOutput().data());
     QTextStream stream(&out, QIODevice::ReadOnly);
     stream >> timeUsed >> memoryUsed;
+    
+    if (memoryUsed <= 0) memoryLimit = -1;
     
     if (code == 3) {
         delete runner;

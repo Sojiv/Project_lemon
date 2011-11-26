@@ -16,6 +16,6 @@
         <file>realjudge_linux</file>
     </qresource>
     <qresource prefix="/watcher">
-        <file>watcher_linux</file>
+        <file>watcher_unix</file>
     </qresource>
 </RCC>

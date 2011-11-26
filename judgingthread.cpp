@@ -785,6 +785,7 @@ void JudgingThread::runProgram()
         QCoreApplication::processEvents();
         if (stopJudging) {
             runner->terminate();
+            runner->waitForFinished(-1);
             delete runner;
             return;
         }
@@ -793,6 +794,7 @@ void JudgingThread::runProgram()
     
     if (! flag) {
         runner->terminate();
+        runner->waitForFinished(-1);
         delete runner;
         score = 0;
         result = TimeLimitExceeded;

@@ -626,6 +626,8 @@ void Lemon::makeSelfTest()
             QFile::copy(":/judge/realjudge_win32.exe",
                         Settings::selfTestPath() + taskList[i]->getProblemTile()
                         + QDir::separator() + "realjudge.exe");
+            QProcess::execute(QString("attrib -R \"") + Settings::selfTestPath() + taskList[i]->getProblemTile()
+                              + QDir::separator() + "realjudge.exe" + "\"");
 #endif
 #ifdef Q_OS_LINUX
             QFile::copy(":/judge/realjudge_linux",

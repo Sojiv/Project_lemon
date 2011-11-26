@@ -161,12 +161,13 @@ bool AssignmentThread::traditionalTaskPrepare()
 #ifdef Q_OS_LINUX
                                 executableFile = task->getSourceFileName();
 #endif
+                                interpreterFlag = false;
                     } else {
-                        executableFile = QString("\"") + compilerList[i]->getInterpreterLocation() + "\" ";
-                        QString arguments = interpreterArguments[j];
+                        executableFile = compilerList[i]->getInterpreterLocation();
+                        arguments = interpreterArguments[j];
                         arguments.replace("%s.*", sourceFile);
                         arguments.replace("%s", task->getSourceFileName());
-                        executableFile += arguments;
+                        interpreterFlag = true;
                     }
                     
                     if (compilerList[i]->getCompilerType() != Compiler::InterpretiveWithoutByteCode) {
@@ -313,9 +314,9 @@ void AssignmentThread::assign()
         thread->setExtraTimeRatio(0.1);
     else
         thread->setExtraTimeRatio(0.1 * settings->getNumberOfThreads());
-    QString workingDirectory = QDir(Settings::temporaryPath()
+    QString workingDirectory = QDir::toNativeSeparators(QDir(Settings::temporaryPath()
                                + QString("_%1.%2").arg(curTestCaseIndex).arg(curSingleCaseIndex))
-                               .absolutePath() + QDir::separator();
+                               .absolutePath()) + QDir::separator();
     thread->setWorkingDirectory(workingDirectory);
     QDir(Settings::temporaryPath()).mkdir(QString("_%1.%2").arg(curTestCaseIndex).arg(curSingleCaseIndex));
     QStringList entryList = QDir(Settings::temporaryPath() + contestantName).entryList(QDir::Files);
@@ -323,11 +324,13 @@ void AssignmentThread::assign()
         QFile::copy(Settings::temporaryPath() + contestantName + QDir::separator() + entryList[i],
                     workingDirectory + entryList[i]);
     thread->setSpecialJudgeTimeLimit(settings->getSpecialJudgeTimeLimit());
-    if (task->getTaskType() == Task::Traditional)
-        if (executableFile[0] == '\"')
+    if (task->getTaskType() == Task::Traditional) {
+        if (interpreterFlag)
             thread->setExecutableFile(executableFile);
         else
             thread->setExecutableFile(workingDirectory + executableFile);
+        thread->setArguments(arguments);
+    }
     if (task->getTaskType() == Task::AnswersOnly) {
         QString fileName;
         fileName = QFileInfo(curTestCase->getInputFiles().at(curSingleCaseIndex)).completeBaseName();

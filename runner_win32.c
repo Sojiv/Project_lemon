@@ -32,7 +32,7 @@ void cleanUp() {
     exit(2);
 }
 
-int _tmain(int argc, TCHAR *argv[]) {
+int main(int argc, char *argv[]) {
     SetErrorMode(SEM_NOGPFAULTERRORBOX);
     
     STARTUPINFO si;
@@ -45,32 +45,32 @@ int _tmain(int argc, TCHAR *argv[]) {
     ZeroMemory(&sa, sizeof(sa));
     sa.bInheritHandle = TRUE;
     
-    if (_tcslen(argv[2]) > 0) {
-        si.hStdInput = CreateFile(argv[2], GENERIC_READ,
+    if (_tcslen(argv[3]) > 0) {
+        si.hStdInput = CreateFile(argv[3], GENERIC_READ,
                                   FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
                                   OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     }
-    if (_tcslen(argv[3]) > 0) {
-        si.hStdOutput = CreateFile(argv[3], GENERIC_WRITE,
+    if (_tcslen(argv[4]) > 0) {
+        si.hStdOutput = CreateFile(argv[4], GENERIC_WRITE,
                                    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
                                    CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     }
-    if (_tcslen(argv[4]) > 0) {
-        si.hStdError = CreateFile(argv[4], GENERIC_WRITE,
+    if (_tcslen(argv[5]) > 0) {
+        si.hStdError = CreateFile(argv[5], GENERIC_WRITE,
                                   FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, &sa,
                                   CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     }
     
     int timeLimit, memoryLimit;
-    sscanf(argv[5], "%d", &timeLimit);
-    sscanf(argv[6], "%d", &memoryLimit);
+    sscanf(argv[6], "%d", &timeLimit);
+    sscanf(argv[7], "%d", &memoryLimit);
     memoryLimit *= 1024 * 1024;
     
-    if (! CreateProcess(NULL, argv[1], NULL, &sa, TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW,
+    if (! CreateProcess(argv[1], argv[2], NULL, &sa, TRUE, HIGH_PRIORITY_CLASS | CREATE_NO_WINDOW,
                         NULL, NULL, &si, &pi)) {
-        if (_tcslen(argv[2]) > 0) CloseHandle(si.hStdInput);
-        if (_tcslen(argv[3]) > 0) CloseHandle(si.hStdOutput);
-        if (_tcslen(argv[4]) > 0) CloseHandle(si.hStdError);
+        if (_tcslen(argv[3]) > 0) CloseHandle(si.hStdInput);
+        if (_tcslen(argv[4]) > 0) CloseHandle(si.hStdOutput);
+        if (_tcslen(argv[5]) > 0) CloseHandle(si.hStdError);
         return 1;
     }
     
@@ -79,9 +79,9 @@ int _tmain(int argc, TCHAR *argv[]) {
     GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS*)&info, info.cb);
     if (memoryLimit != -1 && info.PrivateUsage > memoryLimit) {
         TerminateProcess(pi.hProcess, 0);
-        if (_tcslen(argv[2]) > 0) CloseHandle(si.hStdInput);
-        if (_tcslen(argv[3]) > 0) CloseHandle(si.hStdOutput);
-        if (_tcslen(argv[4]) > 0) CloseHandle(si.hStdError);
+        if (_tcslen(argv[3]) > 0) CloseHandle(si.hStdInput);
+        if (_tcslen(argv[4]) > 0) CloseHandle(si.hStdOutput);
+        if (_tcslen(argv[5]) > 0) CloseHandle(si.hStdError);
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
         return 4;
@@ -107,9 +107,9 @@ int _tmain(int argc, TCHAR *argv[]) {
             GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS*)&info, info.cb);
             if (info.PrivateUsage > memoryLimit) {
                 TerminateProcess(pi.hProcess, 0);
-                if (_tcslen(argv[2]) > 0) CloseHandle(si.hStdInput);
-                if (_tcslen(argv[3]) > 0) CloseHandle(si.hStdOutput);
-                if (_tcslen(argv[4]) > 0) CloseHandle(si.hStdError);
+                if (_tcslen(argv[3]) > 0) CloseHandle(si.hStdInput);
+                if (_tcslen(argv[4]) > 0) CloseHandle(si.hStdOutput);
+                if (_tcslen(argv[5]) > 0) CloseHandle(si.hStdError);
                 CloseHandle(pi.hProcess);
                 CloseHandle(pi.hThread);
                 return 4;
@@ -138,9 +138,9 @@ int _tmain(int argc, TCHAR *argv[]) {
     DWORD exitCode;
     GetExitCodeProcess(pi.hProcess, &exitCode);
     
-    if (_tcslen(argv[2]) > 0) CloseHandle(si.hStdInput);
-    if (_tcslen(argv[3]) > 0) CloseHandle(si.hStdOutput);
-    if (_tcslen(argv[4]) > 0) CloseHandle(si.hStdError);
+    if (_tcslen(argv[3]) > 0) CloseHandle(si.hStdInput);
+    if (_tcslen(argv[4]) > 0) CloseHandle(si.hStdOutput);
+    if (_tcslen(argv[5]) > 0) CloseHandle(si.hStdError);
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
     

@@ -16,7 +16,7 @@
         <file>realjudge_linux</file>
     </qresource>
     <qresource prefix="/runner">
-        <file>realjudge_win32.exe</file>
-        <file>realjudge_linux</file>
+        <file>runner_win32.exe</file>
+        <file>runner_linux</file>
     </qresource>
 </RCC>

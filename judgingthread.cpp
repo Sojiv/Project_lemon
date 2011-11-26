@@ -63,6 +63,11 @@ void JudgingThread::setExecutableFile(const QString &fileName)
     executableFile = fileName;
 }
 
+void JudgingThread::setArguments(const QString &argumentsList)
+{
+    arguments = argumentsList;
+}
+
 void JudgingThread::setAnswerFile(const QString &fileName)
 {
     answerFile = fileName;
@@ -556,6 +561,7 @@ void JudgingThread::runProgram()
     
 #ifdef Q_OS_WIN32
     QFile::copy(":/runner/runner_win32.exe", workingDirectory + "runner.exe");
+    QProcess::execute(QString("attrib -R \"") + workingDirectory + "runner.exe" + "\"");
 #endif
     
 #ifdef Q_OS_LINUX
@@ -564,26 +570,26 @@ void JudgingThread::runProgram()
 #endif
     
     QProcess *runner = new QProcess(this);
-    QStringList arguments;
-    arguments << executableFile;
+    QStringList argumentsList;
+    argumentsList << executableFile << QString("\"%1\" %2").arg(executableFile, arguments);
     if (task->getStandardInputCheck())
-        arguments << QFileInfo(inputFile).absoluteFilePath();
+        argumentsList << QFileInfo(inputFile).absoluteFilePath().replace('/', QDir::separator());
     else
-        arguments << "";
+        argumentsList << "";
     if (task->getStandardOutputCheck())
-        arguments << "_tmpout";
+        argumentsList << "_tmpout";
     else
-        arguments << "";
-    arguments << "_tmperr";
-    arguments << QString("%1").arg(timeLimit + extraTime);
-    arguments << QString("%1").arg(memoryLimit);
+        argumentsList << "";
+    argumentsList << "_tmperr";
+    argumentsList << QString("%1").arg(timeLimit + extraTime);
+    argumentsList << QString("%1").arg(memoryLimit);
     runner->setProcessEnvironment(environment);
     runner->setWorkingDirectory(workingDirectory);
 #ifdef Q_OS_WIN32
-    runner->start(workingDirectory + "runner.exe", arguments);
+    runner->start(workingDirectory + "runner.exe", argumentsList);
 #endif
 #ifdef Q_OS_LINUX
-    runner->start(workingDirectory + "runner", arguments);
+    runner->start(workingDirectory + "runner", argumentsList);
 #endif
     if (! runner->waitForStarted(-1)) {
         delete runner;

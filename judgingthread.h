@@ -36,6 +36,7 @@ public:
     void setWorkingDirectory(const QString&);
     void setSpecialJudgeTimeLimit(int);
     void setExecutableFile(const QString&);
+    void setArguments(const QString&);
     void setAnswerFile(const QString&);
     void setInputFile(const QString&);
     void setOutputFile(const QString&);
@@ -58,6 +59,7 @@ private:
     QProcessEnvironment environment;
     QString workingDirectory;
     QString executableFile;
+    QString arguments;
     QString answerFile;
     QString inputFile;
     QString outputFile;

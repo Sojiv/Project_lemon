@@ -724,6 +724,10 @@ void Lemon::makeSelfTest()
                     out << QString("fc \"%1\" \"%2\" /W")
                            .arg(outputFileName, outputFile) << endl;
                 }
+                if (taskList[i]->getComparisonMode() == Task::ExternalToolMode) {
+                    out << QString("fc \"%1\" \"%2\"")
+                           .arg(outputFileName, outputFile) << endl;
+                }
                 if (taskList[i]->getComparisonMode() == Task::RealNumberMode) {
                     out << QString("realjudge.exe \"%1\" \"%2\" \"%3\"")
                            .arg(outputFileName).arg(outputFile).arg(taskList[i]->getRealPrecision()) << endl;
@@ -784,9 +788,18 @@ void Lemon::makeSelfTest()
                     out << "fi" << endl;
                 }
                 if (taskList[i]->getComparisonMode() == Task::IgnoreSpacesMode) {
-                    QString arg = QString("\"%1\" \"%2\"").arg(outputFileName, outputFile);
-                    out << "if ! diff " << arg << " --strip-trailing-cr -q --ignore-space-change;then" << endl;
-                    out << "diff " << arg << " --strip-trailing-cr -y --ignore-space-change" << endl;
+                    QString arg = QString(" \"%1\" \"%2\"").arg(outputFileName, outputFile);
+                    out << "if ! diff" << " --strip-trailing-cr -q --ignore-space-change" << arg << ";then" << endl;
+                    out << "diff" << " --strip-trailing-cr -y --ignore-space-change" << arg << endl;
+                    out << QString("echo \"Wrong answer\"") << endl;
+                    out << "else" << endl;
+                    out << QString("echo \"Correct answer\"") << endl;
+                    out << "fi" << endl;
+                }
+                if (taskList[i]->getComparisonMode() == Task::ExternalToolMode) {
+                    QString arg = QString(" \"%1\" \"%2\"").arg(outputFileName, outputFile);
+                    out << "if ! diff " << taskList[i]->getDiffArguments() << arg << ";then" << endl;
+                    out << "diff " << taskList[i]->getDiffArguments() << arg << endl;
                     out << QString("echo \"Wrong answer\"") << endl;
                     out << "else" << endl;
                     out << QString("echo \"Correct answer\"") << endl;

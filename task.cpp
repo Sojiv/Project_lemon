@@ -26,6 +26,7 @@ Task::Task(QObject *parent) :
 {
     taskType = Traditional;
     comparisonMode = LineByLineMode;
+    diffArguments = "--ignore-space-change --text --brief";
     realPrecision = 3;
     standardInputCheck = false;
     standardOutputCheck = false;
@@ -74,6 +75,11 @@ Task::TaskType Task::getTaskType() const
 Task::ComparisonMode Task::getComparisonMode() const
 {
     return comparisonMode;
+}
+
+const QString& Task::getDiffArguments() const
+{
+    return diffArguments;
 }
 
 int Task::getRealPrecision() const
@@ -136,6 +142,11 @@ void Task::setTaskType(Task::TaskType type)
 void Task::setComparisonMode(Task::ComparisonMode mode)
 {
     comparisonMode = mode;
+}
+
+void Task::setDiffArguments(const QString &argumentsList)
+{
+    diffArguments = argumentsList;
 }
 
 void Task::setRealPrecision(int precision)
@@ -221,6 +232,7 @@ void Task::writeToStream(QDataStream &out)
     out << standardOutputCheck;
     out << int(taskType);
     out << int(comparisonMode);
+    out << diffArguments;
     out << realPrecision;
     out << specialJudge;
     out << compilerConfiguration;
@@ -243,6 +255,7 @@ void Task::readFromStream(QDataStream &in)
     taskType = TaskType(tmp);
     in >> tmp;
     comparisonMode = ComparisonMode(tmp);
+    in >> diffArguments;
     in >> realPrecision;
     in >> specialJudge;
     in >> compilerConfiguration;

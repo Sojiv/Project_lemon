@@ -57,6 +57,7 @@ private slots:
     void standardInputCheckChanged();
     void standardOutputCheckChanged();
     void comparisonModeChanged();
+    void diffArgumentsChanged(const QString&);
     void realPrecisionChanged(int);
     void specialJudgeChanged(const QString&);
     void refreshProblemTitle(const QString&);

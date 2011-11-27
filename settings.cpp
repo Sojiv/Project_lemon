@@ -94,6 +94,11 @@ const QString& Settings::getUiLanguage() const
     return uiLanguage;
 }
 
+const QString& Settings::getDiffPath() const
+{
+    return diffPath;
+}
+
 void Settings::setDefaultFullScore(int score)
 {
     defaultFullScore = score;
@@ -333,6 +338,13 @@ void Settings::loadSettings()
         recentContest.append(settings.value("Location").toString());
     }
     settings.endArray();
+    
+#ifdef Q_OS_WIN32
+    diffPath = QDir::toNativeSeparators(QDir::currentPath()) + QDir::separator() + "diff.exe";
+#endif
+#ifdef Q_OS_LINUX
+    diffPath = "/usr/bin/diff";
+#endif
 }
 
 int Settings::upperBoundForFullScore()

@@ -60,6 +60,7 @@ private:
     QString sourceFile;
     QString executableFile;
     QString arguments;
+    QString diffPath;
     double timeLimitRatio;
     double memoryLimitRatio;
     bool disableMemoryLimitCheck;

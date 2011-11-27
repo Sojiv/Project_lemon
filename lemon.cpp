@@ -785,8 +785,8 @@ void Lemon::makeSelfTest()
                 }
                 if (taskList[i]->getComparisonMode() == Task::IgnoreSpacesMode) {
                     QString arg = QString("\"%1\" \"%2\"").arg(outputFileName, outputFile);
-                    out << "if ! diff " << arg << " --strip-trailing-cr -q --ignore-all-space;then" << endl;
-                    out << "diff " << arg << " --strip-trailing-cr -y --ignore-all-space" << endl;
+                    out << "if ! diff " << arg << " --strip-trailing-cr -q --ignore-space-change;then" << endl;
+                    out << "diff " << arg << " --strip-trailing-cr -y --ignore-space-change" << endl;
                     out << QString("echo \"Wrong answer\"") << endl;
                     out << "else" << endl;
                     out << QString("echo \"Correct answer\"") << endl;

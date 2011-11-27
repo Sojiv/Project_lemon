@@ -119,6 +119,11 @@ void JudgingThread::setOutputFile(const QString &fileName)
     outputFile = fileName;
 }
 
+void JudgingThread::setDiffPath(const QString &path)
+{
+    diffPath = path;
+}
+
 void JudgingThread::setTask(Task *_task)
 {
     task = _task;
@@ -403,6 +408,19 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
     result = CorrectAnswer;
     fclose(contestantOutputFile);
     fclose(standardOutputFile);
+}
+
+void JudgingThread::compareWithDiff(const QString &contestantOutput)
+{
+    QString cmd = QString("\"%1\" %2 \"%3\" \"%4\"").arg(diffPath, task->getDiffArguments())
+                  .arg(QFileInfo(outputFile).absoluteFilePath().replace('/', QDir::separator())).arg(contestantOutput);
+    if (QProcess::execute(cmd) != 0) {
+        score = 0;
+        result = WrongAnswer;
+    } else {
+        score = fullScore;
+        result = CorrectAnswer;
+    }
 }
 
 void JudgingThread::compareRealNumbers(const QString &contestantOutput)
@@ -854,32 +872,28 @@ void JudgingThread::runProgram()
 
 void JudgingThread::judgeOutput()
 {
-    if (task->getComparisonMode() == Task::LineByLineMode) {
-        if (task->getStandardOutputCheck())
-            compareLineByLine(workingDirectory + "_tmpout");
-        else
-            compareLineByLine(workingDirectory + task->getOutputFileName());
-    }
+    QString fileName;
+    if (task->getStandardOutputCheck())
+        fileName = workingDirectory + "_tmpout";
+    else
+        fileName = workingDirectory + task->getOutputFileName();
     
-    if (task->getComparisonMode() == Task::IgnoreSpacesMode) {
-        if (task->getStandardOutputCheck())
-            compareIgnoreSpaces(workingDirectory + "_tmpout");
-        else
-            compareIgnoreSpaces(workingDirectory + task->getOutputFileName());
-    }
-    
-    if (task->getComparisonMode() == Task::RealNumberMode) {
-        if (task->getStandardOutputCheck())
-            compareRealNumbers(workingDirectory + "_tmpout");
-        else
-            compareRealNumbers(workingDirectory + task->getOutputFileName());
-    }
-    
-    if (task->getComparisonMode() == Task::SpecialJudgeMode) {
-        if (task->getStandardOutputCheck())
-            specialJudge(workingDirectory + "_tmpout");
-        else
-            specialJudge(workingDirectory + task->getOutputFileName());
+    switch (task->getComparisonMode()) {
+        case Task::LineByLineMode:
+            compareLineByLine(fileName);
+            break;
+        case Task::IgnoreSpacesMode:
+            compareIgnoreSpaces(fileName);
+            break;
+        case Task::ExternalToolMode:
+            compareWithDiff(fileName);
+            break;
+        case Task::RealNumberMode:
+            compareRealNumbers(fileName);
+            break;
+        case Task::SpecialJudgeMode:
+            specialJudge(fileName);
+            break;
     }
 }
 
@@ -962,14 +976,23 @@ void JudgingThread::judgeTraditionalTask()
 
 void JudgingThread::judgeAnswersOnlyTask()
 {
-    if (task->getComparisonMode() == Task::LineByLineMode)
-        compareLineByLine(answerFile);
-    if (task->getComparisonMode() == Task::IgnoreSpacesMode)
-        compareIgnoreSpaces(answerFile);
-    if (task->getComparisonMode() == Task::RealNumberMode)
-        compareRealNumbers(answerFile);
-    if (task->getComparisonMode() == Task::SpecialJudgeMode)
-        specialJudge(answerFile);
+    switch (task->getComparisonMode()) {
+        case Task::LineByLineMode:
+            compareLineByLine(answerFile);
+            break;
+        case Task::IgnoreSpacesMode:
+            compareIgnoreSpaces(answerFile);
+            break;
+        case Task::ExternalToolMode:
+            compareWithDiff(answerFile);
+            break;
+        case Task::RealNumberMode:
+            compareRealNumbers(answerFile);
+            break;
+        case Task::SpecialJudgeMode:
+            specialJudge(answerFile);
+            break;
+    }
 }
 
 void JudgingThread::run()

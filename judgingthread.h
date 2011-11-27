@@ -40,6 +40,7 @@ public:
     void setAnswerFile(const QString&);
     void setInputFile(const QString&);
     void setOutputFile(const QString&);
+    void setDiffPath(const QString&);
     void setTask(Task*);
     void setFullScore(int);
     void setTimeLimit(int);
@@ -63,6 +64,7 @@ private:
     QString answerFile;
     QString inputFile;
     QString outputFile;
+    QString diffPath;
     Task *task;
     int specialJudgeTimeLimit;
     int fullScore;
@@ -76,6 +78,7 @@ private:
     bool stopJudging;
     void compareLineByLine(const QString&);
     void compareIgnoreSpaces(const QString&);
+    void compareWithDiff(const QString&);
     void compareRealNumbers(const QString&);
     void specialJudge(const QString&);
     void runProgram();

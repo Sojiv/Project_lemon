@@ -57,6 +57,8 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
             this, SLOT(standardOutputCheckChanged()));
     connect(ui->comparisonMode, SIGNAL(currentIndexChanged(int)),
             this, SLOT(comparisonModeChanged()));
+    connect(ui->diffArguments, SIGNAL(textChanged(QString)),
+            this, SLOT(diffArgumentsChanged(QString)));
     connect(ui->realPrecision, SIGNAL(valueChanged(int)),
             this, SLOT(realPrecisionChanged(int)));
     connect(ui->specialJudge, SIGNAL(textChanged(QString)),
@@ -105,6 +107,7 @@ void TaskEditWidget::setEditTask(Task *task)
     ui->inputFileName->setText(editTask->getInputFileName());
     ui->outputFileName->setText(editTask->getOutputFileName());
     ui->comparisonMode->setCurrentIndex(int(editTask->getComparisonMode()));
+    ui->diffArguments->setText(editTask->getDiffArguments());
     ui->realPrecision->setValue(editTask->getRealPrecision());
     ui->specialJudge->setText(editTask->getSpecialJudge());
     ui->standardInputCheck->setChecked(editTask->getStandardInputCheck());
@@ -206,6 +209,12 @@ void TaskEditWidget::comparisonModeChanged()
 {
     if (! editTask) return;
     editTask->setComparisonMode(Task::ComparisonMode(ui->comparisonMode->currentIndex()));
+}
+
+void TaskEditWidget::diffArgumentsChanged(const QString &argumentsList)
+{
+    if (! editTask) return;
+    editTask->setDiffArguments(argumentsList);
 }
 
 void TaskEditWidget::realPrecisionChanged(int precision)

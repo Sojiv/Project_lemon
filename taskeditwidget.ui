@@ -199,6 +199,11 @@
      </item>
      <item>
       <property name="text">
+       <string>External tool mode (diff)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>Real number mode</string>
       </property>
      </item>
@@ -218,14 +223,37 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="lineByLineMode"/>
      <widget class="QWidget" name="ignoreSpacesMode"/>
+     <widget class="QWidget" name="externalToolMode">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="argumentsLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font:8pt;</string>
+         </property>
+         <property name="text">
+          <string>Arguments:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="diffArguments"/>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="realNumberMode">
       <layout class="QHBoxLayout" name="horizontalLayout_9">
        <item>
-        <widget class="QLabel" name="label_8">
+        <widget class="QLabel" name="precisionLabel">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -251,7 +279,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_9">
+        <widget class="QLabel" name="digitsLabel">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>

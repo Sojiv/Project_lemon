@@ -324,6 +324,7 @@ void AssignmentThread::assign()
         QFile::copy(Settings::temporaryPath() + contestantName + QDir::separator() + entryList[i],
                     workingDirectory + entryList[i]);
     thread->setSpecialJudgeTimeLimit(settings->getSpecialJudgeTimeLimit());
+    thread->setDiffPath(settings->getDiffPath());
     if (task->getTaskType() == Task::Traditional) {
         if (interpreterFlag)
             thread->setExecutableFile(executableFile);

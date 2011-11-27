@@ -30,7 +30,7 @@ class Task : public QObject
     Q_OBJECT
 public:
     enum TaskType { Traditional, AnswersOnly };
-    enum ComparisonMode { LineByLineMode, IgnoreSpacesMode, RealNumberMode, SpecialJudgeMode };
+    enum ComparisonMode { LineByLineMode, IgnoreSpacesMode, ExternalToolMode, RealNumberMode, SpecialJudgeMode };
     
     explicit Task(QObject *parent = 0);
     
@@ -43,6 +43,7 @@ public:
     bool getStandardOutputCheck() const;
     TaskType getTaskType() const;
     ComparisonMode getComparisonMode() const;
+    const QString& getDiffArguments() const;
     int getRealPrecision() const;
     const QString& getSpecialJudge() const;
     QString getCompilerConfiguration(const QString&) const;
@@ -56,6 +57,7 @@ public:
     void setStandardOutputCheck(bool);
     void setTaskType(TaskType);
     void setComparisonMode(ComparisonMode);
+    void setDiffArguments(const QString&);
     void setRealPrecision(int);
     void setSpecialJudge(const QString&);
     void setCompilerConfiguration(const QString&, const QString&);
@@ -79,6 +81,7 @@ private:
     bool standardOutputCheck;
     TaskType taskType;
     ComparisonMode comparisonMode;
+    QString diffArguments;
     int realPrecision;
     QString specialJudge;
     QMap<QString, QString> compilerConfiguration;

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>463</width>
+    <width>515</width>
     <height>438</height>
    </rect>
   </property>
@@ -238,7 +238,7 @@
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">font:10pt;</string>
+          <string notr="true">font-size:10pt;</string>
          </property>
          <property name="text">
           <string>Arguments:</string>
@@ -261,7 +261,7 @@
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">font:10pt;</string>
+          <string notr="true">font-size:10pt;</string>
          </property>
          <property name="text">
           <string>Real Number Precision:</string>
@@ -287,7 +287,7 @@
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">font:10pt;</string>
+          <string notr="true">font-size:10pt;</string>
          </property>
          <property name="text">
           <string>digits</string>

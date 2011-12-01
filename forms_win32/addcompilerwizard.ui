@@ -105,7 +105,7 @@
                <item>
                 <widget class="QCheckBox" name="gccCheck">
                  <property name="styleSheet">
-                  <string notr="true">font-size:8pt;</string>
+                  <string notr="true">font-size:9pt;</string>
                  </property>
                  <property name="text">
                   <string notr="true">gcc</string>
@@ -118,7 +118,7 @@
                <item>
                 <widget class="QCheckBox" name="gppCheck">
                  <property name="styleSheet">
-                  <string notr="true">font-size:8pt;</string>
+                  <string notr="true">font-size:9pt;</string>
                  </property>
                  <property name="text">
                   <string notr="true">g++</string>
@@ -131,7 +131,7 @@
                <item>
                 <widget class="QCheckBox" name="fpcCheck">
                  <property name="styleSheet">
-                  <string notr="true">font-size:8pt;</string>
+                  <string notr="true">font-size:9pt;</string>
                  </property>
                  <property name="text">
                   <string notr="true">fpc</string>
@@ -144,7 +144,7 @@
                <item>
                 <widget class="QCheckBox" name="fbcCheck">
                  <property name="styleSheet">
-                  <string notr="true">font-size:8pt;</string>
+                  <string notr="true">font-size:9pt;</string>
                  </property>
                  <property name="text">
                   <string notr="true">fbc</string>
@@ -154,7 +154,7 @@
                <item>
                 <widget class="QCheckBox" name="jdkCheck">
                  <property name="styleSheet">
-                  <string notr="true">font-size:8pt;</string>
+                  <string notr="true">font-size:9pt;</string>
                  </property>
                  <property name="text">
                   <string notr="true">jdk</string>
@@ -164,7 +164,7 @@
                <item>
                 <widget class="QCheckBox" name="pythonCheck">
                  <property name="styleSheet">
-                  <string notr="true">font-size:8pt;</string>
+                  <string notr="true">font-size:9pt;</string>
                  </property>
                  <property name="text">
                   <string notr="true">python</string>

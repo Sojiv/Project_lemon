@@ -35,9 +35,9 @@ void cleanUp() {
 
 int main(int argc, char *argv[]) {
     int timeLimit, memoryLimit;
-    sscanf(argv[6], "%d", &timeLimit);
+    sscanf(argv[5], "%d", &timeLimit);
     timeLimit = (timeLimit - 1) / 1000 + 1;
-    sscanf(argv[7], "%d", &memoryLimit);
+    sscanf(argv[6], "%d", &memoryLimit);
     memoryLimit *= 1024 * 1024;
     
     pid = fork();
@@ -65,13 +65,13 @@ int main(int argc, char *argv[]) {
             return 2;
         }
     } else {
-        if (strlen(argv[3]) > 0) freopen(argv[3], "r", stdin);
-        if (strlen(argv[4]) > 0) freopen(argv[4], "w", stdout);
-        if (strlen(argv[5]) > 0) freopen(argv[5], "w", stderr);
+        if (strlen(argv[2]) > 0) freopen(argv[2], "r", stdin);
+        if (strlen(argv[3]) > 0) freopen(argv[3], "w", stdout);
+        if (strlen(argv[4]) > 0) freopen(argv[4], "w", stderr);
         if (memoryLimit != -1)
             setrlimit(RLIMIT_AS, &(struct rlimit){memoryLimit, memoryLimit});
         setrlimit(RLIMIT_CPU, &(struct rlimit){timeLimit, timeLimit + 1});
-        if (execlp("bash", "bash", "-c", argv[2], NULL) == -1) return 1;
+        if (execlp("bash", "bash", "-c", argv[1], NULL) == -1) return 1;
     }
     
     return 0;

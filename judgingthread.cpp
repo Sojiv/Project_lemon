@@ -769,7 +769,7 @@ void JudgingThread::runProgram()
     
     QProcess *runner = new QProcess(this);
     QStringList argumentsList;
-    argumentsList << executableFile << QString("\"%1\" %2").arg(executableFile, arguments);
+    argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
     if (task->getStandardInputCheck())
         argumentsList << inputFile;
     else

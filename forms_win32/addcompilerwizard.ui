@@ -545,7 +545,7 @@
          <item>
           <widget class="QCheckBox" name="gccO2Check">
            <property name="styleSheet">
-            <string notr="true">font-size:8pt;</string>
+            <string notr="true">font-size:9pt;</string>
            </property>
            <property name="text">
             <string>Enable O2 Optimization</string>
@@ -596,7 +596,7 @@
          <item>
           <widget class="QCheckBox" name="gppO2Check">
            <property name="styleSheet">
-            <string notr="true">font-size:8pt;</string>
+            <string notr="true">font-size:9pt;</string>
            </property>
            <property name="text">
             <string>Enable O2 Optimization</string>
@@ -641,7 +641,7 @@
          <item>
           <widget class="QCheckBox" name="fpcO2Check">
            <property name="styleSheet">
-            <string notr="true">font-size:8pt;</string>
+            <string notr="true">font-size:9pt;</string>
            </property>
            <property name="text">
             <string>Enable O2 Optimization</string>
@@ -728,7 +728,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label">
              <property name="styleSheet">
-              <string notr="true">font-size:8pt;</string>
+              <string notr="true">font-size:9pt;</string>
              </property>
              <property name="text">
               <string notr="true">javac</string>
@@ -748,7 +748,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="label_2">
              <property name="styleSheet">
-              <string notr="true">font-size:8pt;</string>
+              <string notr="true">font-size:9pt;</string>
              </property>
              <property name="text">
               <string notr="true">java</string>
@@ -775,7 +775,7 @@
            <item>
             <widget class="QLabel" name="javaMemoryLimitLabel">
              <property name="styleSheet">
-              <string notr="true">font-size:8pt;</string>
+              <string notr="true">font-size:9pt;</string>
              </property>
              <property name="text">
               <string>Memory Limit</string>
@@ -804,7 +804,7 @@
            <item>
             <widget class="QLabel" name="javaMbLabel">
              <property name="styleSheet">
-              <string notr="true">font-size:8pt;</string>
+              <string notr="true">font-size:9pt;</string>
              </property>
              <property name="text">
               <string>MB</string>
@@ -867,7 +867,7 @@
          <item>
           <widget class="QCheckBox" name="pythonBytecodeCheck">
            <property name="styleSheet">
-            <string notr="true">font-size:8pt;</string>
+            <string notr="true">font-size:9pt;</string>
            </property>
            <property name="text">
             <string>Generate Optimized Byte-code</string>

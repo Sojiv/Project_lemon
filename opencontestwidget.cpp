@@ -57,13 +57,27 @@ void OpenContestWidget::refreshContestList()
             recentContest.removeAt(i);
             continue;
         }
-        QDataStream in(&file);
-        signed checkNumber;
-        in >> checkNumber;
-        if (checkNumber != signed(MagicNumber)) {
+        QDataStream _in(&file);
+        unsigned checkNumber;
+        _in >> checkNumber;
+        if (checkNumber != unsigned(MagicNumber)) {
             recentContest.removeAt(i);
             continue;
         }
+        quint16 checksum;
+        int len;
+        _in >> checksum >> len;
+        char *raw = new char[len];
+        _in.readRawData(raw, len);
+        if (qChecksum(raw, len) != checksum) {
+            delete[] raw;
+            recentContest.removeAt(i);
+            continue;
+        }
+        QByteArray data(raw, len);
+        delete[] raw;
+        data = qUncompress(data);
+        QDataStream in(data);
         QString title;
         in >> title;
         ui->recentContest->setRowCount(i + 1);
@@ -88,12 +102,23 @@ void OpenContestWidget::addContest()
         return;
     }
     QDataStream in(&file);
-    signed checkNumber;
+    unsigned checkNumber;
     in >> checkNumber;
-    if (checkNumber != signed(MagicNumber)) {
+    if (checkNumber != unsigned(MagicNumber)) {
         QMessageBox::warning(this, tr("Error"), tr("Broken contest data file"), QMessageBox::Close);
         return;
     }
+    quint16 checksum;
+    int len;
+    in >> checksum >> len;
+    char *raw = new char[len];
+    in.readRawData(raw, len);
+    if (qChecksum(raw, len) != checksum) {
+        QMessageBox::warning(this, tr("Error"), tr("Broken contest data file"), QMessageBox::Close);
+        delete[] raw;
+        return;
+    }
+    delete[] raw;
     recentContest.append(fileName);
     refreshContestList();
 }

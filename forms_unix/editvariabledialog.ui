@@ -1,90 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CompilerSelectingDialog</class>
- <widget class="QDialog" name="CompilerSelectingDialog">
+ <class>EditVariableDialog</class>
+ <widget class="QDialog" name="EditVariableDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>305</width>
-    <height>137</height>
+    <width>325</width>
+    <height>128</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>325</width>
+    <height>128</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>325</width>
+    <height>128</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Select Compiler's Location</string>
+   <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
-    <number>10</number>
+    <number>8</number>
    </property>
    <item>
     <layout class="QGridLayout" name="gridLayout">
      <property name="horizontalSpacing">
-      <number>12</number>
-     </property>
-     <property name="verticalSpacing">
       <number>10</number>
      </property>
+     <property name="verticalSpacing">
+      <number>8</number>
+     </property>
      <item row="0" column="0">
-      <widget class="QLabel" name="gccLabel">
+      <widget class="QLabel" name="variableNameLabel">
        <property name="styleSheet">
-        <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:11pt;</string>
        </property>
        <property name="text">
-        <string notr="true">gcc</string>
+        <string>Variable Name</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="gccPath"/>
-     </item>
-     <item row="0" column="2">
-      <widget class="QToolButton" name="gccSelectButton">
-       <property name="text">
-        <string notr="true">...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="gppPath"/>
-     </item>
-     <item row="1" column="2">
-      <widget class="QToolButton" name="gppSelectButton">
-       <property name="text">
-        <string notr="true">...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="fpcLabel">
+      <widget class="QLineEdit" name="variableName">
        <property name="styleSheet">
-        <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
-       </property>
-       <property name="text">
-        <string notr="true">fpc</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="fpcPath"/>
-     </item>
-     <item row="2" column="2">
-      <widget class="QToolButton" name="fpcSelectButton">
-       <property name="text">
-        <string notr="true">...</string>
+        <string notr="true">font-size:11pt;</string>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="gppLabel">
+      <widget class="QLabel" name="variableValueLabel">
        <property name="styleSheet">
-        <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:11pt;</string>
        </property>
        <property name="text">
-        <string notr="true">g++</string>
+        <string>Variable Value</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="variableValue">
+       <property name="styleSheet">
+        <string notr="true">font-size:11pt;</string>
        </property>
       </widget>
      </item>
@@ -92,6 +75,9 @@ font-weight: bold;</string>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">font-size:10pt;</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -107,7 +93,7 @@ font-weight: bold;</string>
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>CompilerSelectingDialog</receiver>
+   <receiver>EditVariableDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -123,16 +109,16 @@ font-weight: bold;</string>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>CompilerSelectingDialog</receiver>
+   <receiver>EditVariableDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>152</x>
-     <y>118</y>
+     <x>316</x>
+     <y>260</y>
     </hint>
     <hint type="destinationlabel">
-     <x>152</x>
-     <y>69</y>
+     <x>286</x>
+     <y>274</y>
     </hint>
    </hints>
   </connection>

@@ -31,14 +31,16 @@ class JudgingThread : public QThread
 public:
     explicit JudgingThread(QObject *parent = 0);
     void setCheckRejudgeMode(bool);
-    void setExtraTimeRation(double);
-    void setCompilerPath(const QString&);
+    void setExtraTimeRatio(double);
+    void setEnvironment(const QProcessEnvironment&);
     void setWorkingDirectory(const QString&);
     void setSpecialJudgeTimeLimit(int);
     void setExecutableFile(const QString&);
+    void setArguments(const QString&);
     void setAnswerFile(const QString&);
     void setInputFile(const QString&);
     void setOutputFile(const QString&);
+    void setDiffPath(const QString&);
     void setTask(Task*);
     void setFullScore(int);
     void setTimeLimit(int);
@@ -55,12 +57,14 @@ private:
     bool checkRejudgeMode;
     bool needRejudge;
     double extraTimeRatio;
-    QString compilerPath;
+    QProcessEnvironment environment;
     QString workingDirectory;
     QString executableFile;
+    QString arguments;
     QString answerFile;
     QString inputFile;
     QString outputFile;
+    QString diffPath;
     Task *task;
     int specialJudgeTimeLimit;
     int fullScore;
@@ -73,6 +77,8 @@ private:
     QString message;
     bool stopJudging;
     void compareLineByLine(const QString&);
+    void compareIgnoreSpaces(const QString&);
+    void compareWithDiff(const QString&);
     void compareRealNumbers(const QString&);
     void specialJudge(const QString&);
     void runProgram();

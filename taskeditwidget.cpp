@@ -34,11 +34,10 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
     connect(this, SIGNAL(dataPathChanged()),
             ui->specialJudge, SLOT(refreshFileList()));
     
-    ui->sourceFileName->setValidator(new QRegExpValidator(QRegExp("\\w+"), ui->sourceFileName));
-    ui->executableFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), ui->executableFileName));
-    ui->inputFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), ui->inputFileName));
-    ui->outputFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), ui->outputFileName));
-    ui->answerFileExtension->setValidator(new QRegExpValidator(QRegExp("\\w+"), ui->answerFileExtension));
+    ui->sourceFileName->setValidator(new QRegExpValidator(QRegExp("\\w+"), this));
+    ui->inputFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), this));
+    ui->outputFileName->setValidator(new QRegExpValidator(QRegExp("(\\w+)(\\.\\w+)?"), this));
+    ui->answerFileExtension->setValidator(new QRegExpValidator(QRegExp("\\w+"), this));
     
     connect(ui->problemTitle, SIGNAL(textChanged(QString)),
             this, SLOT(problemTitleChanged(QString)));
@@ -48,8 +47,6 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
             this, SLOT(setToAnswersOnly(bool)));
     connect(ui->sourceFileName, SIGNAL(textChanged(QString)),
             this, SLOT(sourceFileNameChanged(QString)));
-    connect(ui->executableFileName, SIGNAL(textChanged(QString)),
-            this, SLOT(executableFileNameChanged(QString)));
     connect(ui->inputFileName, SIGNAL(textChanged(QString)),
             this, SLOT(inputFileNameChanged(QString)));
     connect(ui->outputFileName, SIGNAL(textChanged(QString)),
@@ -60,6 +57,8 @@ TaskEditWidget::TaskEditWidget(QWidget *parent) :
             this, SLOT(standardOutputCheckChanged()));
     connect(ui->comparisonMode, SIGNAL(currentIndexChanged(int)),
             this, SLOT(comparisonModeChanged()));
+    connect(ui->diffArguments, SIGNAL(textChanged(QString)),
+            this, SLOT(diffArgumentsChanged(QString)));
     connect(ui->realPrecision, SIGNAL(valueChanged(int)),
             this, SLOT(realPrecisionChanged(int)));
     connect(ui->specialJudge, SIGNAL(textChanged(QString)),
@@ -105,10 +104,10 @@ void TaskEditWidget::setEditTask(Task *task)
     ui->sourceFileName->setEnabled(false);
     ui->sourceFileName->setText(editTask->getSourceFileName());
     ui->sourceFileName->setEnabled(true);
-    ui->executableFileName->setText(task->getExecutableFileName());
     ui->inputFileName->setText(editTask->getInputFileName());
     ui->outputFileName->setText(editTask->getOutputFileName());
     ui->comparisonMode->setCurrentIndex(int(editTask->getComparisonMode()));
+    ui->diffArguments->setText(editTask->getDiffArguments());
     ui->realPrecision->setValue(editTask->getRealPrecision());
     ui->specialJudge->setText(editTask->getSpecialJudge());
     ui->standardInputCheck->setChecked(editTask->getStandardInputCheck());
@@ -133,8 +132,6 @@ void TaskEditWidget::refreshWidgetState()
     bool check = editTask->getTaskType() == Task::Traditional;
     ui->sourceFileName->setEnabled(check);
     ui->sourceFileNameLabel->setEnabled(check);
-    ui->executableFileName->setEnabled(check);
-    ui->executableFileNameLabel->setEnabled(check);
     ui->inputFileName->setEnabled(check && ! editTask->getStandardInputCheck());
     ui->inputFileNameLabel->setEnabled(check);
     ui->standardInputCheck->setEnabled(check);
@@ -174,22 +171,10 @@ void TaskEditWidget::sourceFileNameChanged(const QString &text)
     if (! editTask) return;
     if (! ui->sourceFileName->isEnabled()) return;
     editTask->setSourceFileName(text);
-#ifdef Q_OS_WIN32
-    ui->executableFileName->setText(text + ".exe");
-#endif
-#ifdef Q_OS_LINUX
-    ui->executableFileName->setText(text);
-#endif
     if (ui->inputFileName->isEnabled())
         ui->inputFileName->setText(text + "." + settings->getDefaultInputFileExtension());
     if (ui->outputFileName->isEnabled())
         ui->outputFileName->setText(text + "." + settings->getDefaultOutputFileExtension());
-}
-
-void TaskEditWidget::executableFileNameChanged(const QString &text)
-{
-    if (! editTask) return;
-    editTask->setExecutableFileName(text);
 }
 
 void TaskEditWidget::inputFileNameChanged(const QString &text)
@@ -224,6 +209,12 @@ void TaskEditWidget::comparisonModeChanged()
 {
     if (! editTask) return;
     editTask->setComparisonMode(Task::ComparisonMode(ui->comparisonMode->currentIndex()));
+}
+
+void TaskEditWidget::diffArgumentsChanged(const QString &argumentsList)
+{
+    if (! editTask) return;
+    editTask->setDiffArguments(argumentsList);
 }
 
 void TaskEditWidget::realPrecisionChanged(int precision)
@@ -269,6 +260,7 @@ void TaskEditWidget::compilerSelectionChanged()
     if (! ui->compilersList->isEnabled()) return;
     ui->configurationSelect->setEnabled(false);
     ui->configurationSelect->clear();
+    ui->configurationSelect->addItem("disable");
     const QList<Compiler*> &compilerList = settings->getCompilerList();
     for (int i = 0; i < compilerList.size(); i ++)
         if (compilerList[i]->getCompilerName() == ui->compilersList->currentItem()->text())

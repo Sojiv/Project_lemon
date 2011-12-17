@@ -52,12 +52,12 @@ private slots:
     void setToTraditional(bool);
     void setToAnswersOnly(bool);
     void sourceFileNameChanged(const QString&);
-    void executableFileNameChanged(const QString&);
     void inputFileNameChanged(const QString&);
     void outputFileNameChanged(const QString&);
     void standardInputCheckChanged();
     void standardOutputCheckChanged();
     void comparisonModeChanged();
+    void diffArgumentsChanged(const QString&);
     void realPrecisionChanged(int);
     void specialJudgeChanged(const QString&);
     void refreshProblemTitle(const QString&);

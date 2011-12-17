@@ -26,9 +26,9 @@ AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) :
 {
     ui->setupUi(this);
     
-    ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), ui->fullScore));
-    ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), ui->timeLimit));
-    ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), ui->memoryLimit));
+    ui->fullScore->setValidator(new QIntValidator(1, Settings::upperBoundForFullScore(), this));
+    ui->timeLimit->setValidator(new QIntValidator(1, Settings::upperBoundForTimeLimit(), this));
+    ui->memoryLimit->setValidator(new QIntValidator(1, Settings::upperBoundForMemoryLimit(), this));
     
     connect(ui->fullScore, SIGNAL(textChanged(QString)),
             this, SLOT(fullScoreChanged(QString)));
@@ -159,20 +159,16 @@ void AddTestCasesWizard::refreshButtonState()
         ui->deleteArgumentButton->setEnabled(true);
 }
 
-void AddTestCasesWizard::getFiles(const QString &curDir, const QString &prefix, const QStringList &filters, QStringList &files)
+void AddTestCasesWizard::getFiles(const QString &curDir, const QString &prefix, QStringList &files)
 {
-    QDir dir(curDir);
-    if (! filters.isEmpty())
-        dir.setNameFilters(filters);
-    QStringList list = dir.entryList(QDir::Files);
+    QStringList list = QDir(curDir).entryList(QDir::Files);
     for (int i = 0; i < list.size(); i ++)
         list[i] = prefix + list[i];
     files.append(list);
-    list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+    list = QDir(curDir).entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
     for (int i = 0; i < list.size(); i ++)
         getFiles(curDir + list[i] + QDir::separator(),
-                 prefix + list[i] + QDir::separator(),
-                 filters, files);
+                 prefix + list[i] + QDir::separator(), files);
 }
 
 QString AddTestCasesWizard::getFullRegExp(const QString &pattern)
@@ -225,15 +221,8 @@ QStringList AddTestCasesWizard::getMatchedPart(const QString &str, const QString
 void AddTestCasesWizard::searchMatchedFiles()
 {
     QStringList inputFiles, outputFiles;
-    QStringList filters;
-    filters = settings->getInputFileExtensions();
-    for (int i = 0; i < filters.size(); i ++)
-        filters[i] = QString("*.") + filters[i];
-    getFiles(Settings::dataPath(), "", filters, inputFiles);
-    filters = settings->getOutputFileExtensions();
-    for (int i = 0; i < filters.size(); i ++)
-        filters[i] = QString("*.") + filters[i];
-    getFiles(Settings::dataPath(), "", filters, outputFiles);
+    getFiles(Settings::dataPath(), "", inputFiles);
+    getFiles(Settings::dataPath(), "", outputFiles);
     
     QString regExp = getFullRegExp(inputFilesPattern);
     for (int i = 0; i < inputFiles.size(); i ++)
@@ -341,13 +330,15 @@ bool AddTestCasesWizard::validateCurrentPage()
         for (int i = 0; i < ui->argumentList->rowCount(); i ++) {
             if (inputFilesPattern.count(QString("<%1>").arg(i + 1)) > 1) {
                 ui->inputFilesPattern->setFocus();
-                QMessageBox::warning(this, tr("Error"), tr("Argument <%1> appears more than once in input files pattern!").arg(i + 1),
+                QMessageBox::warning(this, tr("Error"),
+                                     tr("Argument <%1> appears more than once in input files pattern!").arg(i + 1),
                                      QMessageBox::Close);
                 return false;
             }
             if (outputFilesPattern.count(QString("<%1>").arg(i + 1)) > 1) {
                 ui->outputFilesPattern->setFocus();
-                QMessageBox::warning(this, tr("Error"), tr("Argument <%1> appears more than once in output files pattern!").arg(i + 1),
+                QMessageBox::warning(this, tr("Error"),
+                                     tr("Argument <%1> appears more than once in output files pattern!").arg(i + 1),
                                      QMessageBox::Close);
                 return false;
             }

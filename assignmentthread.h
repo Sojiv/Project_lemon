@@ -51,13 +51,20 @@ public:
 
 private:
     bool checkRejudgeMode;
+    bool interpreterFlag;
     Settings *settings;
     Task* task;
     QString contestantName;
     CompileState compileState;
     QString compileMessage;
     QString sourceFile;
-    QString compilerPath;
+    QString executableFile;
+    QString arguments;
+    QString diffPath;
+    double timeLimitRatio;
+    double memoryLimitRatio;
+    bool disableMemoryLimitCheck;
+    QProcessEnvironment environment;
     QList< QList<int> > timeUsed;
     QList< QList<int> > memoryUsed;
     QList< QList<int> > score;

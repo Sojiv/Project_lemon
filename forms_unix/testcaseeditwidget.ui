@@ -25,7 +25,7 @@
      <item>
       <widget class="QTableWidget" name="fileList">
        <property name="styleSheet">
-        <string notr="true">font-size: 9pt;</string>
+        <string notr="true">font-size: 11pt;</string>
        </property>
        <property name="selectionMode">
         <enum>QAbstractItemView::ContiguousSelection</enum>
@@ -78,7 +78,7 @@
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">font-size: 8pt;</string>
+          <string notr="true">font-size: 10pt;</string>
          </property>
          <property name="text">
           <string>Input File Name</string>
@@ -113,7 +113,7 @@
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">font-size: 8pt;</string>
+          <string notr="true">font-size: 10pt;</string>
          </property>
          <property name="text">
           <string>Output File Name</string>
@@ -169,8 +169,7 @@
         </sizepolicy>
        </property>
        <property name="styleSheet">
-        <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:11pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Full Score</string>
@@ -215,8 +214,7 @@ font-weight: bold;</string>
         </sizepolicy>
        </property>
        <property name="styleSheet">
-        <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:11pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Time Limit</string>
@@ -250,7 +248,7 @@ font-weight: bold;</string>
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">font-size: 9pt;</string>
+          <string notr="true">font-size: 11pt;</string>
          </property>
          <property name="text">
           <string>ms</string>
@@ -281,8 +279,7 @@ font-weight: bold;</string>
         </sizepolicy>
        </property>
        <property name="styleSheet">
-        <string notr="true">font-size: 9pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:11pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Memory Limit</string>
@@ -316,7 +313,7 @@ font-weight: bold;</string>
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">font-size: 9pt;</string>
+          <string notr="true">font-size: 11pt;</string>
          </property>
          <property name="text">
           <string>MB</string>

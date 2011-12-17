@@ -30,20 +30,20 @@ class Task : public QObject
     Q_OBJECT
 public:
     enum TaskType { Traditional, AnswersOnly };
-    enum ComparisonMode { LineByLineMode, RealNumberMode, SpecialJudgeMode };
+    enum ComparisonMode { LineByLineMode, IgnoreSpacesMode, ExternalToolMode, RealNumberMode, SpecialJudgeMode };
     
     explicit Task(QObject *parent = 0);
     
     const QList<TestCase*>& getTestCaseList() const;
     const QString& getProblemTile() const;
     const QString& getSourceFileName() const;
-    const QString& getExecutableFileName() const;
     const QString& getInputFileName() const;
     const QString& getOutputFileName() const;
     bool getStandardInputCheck() const;
     bool getStandardOutputCheck() const;
     TaskType getTaskType() const;
     ComparisonMode getComparisonMode() const;
+    const QString& getDiffArguments() const;
     int getRealPrecision() const;
     const QString& getSpecialJudge() const;
     QString getCompilerConfiguration(const QString&) const;
@@ -51,13 +51,13 @@ public:
     
     void setProblemTitle(const QString&);
     void setSourceFileName(const QString&);
-    void setExecutableFileName(const QString&);
     void setInputFileName(const QString&);
     void setOutputFileName(const QString&);
     void setStandardInputCheck(bool);
     void setStandardOutputCheck(bool);
     void setTaskType(TaskType);
     void setComparisonMode(ComparisonMode);
+    void setDiffArguments(const QString&);
     void setRealPrecision(int);
     void setSpecialJudge(const QString&);
     void setCompilerConfiguration(const QString&, const QString&);
@@ -75,13 +75,13 @@ private:
     QList<TestCase*> testCaseList;
     QString problemTitle;
     QString sourceFileName;
-    QString executableFileName;
     QString inputFileName;
     QString outputFileName;
     bool standardInputCheck;
     bool standardOutputCheck;
     TaskType taskType;
     ComparisonMode comparisonMode;
+    QString diffArguments;
     int realPrecision;
     QString specialJudge;
     QMap<QString, QString> compilerConfiguration;

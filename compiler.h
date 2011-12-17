@@ -26,30 +26,57 @@ class Compiler : public QObject
 {
     Q_OBJECT
 public:
+    enum CompilerType { Typical, InterpretiveWithByteCode, InterpretiveWithoutByteCode };
+    
     explicit Compiler(QObject *parent = 0);
     
+    CompilerType getCompilerType() const;
     const QString& getCompilerName() const;
     const QStringList& getSourceExtensions() const;
-    const QString& getLocation() const;
-    const QStringList &getConfigurationNames() const;
-    const QStringList &getConfigurationSettings() const;
+    const QString& getCompilerLocation() const;
+    const QString& getInterpreterLocation() const;
+    const QStringList& getBytecodeExtensions() const;
+    const QStringList& getConfigurationNames() const;
+    const QStringList& getCompilerArguments() const;
+    const QStringList& getInterpreterArguments() const;
+    const QProcessEnvironment& getEnvironment() const;
+    double getTimeLimitRatio() const;
+    double getMemoryLimitRatio() const;
+    bool getDisableMemoryLimitCheck() const;
     
+    void setCompilerType(CompilerType);
     void setCompilerName(const QString&);
     void setSourceExtensions(const QString&);
-    void setLocation(const QString&);
-    void addConfiguration(const QString&, const QString&);
+    void setCompilerLocation(const QString&);
+    void setInterpreterLocation(const QString&);
+    void setBytecodeExtensions(const QString&);
+    void setEnvironment(const QProcessEnvironment&);
+    void setTimeLimitRatio(double);
+    void setMemoryLimitRatio(double);
+    void setDisableMemoryLimitCheck(bool);
+    
+    void addConfiguration(const QString&, const QString&, const QString&);
     void setConfigName(int, const QString&);
-    void setArguments(int, const QString&);
+    void setCompilerArguments(int, const QString&);
+    void setInterpreterArguments(int, const QString&);
     void deleteConfiguration(int);
     
     void copyFrom(Compiler*);
 
 private:
+    CompilerType compilerType;
     QString compilerName;
     QStringList sourceExtensions;
-    QString location;
+    QString compilerLocation;
+    QString interpreterLocation;
+    QStringList bytecodeExtensions;
     QStringList configurationNames;
-    QStringList configurationSettings;
+    QStringList compilerArguments;
+    QStringList interpreterArguments;
+    QProcessEnvironment environment;
+    double timeLimitRatio;
+    double memoryLimitRatio;
+    bool disableMemoryLimitCheck;
 };
 
 #endif // COMPILER_H

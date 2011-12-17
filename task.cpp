@@ -26,6 +26,7 @@ Task::Task(QObject *parent) :
 {
     taskType = Traditional;
     comparisonMode = LineByLineMode;
+    diffArguments = "--ignore-space-change --text --brief";
     realPrecision = 3;
     standardInputCheck = false;
     standardOutputCheck = false;
@@ -44,11 +45,6 @@ const QString& Task::getProblemTile() const
 const QString& Task::getSourceFileName() const
 {
     return sourceFileName;
-}
-
-const QString& Task::getExecutableFileName() const
-{
-    return executableFileName;
 }
 
 const QString& Task::getInputFileName() const
@@ -79,6 +75,11 @@ Task::TaskType Task::getTaskType() const
 Task::ComparisonMode Task::getComparisonMode() const
 {
     return comparisonMode;
+}
+
+const QString& Task::getDiffArguments() const
+{
+    return diffArguments;
 }
 
 int Task::getRealPrecision() const
@@ -113,11 +114,6 @@ void Task::setSourceFileName(const QString &fileName)
     sourceFileName = fileName;
 }
 
-void Task::setExecutableFileName(const QString &fileName)
-{
-    executableFileName = fileName;
-}
-
 void Task::setInputFileName(const QString &fileName)
 {
     inputFileName = fileName;
@@ -146,6 +142,11 @@ void Task::setTaskType(Task::TaskType type)
 void Task::setComparisonMode(Task::ComparisonMode mode)
 {
     comparisonMode = mode;
+}
+
+void Task::setDiffArguments(const QString &argumentsList)
+{
+    diffArguments = argumentsList;
 }
 
 void Task::setRealPrecision(int precision)
@@ -225,15 +226,17 @@ void Task::writeToStream(QDataStream &out)
 {
     out << problemTitle;
     out << sourceFileName;
-    out << executableFileName;
     out << inputFileName;
     out << outputFileName;
     out << standardInputCheck;
     out << standardOutputCheck;
     out << int(taskType);
     out << int(comparisonMode);
+    out << diffArguments;
     out << realPrecision;
-    out << specialJudge;
+    QString _specialJudge = specialJudge;
+    _specialJudge.replace(QDir::separator(), '/');
+    out << _specialJudge;
     out << compilerConfiguration;
     out << answerFileExtension;
     out << testCaseList.size();
@@ -246,7 +249,6 @@ void Task::readFromStream(QDataStream &in)
     int tmp, count;
     in >> problemTitle;
     in >> sourceFileName;
-    in >> executableFileName;
     in >> inputFileName;
     in >> outputFileName;
     in >> standardInputCheck;
@@ -255,8 +257,10 @@ void Task::readFromStream(QDataStream &in)
     taskType = TaskType(tmp);
     in >> tmp;
     comparisonMode = ComparisonMode(tmp);
+    in >> diffArguments;
     in >> realPrecision;
     in >> specialJudge;
+    specialJudge.replace('/', QDir::separator());
     in >> compilerConfiguration;
     in >> answerFileExtension;
     in >> count;

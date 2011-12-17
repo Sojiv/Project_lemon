@@ -25,8 +25,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="styleSheet">
-        <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:11pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Contest Title</string>
@@ -39,8 +38,7 @@ font-weight: bold;</string>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="styleSheet">
-        <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:11pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Saving Name</string>
@@ -53,8 +51,7 @@ font-weight: bold;</string>
      <item row="2" column="0">
       <widget class="QLabel" name="label_3">
        <property name="styleSheet">
-        <string notr="true">font-size: 10pt;
-font-weight: bold;</string>
+        <string notr="true">font-size:11pt;font-weight:bold;</string>
        </property>
        <property name="text">
         <string>Contest Path</string>

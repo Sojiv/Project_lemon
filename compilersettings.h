@@ -44,7 +44,7 @@ private:
     Ui::CompilerSettings *ui;
     Settings *editSettings;
     Compiler *curCompiler;
-    int configCount;
+    QAction *deleteCompilerKeyAction;
     void setCurrentCompiler(Compiler*);
     void refreshItemState();
 
@@ -55,13 +55,8 @@ private slots:
     void deleteCompiler();
     void compilerNameChanged(const QString&);
     void sourceExtensionsChanged(const QString&);
-    void locationChanged(const QString&);
-    void argumentsChanged(const QString&);
     void compilerListCurrentRowChanged();
-    void selectCompilerLocation();
-    void configurationIndexChanged();
-    void configurationTextChanged();
-    void deleteConfiguration();
+    void advancedButtonClicked();
 };
 
 #endif // COMPILERSETTINGS_H

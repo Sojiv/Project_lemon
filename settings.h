@@ -44,6 +44,7 @@ public:
     const QStringList& getRecentContest() const;
     const QList<Compiler*>& getCompilerList() const;
     const QString& getUiLanguage() const;
+    const QString& getDiffPath() const;
     
     void setDefaultFullScore(int);
     void setDefaultTimeLimit(int);
@@ -92,6 +93,7 @@ private:
     QStringList outputFileExtensions;
     QStringList recentContest;
     QString uiLanguage;
+    QString diffPath;
 };
 
 #endif // SETTINGS_H

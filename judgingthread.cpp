@@ -656,18 +656,20 @@ void JudgingThread::runProgram()
     PROCESS_MEMORY_COUNTERS_EX info;
     ZeroMemory(&info, sizeof(info));
     info.cb = sizeof(info);
-    GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS*)&info, sizeof(info));
-    if (qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024 * 1024) {
-        TerminateProcess(pi.hProcess, 0);
-        if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
-        if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
-        CloseHandle(si.hStdError);
-        CloseHandle(pi.hProcess);
-        CloseHandle(pi.hThread);
-        score = 0;
-        result = MemoryLimitExceeded;
-        memoryUsed = timeUsed = -1;
-        return;
+    if (memoryLimit != -1) {
+        GetProcessMemoryInfo(pi.hProcess, (PROCESS_MEMORY_COUNTERS*)&info, sizeof(info));
+        if (qMax(info.PrivateUsage, info.PeakWorkingSetSize) > memoryLimit * 1024 * 1024) {
+            TerminateProcess(pi.hProcess, 0);
+            if (task->getStandardInputCheck()) CloseHandle(si.hStdInput);
+            if (task->getStandardOutputCheck()) CloseHandle(si.hStdOutput);
+            CloseHandle(si.hStdError);
+            CloseHandle(pi.hProcess);
+            CloseHandle(pi.hThread);
+            score = 0;
+            result = MemoryLimitExceeded;
+            memoryUsed = timeUsed = -1;
+            return;
+        }
     }
     
     SetProcessWorkingSetSize(pi.hProcess, memoryLimit * 1024 * 1024 / 4, memoryLimit * 1024 * 1024);

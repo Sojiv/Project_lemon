@@ -234,7 +234,9 @@ void Task::writeToStream(QDataStream &out)
     out << int(comparisonMode);
     out << diffArguments;
     out << realPrecision;
-    out << specialJudge;
+    QString _specialJudge = specialJudge;
+    _specialJudge.replace(QDir::separator(), '/');
+    out << _specialJudge;
     out << compilerConfiguration;
     out << answerFileExtension;
     out << testCaseList.size();
@@ -258,6 +260,7 @@ void Task::readFromStream(QDataStream &in)
     in >> diffArguments;
     in >> realPrecision;
     in >> specialJudge;
+    specialJudge.replace('/', QDir::separator());
     in >> compilerConfiguration;
     in >> answerFileExtension;
     in >> count;

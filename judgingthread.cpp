@@ -672,7 +672,8 @@ void JudgingThread::runProgram()
         }
     }
     
-    SetProcessWorkingSetSize(pi.hProcess, memoryLimit * 1024 * 1024 / 4, memoryLimit * 1024 * 1024);
+	if (memoryLimit != -1)
+        SetProcessWorkingSetSize(pi.hProcess, memoryLimit * 1024 * 1024 / 4, memoryLimit * 1024 * 1024);
     
     bool flag = false;
     QElapsedTimer timer;
@@ -818,7 +819,7 @@ void JudgingThread::runProgram()
         delete runner;
         score = 0;
         result = TimeLimitExceeded;
-        timeUsed = memoryLimit = -1;
+        timeUsed = memoryUsed = -1;
         return;
     }
     

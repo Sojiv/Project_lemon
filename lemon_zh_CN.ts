@@ -79,13 +79,13 @@
         <location filename="forms_unix/addcompilerwizard.ui" line="369"/>
         <location filename="forms_win32/addcompilerwizard.ui" line="375"/>
         <source>Source File Extensions</source>
-        <translation type="unfinished">源程序后缀名</translation>
+        <translation type="unfinished">源程序扩展名</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="401"/>
         <location filename="forms_win32/addcompilerwizard.ui" line="407"/>
         <source>Byte-code File Extensions</source>
-        <translation type="unfinished">中间字节码后缀名</translation>
+        <translation type="unfinished">中间字节码扩展名</translation>
     </message>
     <message>
         <location filename="forms_unix/addcompilerwizard.ui" line="433"/>
@@ -212,12 +212,12 @@
     <message>
         <location filename="addcompilerwizard.cpp" line="110"/>
         <source>Source File Extensions: </source>
-        <translation type="unfinished">源程序后缀名：</translation>
+        <translation type="unfinished">源程序扩展名：</translation>
     </message>
     <message>
         <location filename="addcompilerwizard.cpp" line="112"/>
         <source>Byte-code File Extensions: </source>
-        <translation type="unfinished">中间字节码后缀名：</translation>
+        <translation type="unfinished">中间字节码扩展名：</translation>
     </message>
     <message>
         <location filename="addcompilerwizard.cpp" line="114"/>
@@ -604,7 +604,7 @@
         <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="153"/>
         <location filename="forms_win32/advancedcompilersettingsdialog.ui" line="153"/>
         <source>Byte-code File Extensions</source>
-        <translation type="unfinished">中间字节码后缀名</translation>
+        <translation type="unfinished">中间字节码扩展名</translation>
     </message>
     <message>
         <location filename="forms_unix/advancedcompilersettingsdialog.ui" line="191"/>

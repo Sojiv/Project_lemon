@@ -774,7 +774,7 @@ void JudgingThread::runProgram()
     QStringList argumentsList;
     argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
     if (task->getStandardInputCheck())
-        argumentsList << inputFile;
+        argumentsList << QFileInfo(inputFile).absoluteFilePath();
     else
         argumentsList << "";
     if (task->getStandardOutputCheck())

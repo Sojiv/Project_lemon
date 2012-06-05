@@ -92,61 +92,50 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result)
     
     QString text;
     switch (ResultState(result)) {
-        case CorrectAnswer: {
+        case CorrectAnswer:
             text = tr("Correct answer");
             charFormat.setForeground(QBrush(Qt::darkGreen));
             break;
-        }
-        case WrongAnswer: {
+        case WrongAnswer:
             text = tr("Wrong answer");
             charFormat.setForeground(QBrush(Qt::red));
             break;
-        }
-        case PartlyCorrect: {
+        case PartlyCorrect:
             text = tr("Partly correct");
             charFormat.setForeground(QBrush(Qt::darkYellow));
             break;
-        }
-        case TimeLimitExceeded: {
+        case TimeLimitExceeded:
             text = tr("Time limit exceeded");
             charFormat.setForeground(QBrush(Qt::red));
             break;
-        }
-        case MemoryLimitExceeded: {
+        case MemoryLimitExceeded:
             text = tr("Memory limit exceeded");
             charFormat.setForeground(QBrush(Qt::red));
             break;
-        }
-        case CannotStartProgram: {
+        case CannotStartProgram:
             text = tr("Cannot start program");
             charFormat.setForeground(QBrush(Qt::red));
             break;
-        }
-        case FileError: {
+        case FileError:
             text = tr("File error");
             charFormat.setForeground(QBrush(Qt::red));
             break;
-        }
-        case RunTimeError: {
+        case RunTimeError:
             text = tr("Run time error");
             charFormat.setForeground(QBrush(Qt::red));
             break;
-        }
-        case InvalidSpecialJudge: {
+        case InvalidSpecialJudge:
             text = tr("Invalid special judge");
             charFormat.setForeground(QBrush(Qt::darkBlue));
             break;
-        }
-        case SpecialJudgeTimeLimitExceeded: {
+        case SpecialJudgeTimeLimitExceeded:
             text = tr("Special judge time limit exceeded");
             charFormat.setForeground(QBrush(Qt::darkBlue));
             break;
-        }
-        case SpecialJudgeRunTimeError: {
+        case SpecialJudgeRunTimeError:
             text = tr("Special judge run time error");
             charFormat.setForeground(QBrush(Qt::darkBlue));
             break;
-        }
     }
     
     cursor->insertText(text, charFormat);
@@ -197,26 +186,22 @@ void JudgingDialog::compileError(int progress, int compileState)
     
     QString text;
     switch (CompileState(compileState)) {
-        case NoValidSourceFile: {
+        case NoValidSourceFile:
             text = tr("Cannot find valid source file");
             charFormat.setForeground(QBrush(Qt::red));
             break;
-        }
-        case CompileError: {
+        case CompileError:
             text = tr("Compile error");
             charFormat.setForeground(QBrush(Qt::red));
             break;
-        }
-        case CompileTimeLimitExceeded: {
+        case CompileTimeLimitExceeded:
             text = tr("Compile time limit exceeded");
             charFormat.setForeground(QBrush(Qt::red));
             break;
-        }
-        case InvalidCompiler: {
+        case InvalidCompiler:
             text = tr("Invalid compiler");
             charFormat.setForeground(QBrush(Qt::blue));
             break;
-        }
     }
     
     cursor->insertText(text, charFormat);

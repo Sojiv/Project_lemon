@@ -62,12 +62,14 @@ const QList<Compiler*>& AddCompilerWizard::getCompilerList() const
 int AddCompilerWizard::nextId() const
 {
     if (currentId() == 0) {
-        if (ui->customRadioButton->isChecked())
+        if (ui->customRadioButton->isChecked()) {
             return 1;
-        else
+        } else {
             return 2;
-    } else
+        }
+    } else {
         if (currentId() == 3) return -1; else return 3;
+    }
 }
 
 bool AddCompilerWizard::validateCurrentPage()

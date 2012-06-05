@@ -152,20 +152,22 @@ void TestCaseEditWidget::fileListSelectionChanged()
 {
     if (! editTestCase) return;
     QList<QTableWidgetSelectionRange> range = ui->fileList->selectedRanges();
-    if (range.size() == 1 && range[0].columnCount() == 2)
+    if (range.size() == 1 && range[0].columnCount() == 2) {
         deleteAction->setEnabled(true);
-    else
+    } else {
         deleteAction->setEnabled(false);
+    }
 }
 
 void TestCaseEditWidget::fileListItemChanged(QTableWidgetItem *item)
 {
     if (! editTestCase) return;
     if (item) {
-        if (item->column() == 0)
+        if (item->column() == 0) {
             editTestCase->setInputFiles(item->row(), item->text());
-        else
+        } else {
             editTestCase->setOutputFiles(item->row(), item->text());
+        }
     }
 }
 

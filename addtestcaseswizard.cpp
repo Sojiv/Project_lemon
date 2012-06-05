@@ -149,14 +149,16 @@ void AddTestCasesWizard::deleteArgument()
 
 void AddTestCasesWizard::refreshButtonState()
 {
-    if (ui->argumentList->rowCount() < 9)
+    if (ui->argumentList->rowCount() < 9) {
         ui->addArgumentButton->setEnabled(true);
-    else
+    } else {
         ui->addArgumentButton->setEnabled(false);
-    if (ui->argumentList->currentRow() == -1)
+    }
+    if (ui->argumentList->currentRow() == -1) {
         ui->deleteArgumentButton->setEnabled(false);
-    else
+    } else {
         ui->deleteArgumentButton->setEnabled(true);
+    }
 }
 
 void AddTestCasesWizard::getFiles(const QString &curDir, const QString &prefix, QStringList &files)
@@ -166,9 +168,10 @@ void AddTestCasesWizard::getFiles(const QString &curDir, const QString &prefix, 
         list[i] = prefix + list[i];
     files.append(list);
     list = QDir(curDir).entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-    for (int i = 0; i < list.size(); i ++)
+    for (int i = 0; i < list.size(); i ++) {
         getFiles(curDir + list[i] + QDir::separator(),
                  prefix + list[i] + QDir::separator(), files);
+    }
 }
 
 QString AddTestCasesWizard::getFullRegExp(const QString &pattern)
@@ -199,8 +202,7 @@ QStringList AddTestCasesWizard::getMatchedPart(const QString &str, const QString
     QStringList result;
     for (int i = 0; i < ui->argumentList->rowCount(); i ++)
         result.append("");
-    int pos = 0, i = 0;
-    for ( ; pos < pattern.length(); i ++, pos ++) {
+    for (int pos = 0, i = 0; pos < pattern.length(); i ++, pos ++) {
         if (pos + 2 < pattern.length())
             if (pattern[pos] == '<' && pattern[pos+1].isDigit() && pattern[pos+1] != '0' && pattern[pos+2] == '>') {
                 int index = pattern[pos+1].toAscii() - 49;

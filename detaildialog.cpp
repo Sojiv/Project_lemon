@@ -122,50 +122,39 @@ QString DetailDialog::getCode(Contest *contest, Contestant *contestant)
                 
                 QString text;
                 switch (result[j][k]) {
-                    case CorrectAnswer: {
+                    case CorrectAnswer:
                         text = tr("Correct Answer");
                         break;
-                    }
-                    case WrongAnswer: {
+                    case WrongAnswer:
                         text = tr("Wrong Answer");
                         break;
-                    }
-                    case PartlyCorrect: {
+                    case PartlyCorrect:
                         text = tr("Partly Correct");
                         break;
-                    }
-                    case TimeLimitExceeded: {
+                    case TimeLimitExceeded:
                         text = tr("Time Limit Exceeded");
                         break;
-                    }
-                    case MemoryLimitExceeded: {
+                    case MemoryLimitExceeded:
                         text = tr("Memory Limit Exceeded");
                         break;
-                    }
-                    case CannotStartProgram: {
+                    case CannotStartProgram:
                         text = tr("Cannot Start Program");
                         break;
-                    }
-                    case FileError: {
+                    case FileError:
                         text = tr("File Error");
                         break;
-                    }
-                    case RunTimeError: {
+                    case RunTimeError:
                         text = tr("Run Time Error");
                         break;
-                    }
-                    case InvalidSpecialJudge: {
+                    case InvalidSpecialJudge:
                         text = tr("Invalid Special Judge");
                         break;
-                    }
-                    case SpecialJudgeTimeLimitExceeded: {
+                    case SpecialJudgeTimeLimitExceeded:
                         text = tr("Special Judge Time Limit Exceeded");
                         break;
-                    }
-                    case SpecialJudgeRunTimeError: {
+                    case SpecialJudgeRunTimeError:
                         text = tr("Special Judge Run Time Error");
                         break;
-                    }
                 }
                 
                 htmlCode += QString("<td align=\"center\">%1").arg(text);
@@ -179,17 +168,19 @@ QString DetailDialog::getCode(Contest *contest, Contestant *contestant)
                 htmlCode += "</td>";
                 
                 htmlCode += "<td nowrap=\"nowrap\" align=\"center\">";
-                if (timeUsed[j][k] != -1)
+                if (timeUsed[j][k] != -1) {
                     htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
-                else
+                } else {
                     htmlCode += tr("Invalid");
+                }
                 htmlCode += "</td>";
                 
                 htmlCode += "<td nowrap=\"nowrap\" align=\"center\">";
-                if (memoryUsed[j][k] != -1)
+                if (memoryUsed[j][k] != -1) {
                     htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
-                else
+                } else {
                     htmlCode += tr("Invalid");
+                }
                 htmlCode += "</td>";
                 
                 if (k == 0) {
@@ -293,50 +284,39 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
                 
                 QString text;
                 switch (result[j][k]) {
-                    case CorrectAnswer: {
+                    case CorrectAnswer:
                         text = tr("Correct Answer");
                         break;
-                    }
-                    case WrongAnswer: {
+                    case WrongAnswer:
                         text = tr("Wrong Answer");
                         break;
-                    }
-                    case PartlyCorrect: {
+                    case PartlyCorrect:
                         text = tr("Partly Correct");
                         break;
-                    }
-                    case TimeLimitExceeded: {
+                    case TimeLimitExceeded:
                         text = tr("Time Limit Exceeded");
                         break;
-                    }
-                    case MemoryLimitExceeded: {
+                    case MemoryLimitExceeded:
                         text = tr("Memory Limit Exceeded");
                         break;
-                    }
-                    case CannotStartProgram: {
+                    case CannotStartProgram:
                         text = tr("Cannot Start Program");
                         break;
-                    }
-                    case FileError: {
+                    case FileError:
                         text = tr("File Error");
                         break;
-                    }
-                    case RunTimeError: {
+                    case RunTimeError:
                         text = tr("Run Time Error");
                         break;
-                    }
-                    case InvalidSpecialJudge: {
+                    case InvalidSpecialJudge:
                         text = tr("Invalid Special Judge");
                         break;
-                    }
-                    case SpecialJudgeTimeLimitExceeded: {
+                    case SpecialJudgeTimeLimitExceeded:
                         text = tr("Special Judge Time Limit Exceeded");
                         break;
-                    }
-                    case SpecialJudgeRunTimeError: {
+                    case SpecialJudgeRunTimeError:
                         text = tr("Special Judge Run Time Error");
                         break;
-                    }
                 }
                 
                 htmlCode += QString("<td align=\"center\">%1").arg(text);

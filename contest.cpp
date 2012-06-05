@@ -48,10 +48,11 @@ const QString& Contest::getContestTitle() const
 
 Task* Contest::getTask(int index) const
 {
-    if (0 <= index && index < taskList.size())
+    if (0 <= index && index < taskList.size()) {
         return taskList[index];
-    else
+    } else {
         return 0;
+    }
 }
 
 const QList<Task*>& Contest::getTaskList() const
@@ -61,10 +62,11 @@ const QList<Task*>& Contest::getTaskList() const
 
 Contestant* Contest::getContestant(const QString &name) const
 {
-    if (contestantList.contains(name))
+    if (contestantList.contains(name)) {
         return contestantList.value(name);
-    else
+    } else {
         return 0;
+    }
 }
 
 QList<Contestant*> Contest::getContestantList() const

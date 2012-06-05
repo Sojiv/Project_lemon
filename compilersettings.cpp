@@ -161,8 +161,9 @@ void CompilerSettings::deleteCompiler()
 {
     if (QMessageBox::question(this, tr("Lemon"), tr("Are you sure to delete compiler %1?")
                               .arg(curCompiler->getCompilerName()),
-                              QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel)
+                              QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel) {
         return;
+    }
     int index = ui->compilerList->currentRow();
     delete ui->compilerList->item(index);
     editSettings->deleteCompiler(index);
@@ -195,14 +196,16 @@ void CompilerSettings::refreshItemState()
         ui->advancedButton->setEnabled(false);
         deleteCompilerKeyAction->setEnabled(false);
     } else {
-        if (ui->compilerList->currentRow() > 0)
+        if (ui->compilerList->currentRow() > 0) {
             ui->moveUpButton->setEnabled(true);
-        else
+        } else {
             ui->moveUpButton->setEnabled(false);
-        if (ui->compilerList->currentRow() + 1 < ui->compilerList->count())
+        }
+        if (ui->compilerList->currentRow() + 1 < ui->compilerList->count()) {
             ui->moveDownButton->setEnabled(true);
-        else
+        } else {
             ui->moveDownButton->setEnabled(false);
+        }
         ui->addCompilerButton->setEnabled(true);
         ui->deleteCompilerButton->setEnabled(true);
         ui->compilerName->setEnabled(true);
@@ -232,8 +235,9 @@ void CompilerSettings::compilerListCurrentRowChanged()
     if (ui->compilerList->currentItem()) {
         int index = ui->compilerList->currentRow();
         setCurrentCompiler(editSettings->getCompiler(index));
-    } else
+    } else {
         setCurrentCompiler(0);
+    }
     refreshItemState();
 }
 

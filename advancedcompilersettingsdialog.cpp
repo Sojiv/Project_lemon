@@ -273,8 +273,9 @@ void AdvancedCompilerSettingsDialog::configurationTextChanged()
 {
     if (! ui->configurationSelect->isEnabled()) return;
     if (ui->configurationSelect->currentIndex() == 0) {
-        if (ui->configurationSelect->lineEdit()->text() != "default")
+        if (ui->configurationSelect->lineEdit()->text() != "default") {
             ui->configurationSelect->lineEdit()->setText("default");
+        }
     } else {
         ui->configurationSelect->setItemText(ui->configurationSelect->currentIndex(),
                                              ui->configurationSelect->lineEdit()->text());
@@ -286,10 +287,11 @@ void AdvancedCompilerSettingsDialog::configurationTextChanged()
 void AdvancedCompilerSettingsDialog::deleteConfiguration()
 {
     int index = ui->configurationSelect->currentIndex();
-    if (index + 1 < ui->configurationSelect->count() - 1)
+    if (index + 1 < ui->configurationSelect->count() - 1) {
         ui->configurationSelect->setCurrentIndex(index + 1);
-    else
+    } else {
         ui->configurationSelect->setCurrentIndex(index - 1);
+    }
     editCompiler->deleteConfiguration(index);
     ui->configurationSelect->removeItem(index);
 }

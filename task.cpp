@@ -177,10 +177,11 @@ void Task::addTestCase(TestCase *testCase)
 
 TestCase* Task::getTestCase(int index) const
 {
-    if (0 <= index && index < testCaseList.size())
+    if (0 <= index && index < testCaseList.size()) {
         return testCaseList[index];
-    else
+    } else {
         return 0;
+    }
 }
 
 void Task::deleteTestCase(int index)
@@ -199,18 +200,20 @@ void Task::refreshCompilerConfiguration(Settings *settings)
         compilerNames.append(compilerList[i]->getCompilerName());
     QMap<QString, QString>::iterator p;
     for (p = compilerConfiguration.begin(); p != compilerConfiguration.end(); )
-        if (! compilerNames.contains(p.key()))
+        if (! compilerNames.contains(p.key())) {
             p = compilerConfiguration.erase(p);
-        else
+        } else {
             p ++;
+        }
     for (int i = 0; i < compilerList.size(); i ++)
         if (compilerConfiguration.contains(compilerList[i]->getCompilerName())) {
             const QString &config = compilerConfiguration.value(compilerList[i]->getCompilerName());
             const QStringList &configurationNames = compilerList[i]->getConfigurationNames();
             if (! configurationNames.contains(config))
                 compilerConfiguration.insert(compilerList[i]->getCompilerName(), "default");
-        } else
+        } else {
             compilerConfiguration.insert(compilerList[i]->getCompilerName(), "default");
+        }
     emit compilerConfigurationRefreshed();
 }
 

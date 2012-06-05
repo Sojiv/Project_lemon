@@ -119,7 +119,7 @@ void OpenContestWidget::addContest()
         return;
     }
     delete[] raw;
-    recentContest.append(fileName);
+    recentContest.prepend(fileName);
     refreshContestList();
 }
 
@@ -133,10 +133,11 @@ void OpenContestWidget::deleteContest()
 void OpenContestWidget::currentRowChanged()
 {
     int index = ui->recentContest->currentRow();
-    if (index != -1)
+    if (index != -1) {
         ui->deleteButton->setEnabled(true);
-    else
+    } else {
         ui->deleteButton->setEnabled(false);
+    }
 }
 
 const QStringList& OpenContestWidget::getRecentContest() const

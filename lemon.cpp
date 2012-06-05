@@ -159,12 +159,14 @@ void Lemon::welcome()
     dialog->setRecentContest(settings->getRecentContest());
     if (dialog->exec() == QDialog::Accepted) {
         settings->setRecentContest(dialog->getRecentContest());
-        if (dialog->getCurrentTab() == 0)
+        if (dialog->getCurrentTab() == 0) {
             loadContest(dialog->getSelectedContest());
-        else
+        } else {
             newContest(dialog->getContestTitle(), dialog->getSavingName(), dialog->getContestPath());
-    } else
+        }
+    } else {
         settings->setRecentContest(dialog->getRecentContest());
+    }
     delete dialog;
 }
 
@@ -224,14 +226,12 @@ void Lemon::summarySelectionChanged()
     if (index != -1) {
         ui->taskEdit->setEditTask(curContest->getTask(index));
         ui->editWidget->setCurrentIndex(1);
-        
     } else {
         QTreeWidgetItem *parentItem = curItem->parent();
         int taskIndex = ui->summary->indexOfTopLevelItem(parentItem);
         int testCaseIndex = parentItem->indexOfChild(curItem);
         Task *curTask = curContest->getTask(taskIndex);
         TestCase *curTestCase = curTask->getTestCase(testCaseIndex);
-        
         ui->testCaseEdit->setEditTestCase(curTestCase, curTask->getTaskType() == Task::Traditional);
         ui->editWidget->setCurrentIndex(2);
     }
@@ -461,9 +461,18 @@ void Lemon::loadAction()
 {
     OpenContestDialog *dialog = new OpenContestDialog(this);
     dialog->setRecentContest(settings->getRecentContest());
-    if (dialog->exec() == QDialog::Accepted)
-        loadContest(dialog->getSelectedContest());
-    settings->setRecentContest(dialog->getRecentContest());
+    QStringList recentContest = dialog->getRecentContest();
+    if (dialog->exec() == QDialog::Accepted) {
+        QString selectedContest = dialog->getSelectedContest();
+        for (int i = 0; i < recentContest.size(); i ++)
+            if (recentContest[i] == selectedContest) {
+                recentContest.removeAt(i);
+                break;
+            }
+        recentContest.prepend(selectedContest);
+        loadContest(selectedContest);
+    }
+    settings->setRecentContest(recentContest);
     delete dialog;
 }
 
@@ -554,10 +563,12 @@ void Lemon::addTasksAction()
     dialog->setMinimumSize(dialog->sizeHint());
     for (int i = 0; i < nameList.size(); i ++)
         dialog->addTask(nameList[i], 100, settings->getDefaultTimeLimit(), settings->getDefaultMemoryLimit());
-    if (dialog->exec() == QDialog::Accepted)
-        for (int i = 0; i < nameList.size(); i ++)
+    if (dialog->exec() == QDialog::Accepted) {
+        for (int i = 0; i < nameList.size(); i ++) {
             addTask(nameList[i], testCases[i], dialog->getFullScore(i) / testCases[i].size(),
                     dialog->getTimeLimit(i), dialog->getMemoryLimit(i));
+        }
+    }
     
     ui->summary->setContest(curContest);
 }
@@ -944,18 +955,20 @@ void Lemon::exportCsv(const QString &fileName)
     QList< QPair<int, QString> > sortList;
     for (int i = 0; i < contestantList.size(); i ++) {
         int totalScore = contestantList[i]->getTotalScore();
-        if (totalScore != -1)
+        if (totalScore != -1) {
             sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
-        else
+        } else {
             sortList.append(qMakePair(1, contestantList[i]->getContestantName()));
+        }
     }
     qSort(sortList);
     QMap<QString, int> rankList;
     for (int i = 0; i < sortList.size(); i ++)
-        if (i > 0 && sortList[i].first == sortList[i-1].first)
+        if (i > 0 && sortList[i].first == sortList[i-1].first) {
             rankList.insert(sortList[i].second, rankList[sortList[i-1].second]);
-        else
+        } else {
             rankList.insert(sortList[i].second, i);
+        }
     
     QMap<Contestant*, int> loc;
     for (int i = 0; i < contestantList.size(); i ++)
@@ -972,16 +985,18 @@ void Lemon::exportCsv(const QString &fileName)
         out << "\"" << sortList[i].second << "\"" << ",";
         for (int j = 0; j < taskList.size(); j ++) {
             int score = contestant->getTaskScore(j);
-            if (score != -1)
+            if (score != -1) {
                 out << "\"" << score << "\"" << ",";
-            else
+            } else {
                 out << "\"" << tr("Invalid") << "\"" << ",";
+            }
         }
         int score = contestant->getTotalScore();
-        if (score != -1)
+        if (score != -1) {
             out << "\"" << score << "\"" << endl;
-        else
+        } else {
             out << "\"" << tr("Invalid") << "\"" << endl;
+        }
     }
     
     QApplication::restoreOverrideCursor();
@@ -1005,18 +1020,20 @@ void Lemon::exportXls(const QString &fileName)
     QList< QPair<int, QString> > sortList;
     for (int i = 0; i < contestantList.size(); i ++) {
         int totalScore = contestantList[i]->getTotalScore();
-        if (totalScore != -1)
+        if (totalScore != -1) {
             sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
-        else
+        } else {
             sortList.append(qMakePair(1, contestantList[i]->getContestantName()));
+        }
     }
     qSort(sortList);
     QMap<QString, int> rankList;
     for (int i = 0; i < sortList.size(); i ++)
-        if (i > 0 && sortList[i].first == sortList[i-1].first)
+        if (i > 0 && sortList[i].first == sortList[i-1].first) {
             rankList.insert(sortList[i].second, rankList[sortList[i-1].second]);
-        else
+        } else {
             rankList.insert(sortList[i].second, i);
+        }
     
     QMap<Contestant*, int> loc;
     for (int i = 0; i < contestantList.size(); i ++)
@@ -1042,16 +1059,18 @@ void Lemon::exportXls(const QString &fileName)
         sheet->querySubObject("Cells(int, int)", 2 + i, 2)->setProperty("Value", sortList[i].second);
         for (int j = 0; j < taskList.size(); j ++) {
             int score = contestant->getTaskScore(j);
-            if (score != -1)
+            if (score != -1) {
                 sheet->querySubObject("Cells(int, int)", 2 + i, 3 + j)->setProperty("Value", score);
-            else
+            } else {
                 sheet->querySubObject("Cells(int, int)", 2 + i, 3 + j)->setProperty("Value", tr("Invalid"));
+            }
         }
         int score = contestant->getTotalScore();
-        if (score != -1)
+        if (score != -1) {
             sheet->querySubObject("Cells(int, int)", 2 + i, 3 + taskList.size())->setProperty("Value", score);
-        else
+        } else {
             sheet->querySubObject("Cells(int, int)", 2 + i, 3 + taskList.size())->setProperty("Value", tr("Invalid"));
+        }
     }
     
     workbook->dynamicCall("SaveAs(const QString&, int)", QDir::toNativeSeparators(fileName), -4143);

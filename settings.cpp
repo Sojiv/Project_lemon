@@ -180,10 +180,11 @@ void Settings::deleteCompiler(int index)
 
 Compiler* Settings::getCompiler(int index)
 {
-    if (0 <= index && index < compilerList.size())
+    if (0 <= index && index < compilerList.size()) {
         return compilerList[index];
-    else
+    } else {
         return 0;
+    }
 }
 
 void Settings::swapCompiler(int a, int b)

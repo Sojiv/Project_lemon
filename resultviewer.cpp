@@ -151,16 +151,20 @@ void ResultViewer::refreshViewer()
     
     qSort(sortList);
     QMap<QString, int> rankList;
-    for (int i = 0; i < sortList.size(); i ++)
-        if (i > 0 && sortList[i].first == sortList[i-1].first)
+    for (int i = 0; i < sortList.size(); i ++) {
+        if (i > 0 && sortList[i].first == sortList[i-1].first) {
             rankList.insert(sortList[i].second, rankList[sortList[i-1].second]);
-        else
+        } else {
             rankList.insert(sortList[i].second, i);
-    for (int i = 0; i < rowCount(); i ++)
-        if (rankList.contains(contestantList[i]->getContestantName()))
+        }
+    }
+    for (int i = 0; i < rowCount(); i ++) {
+        if (rankList.contains(contestantList[i]->getContestantName())) {
             item(i, 1)->setData(Qt::DisplayRole, rankList[contestantList[i]->getContestantName()] + 1);
-        else
+        } else {
             item(i, 1)->setText(tr("Invalid"));
+        }
+    }
     
     for (int i = 0; i < rowCount(); i ++)
         for (int j = 0; j < columnCount(); j ++)

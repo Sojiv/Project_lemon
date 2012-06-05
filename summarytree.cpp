@@ -231,13 +231,15 @@ void SummaryTree::deleteTask()
     if (indexOfTopLevelItem(curItem) == -1)
         curItem = curItem->parent();
     int index = indexOfTopLevelItem(curItem);
-    if (index + 1 < topLevelItemCount())
+    if (index + 1 < topLevelItemCount()) {
         setCurrentItem(topLevelItem(index + 1));
-    else
-        if (index - 1 >= 0)
+    } else {
+        if (index - 1 >= 0) {
             setCurrentItem(topLevelItem(index - 1));
-        else
+        } else {
             setCurrentItem(0);
+        }
+    }
     delete curItem;
     curContest->deleteTask(index);
 }

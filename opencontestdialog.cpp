@@ -43,10 +43,11 @@ void OpenContestDialog::setRecentContest(const QStringList &list)
 
 void OpenContestDialog::selectionChanged()
 {
-    if (ui->openContestWidget->getCurrentRow() != -1)
+    if (ui->openContestWidget->getCurrentRow() != -1) {
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-    else
+    } else {
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    }
 }
 
 const QStringList& OpenContestDialog::getRecentContest() const

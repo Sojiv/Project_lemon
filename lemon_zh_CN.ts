@@ -2078,8 +2078,7 @@
         <location filename="forms_unix/taskeditwidget.ui" line="123"/>
         <location filename="forms_win32/taskeditwidget.ui" line="123"/>
         <source>Input File Name</source>
-        <oldsource>Executable File Name</oldsource>
-        <translation type="unfinished">可执行文件名称</translation>
+        <translation type="unfinished">输入文件名</translation>
     </message>
     <message>
         <location filename="forms_unix/taskeditwidget.ui" line="152"/>

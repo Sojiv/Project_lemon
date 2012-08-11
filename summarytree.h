@@ -43,6 +43,8 @@ private:
     QAction *addTaskAction;
     QAction *addTestCaseAction;
     QAction *addTestCasesAction;
+    QAction *addTaskKeyAction;
+    QAction *addTestCaseKeyAction;
     QAction *deleteTaskAction;
     QAction *deleteTestCaseAction;
     QAction *deleteTaskKeyAction;

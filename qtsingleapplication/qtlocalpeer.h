@@ -46,6 +46,10 @@
 
 #include "qtlockedfile/qtlockedfile.h"
 
+#if defined(Q_OS_UNIX)
+#include <unistd.h>
+#endif
+
 class QtLocalPeer : public QObject
 {
     Q_OBJECT

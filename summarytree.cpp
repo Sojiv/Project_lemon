@@ -34,15 +34,25 @@ SummaryTree::SummaryTree(QWidget *parent) :
     addTestCasesAction = new QAction(tr("Add Test Cases ..."), this);
     deleteTaskAction = new QAction(tr("Delete Current Task"), this);
     deleteTestCaseAction = new QAction(tr("Delete Current Test Case"), this);
+    addTaskKeyAction = new QAction(this);
+    addTestCaseKeyAction = new QAction(this);
     deleteTaskKeyAction = new QAction(this);
     deleteTestCaseKeyAction = new QAction(this);
     
+    addTaskKeyAction->setShortcutContext(Qt::WidgetShortcut);
+    addTestCaseKeyAction->setShortcutContext(Qt::WidgetShortcut);
     deleteTaskKeyAction->setShortcutContext(Qt::WidgetShortcut);
     deleteTestCaseKeyAction->setShortcutContext(Qt::WidgetShortcut);
-    deleteTaskKeyAction->setShortcut(QKeySequence::Delete);
-    deleteTestCaseKeyAction->setShortcut(QKeySequence::Delete);
+    addTaskKeyAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Insert));
+    addTestCaseKeyAction->setShortcut(QKeySequence(Qt::Key_Insert));
+    deleteTaskKeyAction->setShortcut(QKeySequence(Qt::Key_Delete));
+    deleteTestCaseKeyAction->setShortcut(QKeySequence(Qt::Key_Delete));
+    addTaskKeyAction->setEnabled(true);
+    addTestCaseKeyAction->setEnabled(false);
     deleteTaskKeyAction->setEnabled(false);
     deleteTestCaseKeyAction->setEnabled(false);
+    addAction(addTaskKeyAction);
+    addAction(addTestCaseKeyAction);
     addAction(deleteTaskKeyAction);
     addAction(deleteTestCaseKeyAction);
     
@@ -52,6 +62,10 @@ SummaryTree::SummaryTree(QWidget *parent) :
             this, SLOT(addTestCase()));
     connect(addTestCasesAction, SIGNAL(triggered()),
             this, SLOT(addTestCases()));
+    connect(addTaskKeyAction, SIGNAL(triggered()),
+            this, SLOT(addTask()));
+    connect(addTestCaseKeyAction, SIGNAL(triggered()),
+            this, SLOT(addTestCase()));
     connect(deleteTaskAction, SIGNAL(triggered()),
             this, SLOT(deleteTask()));
     connect(deleteTestCaseAction, SIGNAL(triggered()),
@@ -262,6 +276,7 @@ void SummaryTree::selectionChanged()
     if (! isEnabled()) return;
     QTreeWidgetItem *curItem = currentItem();
     if (! curItem) {
+        addTestCaseKeyAction->setEnabled(false);
         deleteTaskKeyAction->setEnabled(false);
         deleteTestCaseKeyAction->setEnabled(false);
         return;
@@ -269,9 +284,11 @@ void SummaryTree::selectionChanged()
     
     int index = indexOfTopLevelItem(curItem);
     if (index != -1) {
+        addTestCaseKeyAction->setEnabled(true);
         deleteTaskKeyAction->setEnabled(true);
         deleteTestCaseKeyAction->setEnabled(false);
     } else {
+        addTestCaseKeyAction->setEnabled(true);
         deleteTaskKeyAction->setEnabled(false);
         deleteTestCaseKeyAction->setEnabled(true);
     }

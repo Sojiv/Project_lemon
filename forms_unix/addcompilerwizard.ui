@@ -859,16 +859,6 @@
           </layout>
          </item>
          <item>
-          <widget class="QCheckBox" name="pythonBytecodeCheck">
-           <property name="styleSheet">
-            <string notr="true">font-size:10pt;</string>
-           </property>
-           <property name="text">
-            <string>Generate Optimized Byte-code</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <spacer name="verticalSpacer_6">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -876,7 +866,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>23</height>
+             <height>55</height>
             </size>
            </property>
           </spacer>

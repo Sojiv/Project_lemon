@@ -55,7 +55,9 @@ SOURCES += main.cpp \
     advancedcompilersettingsdialog.cpp \
     environmentvariablesdialog.cpp \
     editvariabledialog.cpp \
-    addcompilerwizard.cpp
+    addcompilerwizard.cpp \
+    selftestutil.cpp \
+    exportutil.cpp
 
 win32:SOURCES += qtlockedfile/qtlockedfile_win.cpp
 unix:SOURCES += qtlockedfile/qtlockedfile_unix.cpp
@@ -94,7 +96,9 @@ HEADERS  += lemon.h \
     advancedcompilersettingsdialog.h \
     environmentvariablesdialog.h \
     editvariabledialog.h \
-    addcompilerwizard.h
+    addcompilerwizard.h \
+    selftestutil.h \
+    exportutil.h
 
 win32:FORMS += forms_win32/lemon.ui \
     forms_win32/taskeditwidget.ui \

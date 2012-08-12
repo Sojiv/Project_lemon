@@ -23,10 +23,6 @@
 #include <QtGui>
 #include <QMainWindow>
 
-#ifdef Q_OS_WIN32
-#include <QAxObject>
-#endif
-
 namespace Ui {
     class Lemon;
 }
@@ -62,10 +58,6 @@ private:
     void loadContest(const QString&);
     void getFiles(const QString&, const QStringList&, QMap<QString, QString>&);
     void addTask(const QString&, const QList< QPair<QString, QString> >&, int, int, int);
-    void clearPath(const QString&);
-    void exportHtml(const QString&);
-    void exportCsv(const QString&);
-    void exportXls(const QString&);
     static bool compareFileName(const QPair<QString, QString>&, const QPair<QString, QString>&);
 
 private slots:

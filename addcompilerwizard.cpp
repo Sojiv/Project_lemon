@@ -10,7 +10,7 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) :
     
     ui->sourceFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
     ui->bytecodeFileExtensions->setValidator(new QRegExpValidator(QRegExp("(\\w+;)*\\w+"), this));
-    ui->javaMemoryLimit->setValidator(new QIntValidator(128, 2048, this));
+    ui->javaMemoryLimit->setValidator(new QIntValidator(64, 2048, this));
     
 #ifdef Q_OS_LINUX
     if (QFileInfo("/usr/bin/gcc").exists())
@@ -192,8 +192,6 @@ bool AddCompilerWizard::validateCurrentPage()
         if (ui->pythonGroupBox->isEnabled()) {
             text += tr("[Python Compiler]") + "\n";
             text += tr("python Path: ") + ui->pythonPath->text() + "\n";
-            if (ui->pythonBytecodeCheck->isChecked())
-                text += tr("Generate Optimized Byte-code") + "\n";
             text += "\n";
         }
         ui->logViewer->setPlainText(text);
@@ -490,17 +488,9 @@ void AddCompilerWizard::accept()
             compiler->setSourceExtensions("py");
             compiler->setTimeLimitRatio(10);
             compiler->setMemoryLimitRatio(5);
-            if (ui->pythonBytecodeCheck->isChecked()) {
-                compiler->setCompilerType(Compiler::InterpretiveWithByteCode);
-                compiler->setCompilerLocation(ui->pythonPath->text());
-                compiler->setInterpreterLocation(ui->pythonPath->text());
-                compiler->setBytecodeExtensions("pyo");
-                compiler->addConfiguration("default", "-O -m py_compile %s.*", "%s.pyo");
-            } else {
-                compiler->setCompilerType(Compiler::InterpretiveWithoutByteCode);
-                compiler->setInterpreterLocation(ui->pythonPath->text());
-                compiler->addConfiguration("default", "", "%s.*");
-            }
+            compiler->setCompilerType(Compiler::InterpretiveWithoutByteCode);
+            compiler->setInterpreterLocation(ui->pythonPath->text());
+            compiler->addConfiguration("default", "", "%s.*");
             compilerList.append(compiler);
         }
     }

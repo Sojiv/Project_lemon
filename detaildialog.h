@@ -39,7 +39,6 @@ public:
     ~DetailDialog();
     void refreshViewer(Contest*, Contestant*);
     void showDialog();
-    static QString getCode(Contest*, Contestant*);
 
 private:
     Ui::DetailDialog *ui;

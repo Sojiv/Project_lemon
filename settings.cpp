@@ -189,9 +189,11 @@ Compiler* Settings::getCompiler(int index)
 
 void Settings::swapCompiler(int a, int b)
 {
-    if (0 <= a && a < compilerList.size())
-        if (0 <= b && b < compilerList.size())
+    if (0 <= a && a < compilerList.size()) {
+        if (0 <= b && b < compilerList.size()) {
             compilerList.swap(a, b);
+        }
+    }
 }
 
 void Settings::copyFrom(Settings *other)
@@ -208,8 +210,9 @@ void Settings::copyFrom(Settings *other)
     setInputFileExtensions(other->getInputFileExtensions().join(";"));
     setOutputFileExtensions(other->getOutputFileExtensions().join(";"));
     
-    for (int i = 0; i < compilerList.size(); i ++)
+    for (int i = 0; i < compilerList.size(); i ++) {
         delete compilerList[i];
+    }
     compilerList.clear();
     const QList<Compiler*> &list = other->getCompilerList();
     for (int i = 0; i < list.size(); i ++) {

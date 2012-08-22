@@ -66,14 +66,16 @@ void TestCase::setMemoryLimit(int limit)
 
 void TestCase::setInputFiles(int index, const QString &fileName)
 {
-    if (0 <= index && index < inputFiles.size())
+    if (0 <= index && index < inputFiles.size()) {
         inputFiles[index] = fileName;
+    }
 }
 
 void TestCase::setOutputFiles(int index, const QString &fileName)
 {
-    if (0 <= index && index < outputFiles.size())
+    if (0 <= index && index < outputFiles.size()) {
         outputFiles[index] = fileName;
+    }
 }
 
 void TestCase::addSingleCase(const QString &inputFile, const QString &outputFile)
@@ -94,11 +96,13 @@ void TestCase::writeToStream(QDataStream &out)
     out << timeLimit;
     out << memoryLimit;
     QStringList _inputFiles(inputFiles);
-    for (int i = 0; i < _inputFiles.size(); i ++)
+    for (int i = 0; i < _inputFiles.size(); i ++) {
         _inputFiles[i].replace(QDir::separator(), '/');
+    }
     QStringList _outputFiles(outputFiles);
-    for (int i = 0; i < _outputFiles.size(); i ++)
+    for (int i = 0; i < _outputFiles.size(); i ++) {
         _outputFiles[i].replace(QDir::separator(), '/');
+    }
     out << _inputFiles;
     out << _outputFiles;
 }
@@ -110,8 +114,10 @@ void TestCase::readFromStream(QDataStream &in)
     in >> memoryLimit;
     in >> inputFiles;
     in >> outputFiles;
-    for (int i = 0; i < inputFiles.size(); i ++)
+    for (int i = 0; i < inputFiles.size(); i ++) {
         inputFiles[i].replace('/', QDir::separator());
-    for (int i = 0; i < outputFiles.size(); i ++)
+    }
+    for (int i = 0; i < outputFiles.size(); i ++) {
         outputFiles[i].replace('/', QDir::separator());
+    }
 }

@@ -69,8 +69,9 @@ void ResultViewer::contextMenuEvent(QContextMenuEvent *event)
         contextMenu->addAction(detailInformationAction);
         contextMenu->setDefaultAction(detailInformationAction);
     }
-    if (selectionRange.size() > 0)
+    if (selectionRange.size() > 0) {
         contextMenu->addAction(judgeSelectedAction);
+    }
     contextMenu->addAction(deleteContestantAction);
     contextMenu->exec(QCursor::pos());
     delete contextMenu;
@@ -110,8 +111,9 @@ void ResultViewer::refreshViewer()
     QStringList headerList;
     headerList << tr("Name") << tr("Rank");
     QList<Task*> taskList = curContest->getTaskList();
-    for (int i = 0; i < taskList.size(); i ++)
+    for (int i = 0; i < taskList.size(); i ++) {
         headerList << taskList[i]->getProblemTile();
+    }
     headerList << tr("Total Score") << tr("Total Used Time (s)") << tr("Judging Time");
     setColumnCount(taskList.size() + 5);
     setHorizontalHeaderLabels(headerList);
@@ -126,10 +128,11 @@ void ResultViewer::refreshViewer()
         for (int j = 0; j < taskList.size(); j ++) {
             setItem(i, j + 2, new QTableWidgetItem());
             int score = contestantList[i]->getTaskScore(j);
-            if (score != -1)
+            if (score != -1) {
                 item(i, j + 2)->setData(Qt::DisplayRole, score);
-            else
+            } else {
                 item(i, j + 2)->setText(tr("Invalid"));
+            }
         }
         setItem(i, taskList.size() + 2, new QTableWidgetItem());
         setItem(i, taskList.size() + 3, new QTableWidgetItem());
@@ -166,18 +169,22 @@ void ResultViewer::refreshViewer()
         }
     }
     
-    for (int i = 0; i < rowCount(); i ++)
-        for (int j = 0; j < columnCount(); j ++)
+    for (int i = 0; i < rowCount(); i ++) {
+        for (int j = 0; j < columnCount(); j ++) {
             item(i, j)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        }
+    }
 }
 
 void ResultViewer::judgeSelected()
 {
     QStringList nameList;
     QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
-    for (int i = 0; i < selectionRange.size(); i ++)
-        for (int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++)
+    for (int i = 0; i < selectionRange.size(); i ++) {
+        for (int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++) {
             nameList.append(item(j, 0)->text());
+        }
+    }
     JudgingDialog *dialog = new JudgingDialog(this);
     dialog->setModal(true);
     dialog->setContest(curContest);
@@ -202,8 +209,9 @@ void ResultViewer::clearPath(const QString &curDir)
 {
     QDir dir(curDir);
     QStringList fileList = dir.entryList(QDir::Files);
-    for (int i = 0; i < fileList.size(); i ++)
+    for (int i = 0; i < fileList.size(); i ++) {
         dir.remove(fileList[i]);
+    }
     QStringList dirList = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
     for (int i = 0; i < dirList.size(); i ++) {
         clearPath(curDir + dirList[i] + QDir::separator());
@@ -226,7 +234,7 @@ void ResultViewer::deleteContestant()
     if (messageBox->exec() != QMessageBox::Ok) return;
     
     QList<QTableWidgetSelectionRange> selectionRange = selectedRanges();
-    for (int i = 0; i < selectionRange.size(); i ++)
+    for (int i = 0; i < selectionRange.size(); i ++) {
         for (int j = selectionRange[i].topRow(); j <= selectionRange[i].bottomRow(); j ++) {
             curContest->deleteContestant(item(j, 0)->text());
             if (checkBox->isChecked()) {
@@ -234,6 +242,7 @@ void ResultViewer::deleteContestant()
                 QDir(Settings::sourcePath()).rmdir(item(j, 0)->text());
             }
         }
+    }
     
     delete checkBox;
     delete messageBox;

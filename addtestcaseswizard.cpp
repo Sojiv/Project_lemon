@@ -38,8 +38,9 @@ AddTestCasesWizard::AddTestCasesWizard(QWidget *parent) :
             this, SLOT(memoryLimitChanged(QString)));
     
     QHeaderView *header = ui->argumentList->horizontalHeader();
-    for (int i = 0; i < 3; i ++)
+    for (int i = 0; i < 3; i ++) {
         header->resizeSection(i, header->sectionSizeHint(i));
+    }
     
     connect(ui->inputFilesPattern, SIGNAL(textChanged(QString)),
             this, SLOT(inputFilesPatternChanged(QString)));
@@ -164,8 +165,9 @@ void AddTestCasesWizard::refreshButtonState()
 void AddTestCasesWizard::getFiles(const QString &curDir, const QString &prefix, QStringList &files)
 {
     QStringList list = QDir(curDir).entryList(QDir::Files);
-    for (int i = 0; i < list.size(); i ++)
+    for (int i = 0; i < list.size(); i ++) {
         list[i] = prefix + list[i];
+    }
     files.append(list);
     list = QDir(curDir).entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
     for (int i = 0; i < list.size(); i ++) {
@@ -203,19 +205,22 @@ QStringList AddTestCasesWizard::getMatchedPart(const QString &str, const QString
     for (int i = 0; i < ui->argumentList->rowCount(); i ++)
         result.append("");
     for (int pos = 0, i = 0; pos < pattern.length(); i ++, pos ++) {
-        if (pos + 2 < pattern.length())
+        if (pos + 2 < pattern.length()) {
             if (pattern[pos] == '<' && pattern[pos+1].isDigit() && pattern[pos+1] != '0' && pattern[pos+2] == '>') {
                 int index = pattern[pos+1].toAscii() - 49;
                 QString regExp = ui->argumentList->item(index, 1)->text();
-                for (int j = i; j < str.length(); j ++)
-                    if (QRegExp(regExp).exactMatch(str.mid(i, j - i + 1)))
+                for (int j = i; j < str.length(); j ++) {
+                    if (QRegExp(regExp).exactMatch(str.mid(i, j - i + 1))) {
                         if (QRegExp(getFullRegExp(pattern.mid(pos + 3))).exactMatch(str.mid(j + 1))) {
                             result[index] = str.mid(i, j - i + 1);
                             i = j;
                             break;
                         }
+                    }
+                }
                 pos += 2;
             }
+        }
     }
     return result;
 }
@@ -227,46 +232,54 @@ void AddTestCasesWizard::searchMatchedFiles()
     getFiles(Settings::dataPath(), "", outputFiles);
     
     QString regExp = getFullRegExp(inputFilesPattern);
-    for (int i = 0; i < inputFiles.size(); i ++)
+    for (int i = 0; i < inputFiles.size(); i ++) {
         if (! QRegExp(regExp).exactMatch(inputFiles[i])) {
             inputFiles.removeAt(i);
             i --;
         }
+    }
     regExp = getFullRegExp(outputFilesPattern);
-    for (int i = 0; i < outputFiles.size(); i ++)
+    for (int i = 0; i < outputFiles.size(); i ++) {
         if (! QRegExp(regExp).exactMatch(outputFiles[i])) {
             outputFiles.removeAt(i);
             i --;
         }
+    }
     
     qSort(inputFiles.begin(), inputFiles.end(), compareFileName);
     qSort(outputFiles.begin(), outputFiles.end(), compareFileName);
     
     QList<QStringList> inputFilesMatchedPart;
     QList<QStringList> outputFilesMatchedPart;
-    for (int i = 0; i < inputFiles.size(); i ++)
+    for (int i = 0; i < inputFiles.size(); i ++) {
         inputFilesMatchedPart.append(getMatchedPart(inputFiles[i], inputFilesPattern));
-    for (int i = 0; i < outputFiles.size(); i ++)
+    }
+    for (int i = 0; i < outputFiles.size(); i ++) {
         outputFilesMatchedPart.append(getMatchedPart(outputFiles[i], outputFilesPattern));
+    }
     
     QMap<QString, int> loc;
     QList< QPair<QString, QString> > singleCases;
     QList< QStringList > matchedPart;
-    for (int i = 0; i < inputFiles.size(); i ++)
+    for (int i = 0; i < inputFiles.size(); i ++) {
         loc[inputFilesMatchedPart[i].join("*")] = i;
-    for (int i = 0; i < outputFiles.size(); i ++)
+    }
+    for (int i = 0; i < outputFiles.size(); i ++) {
         if (loc.count(outputFilesMatchedPart[i].join("*")) > 0) {
             int partner = loc[outputFilesMatchedPart[i].join("*")];
             singleCases.append(qMakePair(inputFiles[partner], outputFiles[i]));
             matchedPart.append(outputFilesMatchedPart[i]);
         }
+    }
     
     loc.clear();
     for (int i = 0; i < singleCases.size(); i ++) {
         QStringList key;
-        for (int j = 0; j < ui->argumentList->rowCount(); j ++)
-            if (ui->argumentList->item(j, 0)->checkState() == Qt::Checked)
+        for (int j = 0; j < ui->argumentList->rowCount(); j ++) {
+            if (ui->argumentList->item(j, 0)->checkState() == Qt::Checked) {
                 key.append(matchedPart[i][j]);
+            }
+        }
         loc.insertMulti(key.join("*"), i);
     }
     

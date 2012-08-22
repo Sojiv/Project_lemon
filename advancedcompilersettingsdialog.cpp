@@ -85,8 +85,9 @@ void AdvancedCompilerSettingsDialog::resetEditCompiler(Compiler *compiler)
     ui->memoryLimitRatio->setEnabled(! editCompiler->getDisableMemoryLimitCheck());
     QStringList configurationNames = editCompiler->getConfigurationNames();
     ui->configurationSelect->setEnabled(false);
-    for (int i = 0; i < configurationNames.size(); i ++)
+    for (int i = 0; i < configurationNames.size(); i ++) {
         ui->configurationSelect->addItem(configurationNames[i]);
+    }
     ui->configurationSelect->addItem(tr("Add new ..."));
     ui->configurationSelect->setEnabled(true);
     ui->configurationSelect->setCurrentIndex(0);
@@ -314,7 +315,8 @@ void AdvancedCompilerSettingsDialog::environmentVariablesButtonClicked()
 {
     EnvironmentVariablesDialog *dialog = new EnvironmentVariablesDialog(this);
     dialog->setProcessEnvironment(editCompiler->getEnvironment());
-    if (dialog->exec() == QDialog::Accepted)
+    if (dialog->exec() == QDialog::Accepted) {
         editCompiler->setEnvironment(dialog->getProcessEnvironment());
+    }
     delete dialog;
 }

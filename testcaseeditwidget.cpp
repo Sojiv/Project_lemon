@@ -143,8 +143,9 @@ void TestCaseEditWidget::addSingleCase()
 void TestCaseEditWidget::deleteSingleCase()
 {
     QTableWidgetSelectionRange range = ui->fileList->selectedRanges().at(0);
-    for (int i = 0; i <= range.rowCount(); i ++)
+    for (int i = 0; i <= range.rowCount(); i ++) {
         editTestCase->deleteSingleCase(range.topRow());
+    }
     refreshFileList();
 }
 

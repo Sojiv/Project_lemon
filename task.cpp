@@ -199,29 +199,33 @@ void Task::refreshCompilerConfiguration(Settings *settings)
     for (int i = 0; i < compilerList.size(); i ++)
         compilerNames.append(compilerList[i]->getCompilerName());
     QMap<QString, QString>::iterator p;
-    for (p = compilerConfiguration.begin(); p != compilerConfiguration.end(); )
+    for (p = compilerConfiguration.begin(); p != compilerConfiguration.end(); ) {
         if (! compilerNames.contains(p.key())) {
             p = compilerConfiguration.erase(p);
         } else {
             p ++;
         }
-    for (int i = 0; i < compilerList.size(); i ++)
+    }
+    for (int i = 0; i < compilerList.size(); i ++) {
         if (compilerConfiguration.contains(compilerList[i]->getCompilerName())) {
             const QString &config = compilerConfiguration.value(compilerList[i]->getCompilerName());
             const QStringList &configurationNames = compilerList[i]->getConfigurationNames();
-            if (! configurationNames.contains(config))
+            if (! configurationNames.contains(config)) {
                 compilerConfiguration.insert(compilerList[i]->getCompilerName(), "default");
+            }
         } else {
             compilerConfiguration.insert(compilerList[i]->getCompilerName(), "default");
         }
+    }
     emit compilerConfigurationRefreshed();
 }
 
 int Task::getTotalTimeLimit() const
 {
     int total = 0;
-    for (int i = 0; i < testCaseList.size(); i ++)
+    for (int i = 0; i < testCaseList.size(); i ++) {
         total += testCaseList[i]->getTimeLimit() * testCaseList[i]->getInputFiles().size();
+    }
     return total;
 }
 
@@ -243,8 +247,9 @@ void Task::writeToStream(QDataStream &out)
     out << compilerConfiguration;
     out << answerFileExtension;
     out << testCaseList.size();
-    for (int i = 0; i < testCaseList.size(); i ++)
+    for (int i = 0; i < testCaseList.size(); i ++) {
         testCaseList[i]->writeToStream(out);
+    }
 }
 
 void Task::readFromStream(QDataStream &in)

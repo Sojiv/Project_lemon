@@ -179,8 +179,9 @@ int Contestant::getTaskScore(int index) const
     int total = 0;
     for (int i = 0; i < score[index].size(); i ++) {
         int minv = 1000000000;
-        for (int j = 0; j < score[index][i].size(); j ++)
+        for (int j = 0; j < score[index][i].size(); j ++) {
             if (score[index][i][j] < minv) minv = score[index][i][j];
+        }
         if (minv == 1000000000) minv = 0;
         total += minv;
     }
@@ -190,24 +191,30 @@ int Contestant::getTaskScore(int index) const
 int Contestant::getTotalScore() const
 {
     if (checkJudged.size() == 0) return -1;
-    for (int i = 0; i < checkJudged.size(); i ++)
+    for (int i = 0; i < checkJudged.size(); i ++) {
         if (! checkJudged[i]) return -1;
+    }
     int total = 0;
-    for (int i = 0; i < score.size(); i ++)
+    for (int i = 0; i < score.size(); i ++) {
         total += getTaskScore(i);
+    }
     return total;
 }
 
 int Contestant::getTotalUsedTime() const
 {
     if (checkJudged.size() == 0) return -1;
-    for (int i = 0; i < checkJudged.size(); i ++)
+    for (int i = 0; i < checkJudged.size(); i ++) {
         if (! checkJudged[i]) return -1;
+    }
     int total = 0;
-    for (int i = 0; i < timeUsed.size(); i ++)
-        for (int j = 0; j < timeUsed[i].size(); j ++)
-            for (int k = 0; k < timeUsed[i][j].size(); k ++)
+    for (int i = 0; i < timeUsed.size(); i ++) {
+        for (int j = 0; j < timeUsed[i].size(); j ++) {
+            for (int k = 0; k < timeUsed[i][j].size(); k ++) {
                 if (timeUsed[i][j][k] >= 0) total += timeUsed[i][j][k];
+            }
+        }
+    }
     return total;
 }
 
@@ -224,15 +231,17 @@ void Contestant::writeToStream(QDataStream &out)
     out << memoryUsed;
     out << judgingTime;
     out << compileState.size();
-    for (int i = 0; i < compileState.size(); i ++)
+    for (int i = 0; i < compileState.size(); i ++) {
         out << int(compileState[i]);
+    }
     out << result.size();
     for (int i = 0; i < result.size(); i ++) {
         out << result[i].size();
         for (int j = 0; j < result[i].size(); j ++) {
             out << result[i][j].size();
-            for (int k = 0; k < result[i][j].size(); k ++)
+            for (int k = 0; k < result[i][j].size(); k ++) {
                 out << int(result[i][j][k]);
+            }
         }
     }
 }

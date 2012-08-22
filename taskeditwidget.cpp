@@ -114,10 +114,12 @@ void TaskEditWidget::setEditTask(Task *task)
     ui->standardOutputCheck->setChecked(editTask->getStandardOutputCheck());
     ui->answerFileExtension->setText(editTask->getAnswerFileExtension());
     refreshCompilerConfiguration();
-    if (editTask->getTaskType() == Task::Traditional)
+    if (editTask->getTaskType() == Task::Traditional) {
         ui->traditionalButton->setChecked(true);
-    if (editTask->getTaskType() == Task::AnswersOnly)
+    }
+    if (editTask->getTaskType() == Task::AnswersOnly) {
         ui->answersOnlyButton->setChecked(true);
+    }
     refreshWidgetState();
 }
 
@@ -171,10 +173,12 @@ void TaskEditWidget::sourceFileNameChanged(const QString &text)
     if (! editTask) return;
     if (! ui->sourceFileName->isEnabled()) return;
     editTask->setSourceFileName(text);
-    if (ui->inputFileName->isEnabled())
+    if (ui->inputFileName->isEnabled()) {
         ui->inputFileName->setText(text + "." + settings->getDefaultInputFileExtension());
-    if (ui->outputFileName->isEnabled())
+    }
+    if (ui->outputFileName->isEnabled()) {
         ui->outputFileName->setText(text + "." + settings->getDefaultOutputFileExtension());
+    }
 }
 
 void TaskEditWidget::inputFileNameChanged(const QString &text)
@@ -245,8 +249,9 @@ void TaskEditWidget::refreshCompilerConfiguration()
     ui->configurationSelect->clear();
     const QList<Compiler*> &compilerList = settings->getCompilerList();
     if (compilerList.isEmpty()) return;
-    for (int i = 0; i < compilerList.size(); i ++)
+    for (int i = 0; i < compilerList.size(); i ++) {
         ui->compilersList->addItem(compilerList[i]->getCompilerName());
+    }
     ui->compilersList->setEnabled(true);
     ui->configurationSelect->setEnabled(true);
     ui->configurationLabel->setEnabled(true);
@@ -262,9 +267,11 @@ void TaskEditWidget::compilerSelectionChanged()
     ui->configurationSelect->clear();
     ui->configurationSelect->addItem("disable");
     const QList<Compiler*> &compilerList = settings->getCompilerList();
-    for (int i = 0; i < compilerList.size(); i ++)
-        if (compilerList[i]->getCompilerName() == ui->compilersList->currentItem()->text())
+    for (int i = 0; i < compilerList.size(); i ++) {
+        if (compilerList[i]->getCompilerName() == ui->compilersList->currentItem()->text()) {
             ui->configurationSelect->addItems(compilerList[i]->getConfigurationNames());
+        }
+    }
     QString config = editTask->getCompilerConfiguration(ui->compilersList->currentItem()->text());
     ui->configurationSelect->setCurrentIndex(ui->configurationSelect->findText(config));
     ui->configurationSelect->setEnabled(true);

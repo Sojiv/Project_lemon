@@ -175,15 +175,17 @@ void Lemon::welcome()
 void Lemon::loadUiLanguage()
 {
     ui->setEnglishAction->setChecked(false);
-    for (int i = 0; i < languageActions.size(); i ++)
+    for (int i = 0; i < languageActions.size(); i ++) {
         languageActions[i]->setChecked(false);
-    for (int i = 0; i < languageActions.size(); i ++)
+    }
+    for (int i = 0; i < languageActions.size(); i ++) {
         if (languageActions[i]->data().toString() == settings->getUiLanguage()) {
             languageActions[i]->setChecked(true);
             appTranslator->load(QString(":/translation/lemon_%1.qm").arg(settings->getUiLanguage()));
             qtTranslator->load(QString(":/translation/qt_%1.qm").arg(settings->getUiLanguage()));
             return;
         }
+    }
     settings->setUiLanguage("en");
     appTranslator->load("");
     qtTranslator->load("");
@@ -195,8 +197,9 @@ void Lemon::insertWatchPath(const QString &curDir, QFileSystemWatcher *watcher)
     watcher->addPath(curDir);
     QDir dir(curDir);
     QStringList list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-    for (int i = 0; i < list.size(); i ++)
+    for (int i = 0; i < list.size(); i ++) {
         insertWatchPath(curDir + list[i] + QDir::separator(), watcher);
+    }
 }
 
 void Lemon::resetDataWatcher()
@@ -437,8 +440,9 @@ void Lemon::newContest(const QString &title, const QString &savingName, const QS
 void Lemon::newAction()
 {
     NewContestDialog *dialog = new NewContestDialog(this);
-    if (dialog->exec() == QDialog::Accepted)
+    if (dialog->exec() == QDialog::Accepted) {
         newContest(dialog->getContestTitle(), dialog->getSavingName(), dialog->getContestPath());
+    }
     delete dialog;
 }
 
@@ -466,11 +470,12 @@ void Lemon::loadAction()
     QStringList recentContest = dialog->getRecentContest();
     if (dialog->exec() == QDialog::Accepted) {
         QString selectedContest = dialog->getSelectedContest();
-        for (int i = 0; i < recentContest.size(); i ++)
+        for (int i = 0; i < recentContest.size(); i ++) {
             if (recentContest[i] == selectedContest) {
                 recentContest.removeAt(i);
                 break;
             }
+        }
         recentContest.prepend(selectedContest);
         loadContest(selectedContest);
     }
@@ -483,8 +488,9 @@ void Lemon::getFiles(const QString &path, const QStringList &filters, QMap<QStri
     QDir dir(path);
     if (! filters.isEmpty()) dir.setNameFilters(filters);
     QFileInfoList list = dir.entryInfoList(QDir::Files);
-    for (int i = 0; i < list.size(); i ++)
+    for (int i = 0; i < list.size(); i ++) {
         files.insert(list[i].completeBaseName(), list[i].fileName());
+    }
 }
 
 void Lemon::addTask(const QString &title, const QList<QPair<QString, QString> > &testCases,
@@ -520,32 +526,37 @@ void Lemon::addTasksAction()
     QStringList list = QDir(Settings::dataPath()).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     QSet<QString> nameSet;
     QList<Task*> taskList = curContest->getTaskList();
-    for (int i = 0; i < taskList.size(); i ++)
+    for (int i = 0; i < taskList.size(); i ++) {
         nameSet.insert(taskList[i]->getSourceFileName());
+    }
     QStringList nameList;
     QList< QList< QPair<QString, QString> > > testCases;
-    for (int i = 0; i < list.size(); i ++)
+    for (int i = 0; i < list.size(); i ++) {
         if (! nameSet.contains(list[i])) {
             QStringList filters;
             filters = settings->getInputFileExtensions();
             if (filters.isEmpty()) filters << "in";
-            for (int j = 0; j < filters.size(); j ++)
+            for (int j = 0; j < filters.size(); j ++) {
                 filters[j] = QString("*.") + filters[j];
+            }
             QMap<QString, QString> inputFiles;
             getFiles(Settings::dataPath() + list[i], filters, inputFiles);
             
             filters = settings->getOutputFileExtensions();
             if (filters.isEmpty()) filters << "out" << "ans";
-            for (int j = 0; j < filters.size(); j ++)
+            for (int j = 0; j < filters.size(); j ++) {
                 filters[j] = QString("*.") + filters[j];
+            }
             QMap<QString, QString> outputFiles;
             getFiles(Settings::dataPath() + list[i], filters, outputFiles);
             
             QList< QPair<QString, QString> > cases;
             QStringList baseNameList = inputFiles.keys();
-            for (int j = 0; j < baseNameList.size(); j ++)
-                if (outputFiles.contains(baseNameList[j]))
+            for (int j = 0; j < baseNameList.size(); j ++) {
+                if (outputFiles.contains(baseNameList[j])) {
                     cases.append(qMakePair(inputFiles[baseNameList[j]], outputFiles[baseNameList[j]]));
+                }
+            }
             
             qSort(cases.begin(), cases.end(), compareFileName);
             if (! cases.isEmpty()) {
@@ -553,6 +564,7 @@ void Lemon::addTasksAction()
                 testCases.append(cases);
             }
         }
+    }
     
     if (nameList.isEmpty()) {
         QMessageBox::warning(this, tr("Lemon"), tr("No task found"), QMessageBox::Ok);
@@ -563,8 +575,9 @@ void Lemon::addTasksAction()
     dialog->resize(dialog->sizeHint());
     dialog->setMaximumSize(dialog->sizeHint());
     dialog->setMinimumSize(dialog->sizeHint());
-    for (int i = 0; i < nameList.size(); i ++)
+    for (int i = 0; i < nameList.size(); i ++) {
         dialog->addTask(nameList[i], 100, settings->getDefaultTimeLimit(), settings->getDefaultMemoryLimit());
+    }
     if (dialog->exec() == QDialog::Accepted) {
         for (int i = 0; i < nameList.size(); i ++) {
             addTask(nameList[i], testCases[i], dialog->getFullScore(i) / testCases[i].size(),

@@ -119,8 +119,9 @@ bool AssignmentThread::traditionalTaskPrepare()
     for (int i = 0; i < compilerList.size(); i ++) {
         if (task->getCompilerConfiguration(compilerList[i]->getCompilerName()) == "disable") continue;
         QStringList filters = compilerList[i]->getSourceExtensions();
-        for (int j = 0; j < filters.size(); j ++)
+        for (int j = 0; j < filters.size(); j ++) {
             filters[j] = task->getSourceFileName() + "." + filters[j];
+        }
         QStringList files = contestantDir.entryList(filters, QDir::Files);
         sourceFile = "";
         for (int j = 0; j < files.size(); j ++) {
@@ -139,7 +140,7 @@ bool AssignmentThread::traditionalTaskPrepare()
             QStringList compilerArguments = compilerList[i]->getCompilerArguments();
             QStringList interpreterArguments = compilerList[i]->getInterpreterArguments();
             QString currentConfiguration = task->getCompilerConfiguration(compilerList[i]->getCompilerName());
-            for (int j = 0; j < configurationNames.size(); j ++)
+            for (int j = 0; j < configurationNames.size(); j ++) {
                 if (configurationNames[j] == currentConfiguration) {
                     timeLimitRatio = compilerList[i]->getTimeLimitRatio();
                     memoryLimitRatio = compilerList[i]->getMemoryLimitRatio();
@@ -216,8 +217,9 @@ bool AssignmentThread::traditionalTaskPrepare()
                                     }
                                 } else {
                                     QStringList filters = compilerList[i]->getBytecodeExtensions();
-                                    for (int k = 0; k < filters.size(); k ++)
+                                    for (int k = 0; k < filters.size(); k ++) {
                                         filters[k] = QString("*.") + filters[k];
+                                    }
                                     if (QDir(Settings::temporaryPath() + contestantName)
                                             .entryList(filters, QDir::Files).size() == 0) {
                                         compileState = InvalidCompiler;
@@ -234,6 +236,7 @@ bool AssignmentThread::traditionalTaskPrepare()
                     
                     break;
                 }
+            }
             break;
         }
     }
@@ -290,8 +293,10 @@ void AssignmentThread::assign()
         TestCase *curTestCase = task->getTestCase(curTestCaseIndex);
         if (curSingleCaseIndex == curTestCase->getInputFiles().size()) {
             curTestCaseIndex ++;
-            for ( ; curTestCaseIndex < task->getTestCaseList().size(); curTestCaseIndex ++)
+            while (curTestCaseIndex < task->getTestCaseList().size()) {
                 if (task->getTestCase(curTestCaseIndex)->getInputFiles().size() > 0) break;
+                curTestCaseIndex ++;
+            }
             curSingleCaseIndex = 0;
             if (curTestCaseIndex == task->getTestCaseList().size()) {
                 if (countFinished == totalSingleCase) quit();

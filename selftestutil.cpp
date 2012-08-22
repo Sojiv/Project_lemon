@@ -211,37 +211,44 @@ void SelfTestUtil::makeSelfTest(QWidget *widget, Contest *contest)
                     out << "echo Message:" << endl << "type _message" << endl << ")" << endl;
                 }
                 out << "pause" << endl;
-                if (! taskList[i]->getStandardInputCheck() && taskList[i]->getTaskType() == Task::Traditional)
+                if (! taskList[i]->getStandardInputCheck() && taskList[i]->getTaskType() == Task::Traditional) {
                     out << QString("del \"%1\"").arg(taskList[i]->getInputFileName()) << endl;
-                if (taskList[i]->getTaskType() == Task::Traditional) {
-                    if (! taskList[i]->getStandardOutputCheck())
-                        out << QString("del \"%1\"").arg(taskList[i]->getOutputFileName()) << endl;
-                    else
-                        out << "del _tmpout" << endl;
                 }
-                if (taskList[i]->getComparisonMode() == Task::SpecialJudgeMode)
+                if (taskList[i]->getTaskType() == Task::Traditional) {
+                    if (! taskList[i]->getStandardOutputCheck()) {
+                        out << QString("del \"%1\"").arg(taskList[i]->getOutputFileName()) << endl;
+                    } else {
+                        out << "del _tmpout" << endl;
+                    }
+                }
+                if (taskList[i]->getComparisonMode() == Task::SpecialJudgeMode) {
                     out << "del _score" << endl << "del _message" << endl;
+                }
                 out << "echo." << endl << endl;
 #endif
 #ifdef Q_OS_LINUX
-                if (! taskList[i]->getStandardInputCheck() && taskList[i]->getTaskType() == Task::Traditional)
+                if (! taskList[i]->getStandardInputCheck() && taskList[i]->getTaskType() == Task::Traditional) {
                     out << QString("cp %1 %2").arg(inputFile,
                                                    taskList[i]->getInputFileName()) << endl;
+                }
                 out << QString("echo \"Test Case: %1\"").arg(index) << endl;
                 if (taskList[i]->getTaskType() == Task::Traditional) {
                     QString cmd = QString("\"") + taskList[i]->getSourceFileName() + "\"";
-                    if (taskList[i]->getStandardInputCheck())
+                    if (taskList[i]->getStandardInputCheck()) {
                         cmd += QString(" <\"%1\"").arg(inputFile);
-                    if (taskList[i]->getStandardOutputCheck())
+                    }
+                    if (taskList[i]->getStandardOutputCheck()) {
                         cmd += QString(" >\"%1\"").arg("_tmpout");
+                    }
                     out << QString("time ./") << cmd << endl;
                 }
                 QString outputFileName;
                 if (taskList[i]->getTaskType() == Task::Traditional) {
-                    if (taskList[i]->getStandardOutputCheck())
+                    if (taskList[i]->getStandardOutputCheck()) {
                         outputFileName = "_tmpout";
-                    else
+                    } else {
                         outputFileName = taskList[i]->getOutputFileName();
+                    }
                 } else {
                     outputFileName = QFileInfo(inputFiles[k]).completeBaseName() + "."
                                      + taskList[i]->getAnswerFileExtension();
@@ -288,15 +295,19 @@ void SelfTestUtil::makeSelfTest(QWidget *widget, Contest *contest)
                     out << "echo \"Message:\"" << endl << "cat _message" << endl << "fi" << endl;
                 }
                 out << "read -n1 -p \"Press enter to continue...\"" << endl;
-                if (! taskList[i]->getStandardInputCheck() && taskList[i]->getTaskType() == Task::Traditional)
+                if (! taskList[i]->getStandardInputCheck() && taskList[i]->getTaskType() == Task::Traditional) {
                     out << QString("rm \"%1\"").arg(taskList[i]->getInputFileName()) << endl;
-                if (taskList[i]->getTaskType() == Task::Traditional)
-                    if (! taskList[i]->getStandardOutputCheck())
+                }
+                if (taskList[i]->getTaskType() == Task::Traditional) {
+                    if (! taskList[i]->getStandardOutputCheck()) {
                         out << QString("rm \"%1\"").arg(taskList[i]->getOutputFileName()) << endl;
-                    else
+                    } else {
                         out << "rm _tmpout" << endl;
-                if (taskList[i]->getComparisonMode() == Task::SpecialJudgeMode)
+                    }
+                }
+                if (taskList[i]->getComparisonMode() == Task::SpecialJudgeMode) {
                     out << "rm _score" << endl << "rm _message" << endl;
+                }
                 out << "echo" << endl << endl;
 #endif
             }

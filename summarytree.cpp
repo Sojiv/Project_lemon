@@ -189,8 +189,9 @@ void SummaryTree::addTask()
 void SummaryTree::addTestCase()
 {
     QTreeWidgetItem *curItem = currentItem();
-    if (indexOfTopLevelItem(curItem) == -1)
+    if (indexOfTopLevelItem(curItem) == -1) {
         curItem = curItem->parent();
+    }
     int index = indexOfTopLevelItem(curItem);
     Task *curTask = curContest->getTask(index);
     TestCase *newTestCase = new TestCase;
@@ -207,8 +208,9 @@ void SummaryTree::addTestCase()
 void SummaryTree::addTestCases()
 {
     QTreeWidgetItem *curItem = currentItem();
-    if (indexOfTopLevelItem(curItem) == -1)
+    if (indexOfTopLevelItem(curItem) == -1) {
         curItem = curItem->parent();
+    }
     int index = indexOfTopLevelItem(curItem);
     Task *curTask = curContest->getTask(index);
     AddTestCasesWizard *wizard = new AddTestCasesWizard(this);
@@ -227,8 +229,9 @@ void SummaryTree::addTestCases()
             curTestCase->setFullScore(wizard->getFullScore());
             curTestCase->setTimeLimit(wizard->getTimeLimit());
             curTestCase->setMemoryLimit(wizard->getMemoryLimit());
-            for (int j = 0; j < inputFiles[i].size(); j ++)
+            for (int j = 0; j < inputFiles[i].size(); j ++) {
                 curTestCase->addSingleCase(inputFiles[i][j], outputFiles[i][j]);
+            }
             setCurrentItem(parentItem);
             setCurrentItem(curItem);
         }
@@ -239,11 +242,13 @@ void SummaryTree::addTestCases()
 void SummaryTree::deleteTask()
 {
     if (QMessageBox::warning(this, tr("Lemon"), tr("Are you sure to delete this task?"),
-                             QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Cancel)
+                             QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Cancel) {
         return;
+    }
     QTreeWidgetItem *curItem = currentItem();
-    if (indexOfTopLevelItem(curItem) == -1)
+    if (indexOfTopLevelItem(curItem) == -1) {
         curItem = curItem->parent();
+    }
     int index = indexOfTopLevelItem(curItem);
     if (index + 1 < topLevelItemCount()) {
         setCurrentItem(topLevelItem(index + 1));
@@ -267,8 +272,9 @@ void SummaryTree::deleteTestCase()
     Task *curTask = curContest->getTask(taskIndex);
     delete curItem;
     curTask->deleteTestCase(testCaseIndex);
-    for (int i = 0; i < parentItem->childCount(); i ++)
+    for (int i = 0; i < parentItem->childCount(); i ++) {
         parentItem->child(i)->setText(0, tr("Test Case #%1").arg(i + 1));
+    }
 }
 
 void SummaryTree::selectionChanged()

@@ -690,10 +690,6 @@ void JudgingThread::runProgram()
         }
     }
     
-    if (memoryLimit != -1) {
-        SetProcessWorkingSetSize(pi.hProcess, memoryLimit * 1024 * 1024 / 4, memoryLimit * 1024 * 1024);
-    }
-    
     bool flag = false;
     QElapsedTimer timer;
     timer.start();

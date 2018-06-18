@@ -18,6 +18,9 @@
 
 QT       += core gui network
 
+QT += core gui widgets
+QT += widgets
+
 TARGET = lemon
 TEMPLATE = app
 

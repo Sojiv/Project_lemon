@@ -22,6 +22,8 @@
 #include <QtCore>
 #include <QtGui>
 #include <QDialog>
+#include <QMetaObject>
+#include <QPushButton>
 
 namespace Ui {
     class OptionsDialog;

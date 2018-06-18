@@ -22,6 +22,14 @@
 #include <QtCore>
 #include <QtGui>
 #include <QTableWidget>
+#include <QAction>
+#include <QMenu>
+#include <QCheckBox>
+#include <QAccessible>
+#include <QApplication>
+#include <QMessageBox>
+#include <QGridLayout>
+#include <QHeaderView>
 
 class Contest;
 

@@ -20,8 +20,11 @@
 #define NEWCONTESTDIALOG_H
 
 #include <QtCore>
-#include <QtGui>
+// #include <QtGui>
 #include <QDialog>
+#include <QFileDialog>
+#include <QPushButton>
+#include <QtWidgets>
 
 namespace Ui {
     class NewContestDialog;

@@ -22,6 +22,9 @@
 #include <QtCore>
 #include <QtGui>
 #include <QObject>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QApplication>
 
 #ifdef Q_OS_WIN32
 #include <QAxObject>

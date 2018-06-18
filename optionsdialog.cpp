@@ -26,8 +26,9 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     editSettings = new Settings(this);
-    connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()),
-            this, SLOT(okayButtonClicked()));
+    // connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(okayButtonClicked()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked,
+            this, &OptionsDialog::okayButtonClicked);
 }
 
 OptionsDialog::~OptionsDialog()

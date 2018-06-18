@@ -22,6 +22,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QFileDialog>
 
 namespace Ui {
     class NewContestWidget;

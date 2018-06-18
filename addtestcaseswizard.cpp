@@ -207,7 +207,7 @@ QStringList AddTestCasesWizard::getMatchedPart(const QString &str, const QString
     for (int pos = 0, i = 0; pos < pattern.length(); i ++, pos ++) {
         if (pos + 2 < pattern.length()) {
             if (pattern[pos] == '<' && pattern[pos+1].isDigit() && pattern[pos+1] != '0' && pattern[pos+2] == '>') {
-                int index = pattern[pos+1].toAscii() - 49;
+                int index = pattern[pos+1].toLatin1() - 49;
                 QString regExp = ui->argumentList->item(index, 1)->text();
                 for (int j = i; j < str.length(); j ++) {
                     if (QRegExp(regExp).exactMatch(str.mid(i, j - i + 1))) {

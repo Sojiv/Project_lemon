@@ -87,7 +87,7 @@ void OpenContestWidget::refreshContestList()
         i ++;
     }
     QHeaderView *header = ui->recentContest->horizontalHeader();
-    header->setResizeMode(QHeaderView::ResizeToContents);
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
 void OpenContestWidget::addContest()

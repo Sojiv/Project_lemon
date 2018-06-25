@@ -31,7 +31,7 @@ Fedora16下的安装注意事项（By litimetal）： 1、安装 qt-devel 2、�
 
 ## 注意事项
 
-realjudge.c 和 realjudge_watch.c 需要重新编译（在使用的平台上）
+realjudge.c 和 watcher_unix.c 需要重新编译（在使用的平台上）
 
 注意使用gcc编译，编译的生成的目标文件以平台为主，比如说realjudge_osx
 

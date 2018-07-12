@@ -199,8 +199,13 @@ void AdvancedCompilerSettingsDialog::selectCompilerLocation()
     QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
                                                     QDir::rootPath(), tr("Executable files (*.exe)"));
 #endif
-    
+
 #ifdef Q_OS_LINUX
+    QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
+                                                    QDir::rootPath(), tr("Executable files (*.*)"));
+#endif
+
+#ifdef Q_OS_OSX
     QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
                                                     QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
@@ -221,6 +226,12 @@ void AdvancedCompilerSettingsDialog::selectInterpreterLocation()
     QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
                                                     QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
+
+#ifdef Q_OS_OSX
+    QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
+                                                    QDir::rootPath(), tr("Executable files (*.*)"));
+#endif
+
     if (! location.isEmpty()) {
         location = location.replace('/', QDir::separator());
         ui->interpreterLocation->setText(location);

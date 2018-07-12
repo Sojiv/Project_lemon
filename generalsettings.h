@@ -22,6 +22,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QMessageBox>
 
 namespace Ui {
     class GeneralSettings;

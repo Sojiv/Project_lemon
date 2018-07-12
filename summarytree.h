@@ -22,6 +22,11 @@
 #include <QtCore>
 #include <QtGui>
 #include <QTreeWidget>
+#include <QAction>
+#include <QMenu>
+#include <QMessageBox>
+#include <QContextMenuEvent>
+#include <QApplication>
 
 class Settings;
 class Contest;

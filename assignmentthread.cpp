@@ -162,6 +162,9 @@ bool AssignmentThread::traditionalTaskPrepare()
 #ifdef Q_OS_LINUX
                                 executableFile = task->getSourceFileName();
 #endif
+#ifdef Q_OS_OSX
+                                executableFile = task->getSourceFileName();
+#endif                                
                                 interpreterFlag = false;
                     } else {
                         executableFile = compilerList[i]->getInterpreterLocation();

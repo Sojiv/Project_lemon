@@ -22,6 +22,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QDialog>
+#include <QScrollBar>
 #include "globaltype.h"
 
 class Contest;

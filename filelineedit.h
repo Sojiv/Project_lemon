@@ -22,6 +22,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QLineEdit>
+#include <QCompleter>
 
 class FileLineEdit : public QLineEdit
 {

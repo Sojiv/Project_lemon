@@ -782,6 +782,7 @@ void JudgingThread::runProgram()
 #endif
     
 #ifdef Q_OS_LINUX
+    // 这个也需要重新编译
     QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
     QProcess::execute(QString("chmod +wx \"") + workingDirectory + "watcher" + "\"");
     
@@ -888,6 +889,114 @@ void JudgingThread::runProgram()
     
     delete runner;
 #endif
+#ifdef Q_OS_OSX
+    QFile::copy(":/watcher/watcher_unix", workingDirectory + "watcher");
+    QProcess::execute(QString("chmod +wx \"") + workingDirectory + "watcher" + "\"");
+    
+    QProcess *runner = new QProcess(this);
+    QStringList argumentsList;
+    argumentsList << QString("\"%1\" %2").arg(executableFile, arguments);
+    if (task->getStandardInputCheck()) {
+        argumentsList << QFileInfo(inputFile).absoluteFilePath();
+    } else {
+        argumentsList << "";
+    }
+    if (task->getStandardOutputCheck()) {
+        argumentsList << "_tmpout";
+    } else {
+        argumentsList << "";
+    }
+    argumentsList << "_tmperr";
+    argumentsList << QString("%1").arg(timeLimit + extraTime);
+    argumentsList << QString("%1").arg(memoryLimit);
+    runner->setProcessEnvironment(environment);
+    runner->setWorkingDirectory(workingDirectory);
+    runner->start(workingDirectory + "watcher", argumentsList);
+    if (! runner->waitForStarted(-1)) {
+        delete runner;
+        score = 0;
+        result = CannotStartProgram;
+        return;
+    }
+    
+    bool flag = false;
+    QElapsedTimer timer;
+    timer.start();
+    
+    while (timer.elapsed() <= timeLimit + extraTime) {
+        if (runner->state() != QProcess::Running) {
+            flag = true;
+            break;
+        }
+        QCoreApplication::processEvents();
+        if (stopJudging) {
+            runner->terminate();
+            runner->waitForFinished(-1);
+            delete runner;
+            return;
+        }
+        msleep(10);
+    }
+    
+    if (! flag) {
+        runner->terminate();
+        runner->waitForFinished(-1);
+        delete runner;
+        score = 0;
+        result = TimeLimitExceeded;
+        timeUsed = memoryUsed = -1;
+        return;
+    }
+    
+    int code = runner->exitCode();
+    
+    if (code == 1) {
+        delete runner;
+        score = 0;
+        result = CannotStartProgram;
+        timeUsed = memoryUsed = -1;
+        return;
+    }
+    
+    if (code == 2) {
+        delete runner;
+        score = 0;
+        result = RunTimeError;
+        QFile file(workingDirectory + "_tmperr");
+        if (file.open(QFile::ReadOnly)) {
+            QTextStream stream(&file);
+            message = stream.readAll();
+            file.close();
+        }
+        timeUsed = memoryUsed = -1;
+        return;
+    }
+    
+    QString out = QString::fromLocal8Bit(runner->readAllStandardOutput().data());
+    QTextStream stream(&out, QIODevice::ReadOnly);
+    stream >> timeUsed >> memoryUsed;
+    
+    if (memoryUsed <= 0) memoryLimit = -1;
+    
+    if (code == 3) {
+        delete runner;
+        score = 0;
+        result = TimeLimitExceeded;
+        timeUsed = -1;
+        return;
+    }
+    
+    if (code == 4) {
+        delete runner;
+        score = 0;
+        result = MemoryLimitExceeded;
+        memoryUsed = -1;
+        return;
+    }
+    
+    delete runner;
+#endif
+
 }
 
 void JudgingThread::judgeOutput()

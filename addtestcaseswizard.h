@@ -22,6 +22,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWizard>
+#include <QMessageBox>
 
 namespace Ui {
     class AddTestCasesWizard;

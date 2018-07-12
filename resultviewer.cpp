@@ -52,11 +52,11 @@ void ResultViewer::changeEvent(QEvent *event)
 {
     if (event->type() == QEvent::LanguageChange) {
         deleteContestantAction->setText(QApplication::translate("ResultViewer", "Delete",
-                                                                0, QApplication::UnicodeUTF8));
+                                                                0));
         detailInformationAction->setText(QApplication::translate("ResultViewer", "Details",
-                                                                 0, QApplication::UnicodeUTF8));
+                                                                 0));
         judgeSelectedAction->setText(QApplication::translate("ResultViewer", "Judge",
-                                                             0, QApplication::UnicodeUTF8));
+                                                             0));
     }
 }
 
@@ -117,7 +117,7 @@ void ResultViewer::refreshViewer()
     headerList << tr("Total Score") << tr("Total Used Time (s)") << tr("Judging Time");
     setColumnCount(taskList.size() + 5);
     setHorizontalHeaderLabels(headerList);
-    horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+    horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     
     QList<Contestant*> contestantList = curContest->getContestantList();
     QList< QPair<int, QString> > sortList;

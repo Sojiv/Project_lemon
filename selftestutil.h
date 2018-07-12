@@ -22,6 +22,8 @@
 #include <QtCore>
 #include <QtGui>
 #include <QObject>
+#include <QApplication>
+#include <QMessageBox>
 
 class Contest;
 

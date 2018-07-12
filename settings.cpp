@@ -349,6 +349,9 @@ void Settings::loadSettings()
 #ifdef Q_OS_LINUX
     diffPath = "/usr/bin/diff";
 #endif
+#ifdef Q_OS_OSX
+    diffPath = "/usr/bin/diff";
+#endif
 }
 
 int Settings::upperBoundForFullScore()

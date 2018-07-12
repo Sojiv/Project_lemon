@@ -22,6 +22,10 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QTableWidgetItem>
+#include <QAction>
+#include <QHeaderView>
+#include <QMessageBox>
 
 namespace Ui {
     class TestCaseEditWidget;

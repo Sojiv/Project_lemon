@@ -26,6 +26,22 @@ AddCompilerWizard::AddCompilerWizard(QWidget *parent) :
     if (QFileInfo("/usr/bin/python").exists())
         ui->pythonPath->setText("/usr/bin/python");
 #endif
+
+#ifdef Q_OS_OSX
+    if (QFileInfo("/usr/bin/gcc").exists())
+        ui->gccPath->setText("/usr/bin/gcc");
+    if (QFileInfo("/usr/bin/g++").exists())
+        ui->gppPath->setText("/usr/bin/g++");
+    if (QFileInfo("/usr/bin/fpc").exists())
+        ui->fpcPath->setText("/usr/bin/fpc");
+    if (QFileInfo("/usr/bin/javac").exists())
+        ui->javacPath->setText("/usr/bin/javac");
+    if (QFileInfo("/usr/bin/java").exists())
+        ui->javaPath->setText("/usr/bin/java");
+    if (QFileInfo("/usr/bin/python").exists())
+        ui->pythonPath->setText("/usr/bin/python");
+#endif
+
     
     connect(ui->typeSelect, SIGNAL(currentIndexChanged(int)),
             this, SLOT(compilerTypeChanged()));
@@ -258,6 +274,12 @@ void AddCompilerWizard::selectCompilerLocation()
     QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
                                                     QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
+
+#ifdef Q_OS_OSX
+    QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
+                                                    QDir::rootPath(), tr("Executable files (*.*)"));
+#endif
+
     if (! location.isEmpty()) {
         location = location.replace('/', QDir::separator());
         ui->compilerLocation->setText(location);
@@ -275,6 +297,12 @@ void AddCompilerWizard::selectInterpreterLocation()
     QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
                                                     QDir::rootPath(), tr("Executable files (*.*)"));
 #endif
+
+#ifdef Q_OS_OSX
+    QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
+                                                    QDir::rootPath(), tr("Executable files (*.*)"));
+#endif
+
     if (! location.isEmpty()) {
         location = location.replace('/', QDir::separator());
         ui->interpreterLocation->setText(location);
@@ -289,6 +317,11 @@ void AddCompilerWizard::selectGccPath()
 #endif
     
 #ifdef Q_OS_LINUX
+    QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
+                                                    QDir::rootPath(), "gcc (gcc)");
+#endif
+
+#ifdef Q_OS_OSX
     QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
                                                     QDir::rootPath(), "gcc (gcc)");
 #endif
@@ -309,6 +342,12 @@ void AddCompilerWizard::selectGppPath()
     QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
                                                     QDir::rootPath(), "g++ (g++)");
 #endif
+
+#ifdef Q_OS_OSX
+    QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
+                                                    QDir::rootPath(), "g++ (g++)");
+#endif
+
     if (! location.isEmpty()) {
         location = location.replace('/', QDir::separator());
         ui->gppPath->setText(location);
@@ -326,6 +365,12 @@ void AddCompilerWizard::selectFpcPath()
     QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
                                                     QDir::rootPath(), "fpc (fpc)");
 #endif
+
+#ifdef Q_OS_OSX
+    QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
+                                                    QDir::rootPath(), "fpc (fpc)");
+#endif
+
     if (! location.isEmpty()) {
         location = location.replace('/', QDir::separator());
         ui->fpcPath->setText(location);
@@ -343,6 +388,12 @@ void AddCompilerWizard::selectFbcPath()
     QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
                                                     QDir::rootPath(), "fbc (fbc)");
 #endif
+
+#ifdef Q_OS_OSX
+    QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
+                                                    QDir::rootPath(), "fbc (fbc)");
+#endif
+
     if (! location.isEmpty()) {
         location = location.replace('/', QDir::separator());
         ui->fbcPath->setText(location);
@@ -360,6 +411,12 @@ void AddCompilerWizard::selectJavacPath()
     QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
                                                     QDir::rootPath(), "javac (javac)");
 #endif
+
+#ifdef Q_OS_OSX
+    QString location = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
+                                                    QDir::rootPath(), "javac (javac)");
+#endif
+
     if (! location.isEmpty()) {
         location = location.replace('/', QDir::separator());
         ui->javacPath->setText(location);
@@ -377,6 +434,12 @@ void AddCompilerWizard::selectJavaPath()
     QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
                                                     QDir::rootPath(), "java (java)");
 #endif
+
+#ifdef Q_OS_OSX
+    QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
+                                                    QDir::rootPath(), "java (java)");
+#endif
+
     if (! location.isEmpty()) {
         location = location.replace('/', QDir::separator());
         ui->javaPath->setText(location);
@@ -394,6 +457,12 @@ void AddCompilerWizard::selectPythonPath()
     QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
                                                     QDir::rootPath(), "python (python)");
 #endif
+
+#ifdef Q_OS_OSX
+    QString location = QFileDialog::getOpenFileName(this, tr("Select Interpreter\'s Location"),
+                                                    QDir::rootPath(), "python (python)");
+#endif
+
     if (! location.isEmpty()) {
         location = location.replace('/', QDir::separator());
         ui->pythonPath->setText(location);

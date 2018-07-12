@@ -21,6 +21,8 @@
 
 #include <QtCore>
 #include <QObject>
+#include <QAction>
+#include <QMessageBox>
 
 class Compiler : public QObject
 {
